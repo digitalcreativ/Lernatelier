@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Schlüsselanhänger CLAUDIA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=Noto+Serif:wght@700&display=swap">
+<style>
+/* Layout: eine Spalte, jeder Schritt = Text links + Zeichnung rechts (gestapelt auf dem Handy) */
+:root{
+  --bg:#f6f5f9; --surface:#ffffff; --fg:#1e1a2a; --muted:#686378; --line:#dfdbe9;
+  --grid:#e7e3f0; --accent:#9474d1; --accent-dark:#5f469c; --hole:#8f98a6;
+  --ok:#2c8657; --warn:#b4502c; --metal:#a3a9b3;
+  --f-display:"Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Inter", "Segoe UI", system-ui, sans-serif;
+  --f-letter:"Noto Serif", Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#15131b; --surface:#1f1c28; --fg:#ece9f4; --muted:#a39eb4; --line:#35303f;
+  --grid:#2a2634; --accent:#a98de2; --accent-dark:#6a51a9; --hole:#6f7785;
+  --ok:#5cc08d; --warn:#e48a62; --metal:#7d838d; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#15131b; --surface:#1f1c28; --fg:#ece9f4; --muted:#a39eb4; --line:#35303f;
+  --grid:#2a2634; --accent:#a98de2; --accent-dark:#6a51a9; --hole:#6f7785;
+  --ok:#5cc08d; --warn:#e48a62; --metal:#7d838d; color-scheme:dark }
+
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,5vw,40px)}
+h2{font-size:21px}
+p{margin:0}
+.hero{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;align-items:center}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:42ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-dark);font-weight:600;margin-bottom:8px}
+:root:not([data-theme="light"]) .eyebrow{color:var(--accent)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:var(--surface)}
+
+.step{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+.step.wide{grid-template-columns:1fr}
+.step > div{min-width:0}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;
+  background:var(--accent);color:#fff;font:700 15px var(--f-display);margin-bottom:10px}
+.step h2{margin-bottom:10px}
+ol.do{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+ol.do li::marker{color:var(--muted);font-variant-numeric:tabular-nums}
+b{font-weight:600}
+.tip{margin-top:12px;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px}
+.warn{border-left-color:var(--warn)}
+figure{margin:0;display:flex;flex-direction:column;gap:8px}
+figure svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--bg)}
+figcaption{font-size:13px;color:var(--muted)}
+.panel{border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:12px 14px;font-size:14px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
+.panel .k{color:var(--muted)}
+.panel .v{font-weight:600;font-variant-numeric:tabular-nums}
+.panel .head{grid-column:1/-1;font:600 12px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:2px}
+
+.errors{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.err{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.err h3{font-size:16px}
+.err p{font-size:14px;color:var(--muted)}
+.err .fix{color:var(--ok);font-weight:600;font-size:14px}
+
+/* SVG-Bausteine */
+.solid{fill:var(--accent)} .side{fill:var(--accent-dark)}
+.gl{stroke:var(--grid);fill:none}
+.dim{stroke:var(--muted);stroke-width:1.2;fill:none}
+.dash{stroke:var(--muted);stroke-width:1.2;fill:none;stroke-dasharray:4 4}
+.lbl{fill:var(--muted);font:500 12px var(--f-body)}
+.lblb{fill:var(--fg);font:600 13px var(--f-body)}
+.letters text{font-family:var(--f-letter);font-weight:700;font-size:64px}
+.holeobj{fill:var(--hole);fill-opacity:.45;stroke:var(--hole);stroke-dasharray:3 2}
+.metal{fill:none;stroke:var(--metal)}
+.okc{fill:var(--ok)} .warnc{fill:var(--warn)}
+.okl{stroke:var(--ok);fill:none;stroke-width:2} .warnl{stroke:var(--warn);fill:none;stroke-width:2}
+.bed{fill:var(--surface);stroke:var(--line)}
+
+@media (max-width:720px){
+  .hero,.step,.errors{grid-template-columns:1fr}
+  .step{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- Gemeinsame Formen -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" class="gl"/></pattern>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker>
+    <path id="starP" d="M0,-60 L15.3,-21 L57.1,-18.5 L24.7,8 L35.3,48.5 L0,26 L-35.3,48.5 L-24.7,8 L-57.1,-18.5 L-15.3,-21 Z"/>
+    <mask id="hole" maskUnits="userSpaceOnUse" x="-120" y="-120" width="240" height="240">
+      <rect x="-120" y="-120" width="240" height="240" fill="#fff"/>
+      <circle cx="-11.6" cy="-32" r="6" fill="#000"/>
+    </mask>
+    <g id="starHole"><g mask="url(#hole)">
+      <use class="side" href="#starP" transform="translate(5,6) rotate(-20)"/>
+      <use class="solid" href="#starP" transform="rotate(-20)"/>
+    </g></g>
+    <g id="letters" class="letters">
+      <text x="95" y="118">C</text><text x="135" y="140">L</text><text x="168" y="118">A</text>
+      <text x="208" y="140">U</text><text x="250" y="118">D</text><text x="292" y="140">I</text>
+      <text x="312" y="118">A</text>
+    </g>
+    <g id="kc">
+      <g transform="translate(70,110) scale(.62)"><use href="#starHole"/></g>
+      <use class="side" href="#letters" transform="translate(3,4)"/>
+      <use class="solid" href="#letters"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Tinkercad · 3D-Druck</div>
+      <h1>Schlüsselanhänger CLAUDIA</h1>
+      <p class="lead">Ein Stern mit Loch für den Schlüsselring, dazu die Buchstaben des Namens. Die Buchstaben stehen abwechselnd hoch und tief und überlappen sich, damit alles ein einziges Teil bleibt.</p>
+      <div class="meta"><span class="chip">ca. 45 Min. konstruieren</span><span class="chip">ca. 80 × 35 mm</span><span class="chip">PLA, ohne Stützen</span></div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 500 200" role="img" aria-label="Fertiger Schlüsselanhänger mit Ring, Kette, Stern und Schriftzug CLAUDIA">
+        <rect width="500" height="200" fill="url(#grid)"/>
+        <circle cx="62" cy="52" r="34" class="metal" stroke-width="6"/>
+        <g class="metal" stroke-width="4">
+          <ellipse cx="104" cy="70" rx="9" ry="5" transform="rotate(30 104 70)"/>
+          <ellipse cx="120" cy="79" rx="9" ry="5" transform="rotate(30 120 79)"/>
+          <ellipse cx="136" cy="87" rx="9" ry="5" transform="rotate(30 136 87)"/>
+          <ellipse cx="152" cy="91" rx="9" ry="5" transform="rotate(10 152 91)"/>
+        </g>
+        <g transform="translate(110,0)"><use href="#kc"/></g>
+        <circle cx="173" cy="90" r="5" class="metal" stroke-width="3"/>
+      </svg>
+    </figure>
+  </header>
+
+  <!-- 1 -->
+  <section class="step">
+    <div>
+      <span class="num">1</span>
+      <h2>Projekt anlegen</h2>
+      <ol class="do">
+        <li>Auf <b>tinkercad.com</b> anmelden und <b>Erstellen → 3D-Design</b> wählen.</li>
+        <li>Oben links auf den Namen klicken und das Projekt umbenennen, z. B. «Schlüsselanhänger Claudia».</li>
+        <li>Unten rechts <b>Raster ausrichten</b> auf <b>0,5 mm</b> stellen. So lassen sich die Teile genauer verschieben.</li>
+      </ol>
+    </div>
+    <figure>
+      <div class="panel">
+        <div class="head">Unten rechts auf der Arbeitsebene</div>
+        <span class="k">Einstellungen</span><span class="v">mm</span>
+        <span class="k">Raster ausrichten</span><span class="v">0,5 mm</span>
+      </div>
+      <figcaption>Kleineres Raster = feinere Schritte beim Verschieben mit Maus und Pfeiltasten.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2 -->
+  <section class="step">
+    <div>
+      <span class="num">2</span>
+      <h2>Den Stern erstellen</h2>
+      <ol class="do">
+        <li>Rechts bei den Grundformen den <b>Stern</b> auf die Arbeitsebene ziehen.</li>
+        <li>Im Formfenster einstellen: <b>Spitzen 5</b>, <b>Radius 20</b>, <b>Innenradius 10</b>.</li>
+        <li>Die <b>Höhe auf 3 mm</b> setzen (weisser Griff oben oder Zahl eintippen).</li>
+        <li>Mit dem gebogenen Pfeil drehen, bis <b>eine Spitze nach links oben</b> zeigt.</li>
+      </ol>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 220" role="img" aria-label="Stern von oben mit Massangaben">
+        <rect width="340" height="220" fill="url(#grid)"/>
+        <g transform="translate(120,115)">
+          <use class="side" href="#starP" transform="translate(5,6) rotate(-20)"/>
+          <use class="solid" href="#starP" transform="rotate(-20)"/>
+          <line x1="0" y1="0" x2="-20.5" y2="-56.4" class="dim" stroke="#fff" marker-end="url(#arr)"/>
+          <circle r="2.5" fill="#fff"/>
+        </g>
+        <path d="M80 30 Q60 20 66 48" class="dim" marker-end="url(#arr)"/>
+        <text x="40" y="24" class="lbl">drehen</text>
+        <g transform="translate(212,60)">
+          <text class="lblb" y="0">Stern</text>
+          <text class="lbl" y="22">Spitzen: 5</text>
+          <text class="lbl" y="40">Radius: 20 mm</text>
+          <text class="lbl" y="58">Innenradius: 10 mm</text>
+          <text class="lbl" y="76">Höhe: 3 mm</text>
+          <rect y="94" width="90" height="9" class="solid"/>
+          <rect y="103" width="90" height="3" class="side"/>
+          <text class="lbl" x="98" y="104">3 mm</text>
+          <text class="lbl" y="124">Seitenansicht</text>
+        </g>
+      </svg>
+      <figcaption>Die Spitze links oben bekommt im nächsten Schritt das Loch.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3 -->
+  <section class="step">
+    <div>
+      <span class="num">3</span>
+      <h2>Das Loch für den Ring</h2>
+      <ol class="do">
+        <li>Einen <b>Zylinder</b> hineinziehen und oben auf <b>Bohrung</b> umstellen (wird durchsichtig gestreift).</li>
+        <li>Grösse: <b>4–5 mm</b> Durchmesser, Höhe <b>10 mm</b>, also höher als der Stern.</li>
+        <li>Die Bohrung in die linke obere Spitze schieben.</li>
+        <li>Stern und Zylinder markieren und <b>Gruppieren</b> (Strg + G).</li>
+      </ol>
+      <p class="tip warn">Rund um das Loch mindestens <b>2 mm Material</b> stehen lassen, sonst reisst die Öse.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Vorher: Stern mit Bohrungs-Zylinder. Nachher: gruppierter Stern mit Loch">
+        <rect width="340" height="200" fill="url(#grid)"/>
+        <g transform="translate(85,105) scale(.95)">
+          <use class="side" href="#starP" transform="translate(5,6) rotate(-20)"/>
+          <use class="solid" href="#starP" transform="rotate(-20)"/>
+          <circle cx="-11.6" cy="-32" r="6.5" class="holeobj"/>
+        </g>
+        <text x="85" y="186" text-anchor="middle" class="lbl">Bohrung platziert</text>
+        <path d="M158 100 H184" class="dim" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="171" y="90" text-anchor="middle" class="lbl">Strg+G</text>
+        <g transform="translate(255,105) scale(.95)"><use href="#starHole"/></g>
+        <text x="255" y="186" text-anchor="middle" class="lbl">gruppiert = Loch</text>
+        <circle cx="244" cy="74.6" r="12" class="okl" stroke-dasharray="3 3"/>
+        <text x="262" y="26" class="lbl">≥ 2 mm Rand</text>
+        <path d="M262 30 L250 62" class="dim" marker-end="url(#arr)"/>
+      </svg>
+      <figcaption>Erst das Gruppieren schneidet die Bohrung aus dem Stern.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="step">
+    <div>
+      <span class="num">4</span>
+      <h2>Die Buchstaben</h2>
+      <ol class="do">
+        <li>Die Form <b>Text</b> auf die Arbeitsebene ziehen.</li>
+        <li>Im Formfenster: Text <b>C</b>, Schriftart <b>Serif</b>, Höhe <b>5 mm</b>.</li>
+        <li>Den Buchstaben auf ca. <b>20 mm Höhe</b> skalieren. <b>Shift</b> gedrückt halten, damit die Proportionen bleiben.</li>
+        <li>Mit <b>Strg + D</b> duplizieren und den Text ändern, bis alle sieben da sind: C, L, A, U, D, I, A.</li>
+      </ol>
+      <p class="tip">Jeder Buchstabe ist eine eigene Form. Nur so lassen sie sich einzeln verschieben.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 170" role="img" aria-label="Einzelne Buchstaben als eigene Text-Formen">
+        <rect width="340" height="170" fill="url(#grid)"/>
+        <g class="letters" transform="translate(-60,8)">
+          <g class="side" transform="translate(3,4)"><text x="80" y="110">C</text></g>
+          <g class="solid"><text x="80" y="110">C</text></g>
+        </g>
+        <rect x="16" y="56" width="52" height="66" class="dash"/>
+        <text x="42" y="146" text-anchor="middle" class="lbl">20 mm hoch</text>
+        <path d="M80 89 H106" class="dim" marker-end="url(#arr)"/>
+        <text x="93" y="80" text-anchor="middle" class="lbl">Strg+D</text>
+        <g class="letters" transform="translate(52,8) scale(.6)">
+          <g class="side" transform="translate(3,4)"><text x="100" y="130">L</text><text x="150" y="130">A</text><text x="210" y="130">U</text><text x="270" y="130">D</text><text x="330" y="130">I</text><text x="365" y="130">A</text></g>
+          <g class="solid"><text x="100" y="130">L</text><text x="150" y="130">A</text><text x="210" y="130">U</text><text x="270" y="130">D</text><text x="330" y="130">I</text><text x="365" y="130">A</text></g>
+        </g>
+        <text x="230" y="146" text-anchor="middle" class="lbl">noch lose nebeneinander</text>
+      </svg>
+      <div class="panel">
+        <div class="head">Formfenster «Text»</div>
+        <span class="k">Text</span><span class="v">C</span>
+        <span class="k">Schriftart</span><span class="v">Serif</span>
+        <span class="k">Höhe</span><span class="v">5 mm</span>
+      </div>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="step wide">
+    <div>
+      <span class="num">5</span>
+      <h2>Die Buchstaben anordnen</h2>
+      <p style="max-width:65ch;margin-bottom:10px">Das ist der wichtigste Schritt. Hier entscheidet sich, ob der Anhänger nach dem Druck ein Teil ist.</p>
+      <ol class="do" style="max-width:65ch">
+        <li>Die Buchstaben von links nach rechts in eine Reihe stellen.</li>
+        <li>Abwechselnd <b>hoch</b> (C, A, D, A) und <b>tief</b> (L, U, I) setzen, etwa <b>4–6 mm</b> versetzt.</li>
+        <li>So zusammenschieben, dass <b>jeder Buchstabe den nächsten um 1–2 mm überlappt</b>.</li>
+        <li>Das <b>C</b> überlappt den Stern auf der rechten Seite.</li>
+      </ol>
+    </div>
+    <figure>
+      <div style="overflow-x:auto">
+        <svg viewBox="0 0 470 200" role="img" aria-label="Anordnung: Buchstaben abwechselnd hoch und tief, überlappend, das C überlappt den Stern" style="min-width:420px">
+          <rect width="470" height="200" fill="url(#grid)"/>
+          <line x1="88" y1="118" x2="400" y2="118" class="dash"/>
+          <line x1="128" y1="140" x2="400" y2="140" class="dash"/>
+          <text x="406" y="122" class="lbl">hoch</text>
+          <text x="406" y="144" class="lbl">tief</text>
+          <path d="M440 118 V140" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
+          <text x="428" y="170" class="lbl">4–6 mm</text>
+          <use href="#kc"/>
+          <circle cx="102" cy="108" r="14" class="okl"/>
+          <circle cx="172" cy="112" r="12" class="okl"/>
+          <text x="102" y="30" text-anchor="middle" class="lbl">C überlappt Stern</text>
+          <path d="M102 36 V90" class="dim" marker-end="url(#arr)"/>
+          <text x="210" y="30" class="lbl">Buchstaben überlappen 1–2 mm</text>
+          <path d="M220 36 L178 96" class="dim" marker-end="url(#arr)"/>
+        </svg>
+      </div>
+      <figcaption>Grüne Kreise: Hier müssen sich die Teile berühren. Am besten jede Verbindung von oben kontrollieren.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="step">
+    <div>
+      <span class="num">6</span>
+      <h2>Alles auf die Arbeitsebene</h2>
+      <ol class="do">
+        <li>Alle Teile markieren (Strg + A).</li>
+        <li>Die Taste <b>D</b> drücken. Jetzt liegt jedes Teil auf <b>Z = 0</b>.</li>
+        <li>Mit dem Würfel oben links von der Seite schauen: Nichts darf schweben.</li>
+      </ol>
+      <p class="tip">Der Stern ist 3 mm, die Buchstaben 5 mm hoch. Unten sind alle bündig.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 170" role="img" aria-label="Seitenansicht: Stern 3 mm und Buchstaben 5 mm stehen auf der Arbeitsebene">
+        <rect width="340" height="170" fill="url(#grid)"/>
+        <rect x="235" y="42" width="60" height="30" fill="none" stroke="var(--warn)" stroke-dasharray="4 3"/>
+        <text x="265" y="34" text-anchor="middle" class="lbl">schwebt</text>
+        <path d="M265 76 V100" class="dim" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="274" y="94" class="lblb">D</text>
+        <rect x="30" y="112" width="110" height="18" class="solid"/>
+        <rect x="110" y="100" width="200" height="30" class="solid" opacity=".85"/>
+        <line x1="14" y1="130" x2="326" y2="130" stroke="var(--fg)" stroke-width="2"/>
+        <text x="14" y="150" class="lbl">Arbeitsebene (Z = 0)</text>
+        <path d="M22 112 V130" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
+        <text x="20" y="104" class="lbl" text-anchor="middle">3 mm</text>
+        <path d="M318 100 V130" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
+        <text x="318" y="92" class="lbl" text-anchor="middle">5 mm</text>
+        <text x="60" y="124" class="lbl" fill="#fff" style="fill:#fff">Stern</text>
+        <text x="190" y="120" style="fill:#fff" class="lbl">Buchstaben</text>
+      </svg>
+      <figcaption>Seitenansicht. Ein schwebendes Teil wird mit D auf die Ebene gesetzt.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 7 -->
+  <section class="step">
+    <div>
+      <span class="num">7</span>
+      <h2>Gruppieren und Grösse prüfen</h2>
+      <ol class="do">
+        <li>Alles markieren und <b>Gruppieren</b> (Strg + G).</li>
+        <li>Die Masse kontrollieren: ca. <b>75–85 mm</b> lang und <b>30–35 mm</b> hoch.</li>
+        <li>Zu gross oder zu klein? Mit <b>Shift</b> an einer Ecke ziehen, dann bleibt die Form gleich.</li>
+      </ol>
+    </div>
+    <figure>
+      <svg viewBox="0 0 400 210" role="img" aria-label="Fertige Gruppe mit Massen: etwa 80 mal 35 Millimeter">
+        <rect width="400" height="210" fill="url(#grid)"/>
+        <g transform="translate(0,-10)"><use href="#kc"/></g>
+        <path d="M33 180 H362" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
+        <text x="197" y="198" text-anchor="middle" class="lblb">≈ 80 mm</text>
+        <path d="M378 60 V140" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
+        <text x="372" y="54" class="lblb">≈ 35 mm</text>
+      </svg>
+      <figcaption>Nach dem Gruppieren ist alles eine Farbe und ein Objekt.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 8 -->
+  <section class="step">
+    <div>
+      <span class="num">8</span>
+      <h2>Exportieren und drucken</h2>
+      <ol class="do">
+        <li>Oben rechts <b>Exportieren → .STL</b> wählen.</li>
+        <li>Die Datei im Slicer öffnen (z. B. PrusaSlicer, Cura oder Bambu Studio).</li>
+        <li><b>Flach</b> aufs Druckbett legen, <b>keine Stützstrukturen</b>.</li>
+        <li>Drucken und den Schlüsselring mit Kette durchs Loch fädeln.</li>
+      </ol>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 170" role="img" aria-label="Anhänger flach auf dem Druckbett">
+        <rect width="340" height="170" fill="var(--bg)"/>
+        <rect x="20" y="14" width="300" height="142" rx="6" class="bed"/>
+        <rect x="20" y="14" width="300" height="142" rx="6" fill="url(#grid)"/>
+        <g transform="translate(46,28) scale(.68)"><use href="#kc"/></g>
+        <text x="170" y="146" text-anchor="middle" class="lbl">Druckbett · flach liegend, ohne Stützen</text>
+      </svg>
+      <div class="panel">
+        <div class="head">Slicer-Einstellungen</div>
+        <span class="k">Material</span><span class="v">PLA</span>
+        <span class="k">Schichthöhe</span><span class="v">0,2 mm</span>
+        <span class="k">Füllung</span><span class="v">20–100 %</span>
+        <span class="k">Stützen</span><span class="v">keine</span>
+      </div>
+    </figure>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:14px">Häufige Fehler</h2>
+    <div class="errors">
+      <div class="err">
+        <svg viewBox="0 0 160 70" aria-hidden="true"><g class="letters" transform="translate(-14,-34) scale(.9)"><g class="solid"><text x="40" y="110">L</text><text x="96" y="110">A</text></g></g><path d="M80 38 H88" class="warnl"/><text x="84" y="64" text-anchor="middle" class="lbl">Lücke</text></svg>
+        <h3>Buchstaben berühren sich nicht</h3>
+        <p>Nach dem Druck fallen sie einzeln vom Bett.</p>
+        <span class="fix">Lösung: 1–2 mm überlappen lassen.</span>
+      </div>
+      <div class="err">
+        <svg viewBox="0 0 160 70" aria-hidden="true"><g transform="translate(80,46) scale(.55)"><use class="solid" href="#starP" transform="rotate(-20)"/><circle cx="-18" cy="-48" r="10" class="warnc"/></g></svg>
+        <h3>Loch zu nah am Rand</h3>
+        <p>Die dünne Öse bricht, sobald Gewicht daran hängt.</p>
+        <span class="fix">Lösung: mindestens 2 mm Rand.</span>
+      </div>
+      <div class="err">
+        <svg viewBox="0 0 160 70" aria-hidden="true"><line x1="10" y1="60" x2="150" y2="60" stroke="var(--fg)" stroke-width="2"/><rect x="20" y="44" width="50" height="16" class="solid"/><rect x="88" y="18" width="50" height="20" fill="none" stroke="var(--warn)" stroke-width="2" stroke-dasharray="4 3"/></svg>
+        <h3>Ein Teil schwebt</h3>
+        <p>Der Drucker druckt dann in die Luft.</p>
+        <span class="fix">Lösung: alles markieren, Taste D.</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

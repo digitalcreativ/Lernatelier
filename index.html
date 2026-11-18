@@ -287,6 +287,9 @@ const FAECHER = [
       { name: "Google Arts & Culture", info: "Kunstwerke entdecken", url: "https://artsandculture.google.com" },
       { name: "Krita", info: "Digital malen (Download)", url: "https://krita.org" }
     ],
+    // Projekte: stufenunabhängig, gleicher Aufbau wie ein Modul, z. B.
+    // { titel: "...", lp: "BG.2", status: "aktiv", text: "...", links: [ { label: "Auftrag", url: "" } ] }
+    projekte: [],
     stufen: [
       { name: "1. Oberstufe", module: [
         { titel: "Farbe und Wirkung", lp: "BG.2", status: "aktiv",
@@ -318,6 +321,7 @@ const FAECHER = [
       { name: "Inkscape", info: "Vektorgrafik für Plotter und Laser", url: "https://inkscape.org" },
       { name: "Ink/Stitch", info: "Stickdateien aus Inkscape", url: "https://inkstitch.org" }
     ],
+    projekte: [],
     stufen: [
       { name: "1. Oberstufe", module: [
         { titel: "Nähmaschinen-Ausweis", lp: "TTG.2", status: "aktiv",
@@ -347,7 +351,13 @@ const FAECHER = [
       { name: "Scratch", info: "Programmieren mit Blöcken", url: "https://scratch.mit.edu" },
       { name: "Calliope mini", info: "Calliope programmieren mit MakeCode", url: "https://makecode.calliope.cc" },
       { name: "WebTigerPython", info: "Python im Browser", url: "https://webtigerpython.ethz.ch" },
-      { name: "Blockly Games", info: "Knobeln und Programmieren üben", url: "https://blockly.games" }
+      { name: "Blockly Games", info: "Knobeln und Programmieren üben", url: "https://blockly.games" },
+      { name: "Tinkercad", info: "3D-Modelle und Schaltungen entwerfen", url: "https://www.tinkercad.com" }
+    ],
+    projekte: [
+      { titel: "Schlüsselanhänger mit Namen", lp: "MI.2", status: "aktiv", quer: "mit TTG",
+        text: "In Tinkercad einen Stern mit Öse und den eigenen Namen konstruieren, als STL exportieren und 3D-drucken.",
+        links: [ { label: "Anleitung", url: "projekte/schluesselanhaenger.html" }, { label: "Tinkercad öffnen", url: "https://www.tinkercad.com" } ] }
     ],
     stufen: [
       { name: "2. Oberstufe", module: [
@@ -392,7 +402,7 @@ function h(tag, attrs, ...kids) {
 }
 
 const VIEWS = ["uebersicht"].concat(FAECHER.map(f => f.id));
-const state = { tab: null, pendingScroll: null };
+const state = { tab: null, pendingScroll: null, showLater: false };
 const wide = () => window.matchMedia("(min-width: 900px)").matches;
 
 function currentView() {
@@ -450,13 +460,27 @@ function buildSide() {
       h("summary", {}, h("span", { class: "chev", "aria-hidden": "true" }, "›"), h("span", { class: "dot", "aria-hidden": "true" }), f.name),
       f.stufen.map((s, i) => h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "module",
         onclick: go(f.id, { tab: "module", scroll: "st-" + f.id + "-" + i }) }, s.name)),
+      h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "projekte", onclick: go(f.id, { tab: "projekte" }) }, "Projekte"),
       h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "werkzeuge", onclick: go(f.id, { tab: "werkzeuge" }) }, "Werkzeuge")
     ));
   });
-  items.push(h("details", { "data-fach": "later" },
+  const later = h("details", { "data-fach": "later" },
     h("summary", {}, h("span", { class: "chev", "aria-hidden": "true" }, "›"), "Weitere Fächer"),
     SPAETER.map(s => h("span", { class: "off" }, s.name + " · folgt"))
-  ));
+  );
+  // "Kommen später dazu" erscheint im Hauptbereich nur, wenn "Weitere Fächer" aufgeklappt ist
+  later.addEventListener("toggle", () => {
+    state.showLater = later.open;
+    if (later.open) {
+      state.tab = "faecher";
+      state.pendingScroll = "later-section";
+      if (currentView() === "uebersicht") render();
+      else { state.fromSide = true; location.hash = "uebersicht"; }
+    } else if (currentView() === "uebersicht") {
+      render();
+    }
+  });
+  items.push(later);
   tree.replaceChildren(...items);
 }
 
@@ -528,7 +552,7 @@ function drawHero() {
 function render() {
   const view = currentView();
   const fach = FAECHER.find(f => f.id === view);
-  const tabs = fach ? [["module", "Module"], ["werkzeuge", "Werkzeuge"]] : [["faecher", "Fächer"], ["werkzeuge", "Alle Werkzeuge"]];
+  const tabs = fach ? [["module", "Module"], ["projekte", "Projekte"], ["werkzeuge", "Werkzeuge"]] : [["faecher", "Fächer"], ["werkzeuge", "Alle Werkzeuge"]];
   if (!tabs.some(t => t[0] === state.tab)) state.tab = tabs[0][0];
 
   // Kopfnavigation
@@ -560,6 +584,15 @@ function render() {
       h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), s.name, h("span", { class: "count" }, s.module.length + " Module")),
       h("div", { class: "grid" }, s.module.map(modulKarte))
     )));
+  } else if (fach && state.tab === "projekte") {
+    out.push(h("section", { "data-fach": fach.id },
+      h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), "Projekte",
+        h("span", { class: "count" }, fach.projekte.length + (fach.projekte.length === 1 ? " Projekt" : " Projekte"))),
+      h("p", { class: "lp" }, "Stufenübergreifend: für alle Klassen offen."),
+      fach.projekte.length
+        ? h("div", { class: "grid" }, fach.projekte.map(modulKarte))
+        : h("p", { class: "lp" }, "Hier erscheinen bald Projekte.")
+    ));
   } else if (fach) {
     out.push(h("section", {}, h("p", { class: "label" }, "Werkzeuge für " + fach.name), toolGrid(fach)));
   } else if (state.tab === "faecher") {
@@ -569,11 +602,12 @@ function render() {
         h("div", { class: "band" }),
         h("div", { class: "body" },
           h("h3", {}, f.name),
-          h("ul", {}, f.stufen.map(s => h("li", {}, h("span", {}, s.name), h("span", {}, s.module.length + " Module")))),
+          h("ul", {}, f.stufen.map(s => h("li", {}, h("span", {}, s.name), h("span", {}, s.module.length + " Module"))),
+            h("li", {}, h("span", {}, "Projekte"), h("span", {}, String(f.projekte.length)))),
           h("span", { class: "go" }, "Zum Fach →")
         ))))
     ));
-    out.push(h("section", { "data-fach": "later" },
+    if (state.showLater) out.push(h("section", { "data-fach": "later", id: "later-section" },
       h("p", { class: "label" }, "Kommen später dazu"),
       h("div", { class: "grid" }, SPAETER.map(s => h("div", { class: "fcard later-card" },
         h("div", { class: "band" }),
