@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lernatelier Oberstufe</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: weisse Kopfleiste mit Navigation, links eine aufklappbare Seitenleiste,
+   rechts ein gezeichnetes Banner mit Titel-Balken, darunter Reiter und Inhalt */
+:root {
+  /* Palette: Steingrau #DCDDD4 · Salbei #8B917A · Hellblau #BCCCDC · Altrosa #E2C1BE */
+  --bg: #f7f7f4;
+  --surface: #ffffff;
+  --panel: #f0f1ec;
+  --hover: #e6e7e0;
+  --fg: #2a2c25;
+  --muted: #63665a;
+  --line: #e0e1d9;
+  --on-col: #2a2c25;
+  --accent: #8b917a;       /* Salbei: Markierungen, aktive Reiter */
+  --accent-ink: #5b6149;
+  --hero-bg: #e7e8e1;
+  --hero-ink: #8e9185;
+  --crumb-bg: rgba(255, 255, 255, 0.88);
+  --scrim: rgba(30, 32, 26, 0.35);
+  --col-bg: #94544e;   --soft-bg: #e2c1be;   /* Bildnerisches Gestalten: Altrosa */
+  --col-ttg: #5b6149;  --soft-ttg: #8b917a;  /* Textiles Gestalten: Salbei */
+  --col-inf: #41607f;  --soft-inf: #bccbdc;  /* Informatik: Hellblau */
+  --col-later: #74776a; --soft-later: #dcddd4;
+  --f: "Open Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --top-h: 64px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1b1d18; --surface: #252822; --panel: #20231d; --hover: #2f332b;
+    --fg: #ecece4; --muted: #a9ab9e; --line: #363a31; --on-col: #1b1d18;
+    --accent: #a9af97; --accent-ink: #c4c9b2;
+    --hero-bg: #2a2d26; --hero-ink: #6e7265; --crumb-bg: rgba(37, 40, 34, 0.92); --scrim: rgba(0, 0, 0, 0.5);
+    --col-bg: #e2c1be; --soft-bg: #d9b4b0;
+    --col-ttg: #bcc1aa; --soft-ttg: #a9af97;
+    --col-inf: #bccbdc; --soft-inf: #b3c4d7;
+    --col-later: #9a9d8f; --soft-later: #9a9d8f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1b1d18; --surface: #252822; --panel: #20231d; --hover: #2f332b;
+  --fg: #ecece4; --muted: #a9ab9e; --line: #363a31; --on-col: #1b1d18;
+  --accent: #a9af97; --accent-ink: #c4c9b2;
+  --hero-bg: #2a2d26; --hero-ink: #6e7265; --crumb-bg: rgba(37, 40, 34, 0.92); --scrim: rgba(0, 0, 0, 0.5);
+  --col-bg: #e2c1be; --soft-bg: #d9b4b0;
+  --col-ttg: #bcc1aa; --soft-ttg: #a9af97;
+  --col-inf: #bccbdc; --soft-inf: #b3c4d7;
+  --col-later: #9a9d8f; --soft-later: #9a9d8f;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-padding-top: calc(var(--top-h) + 20px); }
+body { background: var(--bg); color: var(--fg); font-family: var(--f); font-size: 15px; line-height: 1.55; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+[data-fach="start"] { --c: var(--accent-ink); --s: var(--accent); }
+[data-fach="bg"]    { --c: var(--col-bg);  --s: var(--soft-bg); }
+[data-fach="ttg"]   { --c: var(--col-ttg); --s: var(--soft-ttg); }
+[data-fach="inf"]   { --c: var(--col-inf); --s: var(--soft-inf); }
+[data-fach="later"] { --c: var(--col-later); --s: var(--soft-later); }
+
+/* Kopfleiste */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 50; background: var(--surface); }
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: var(--surface); border-bottom: 1px solid var(--line); }
+.topbar-in {
+  height: var(--top-h); display: flex; align-items: stretch; gap: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.menu-btn {
+  display: none; align-self: center; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); color: var(--fg); font-size: 20px; line-height: 1; cursor: pointer;
+}
+body:not(.side-open) .menu-btn { display: inline-grid; place-items: center; }
+.logo { align-self: center; text-decoration: none; display: flex; align-items: baseline; gap: 1px; white-space: nowrap; }
+.logo span { font-weight: 300; font-size: 27px; letter-spacing: -0.01em; }
+.logo b { font-weight: 700; font-size: 27px; color: var(--accent-ink); letter-spacing: -0.01em; }
+.logo small { font-size: 11px; color: var(--muted); margin-left: 6px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.topnav { display: flex; gap: 2px; margin-left: 12px; }
+.topnav a {
+  display: flex; align-items: center; padding: 0 12px; text-decoration: none;
+  font-weight: 300; font-size: 17px; color: var(--muted); border-bottom: 3px solid transparent; white-space: nowrap;
+}
+.topnav a:hover { color: var(--fg); }
+.topnav a[aria-current="true"] { color: var(--accent-ink); border-bottom-color: var(--accent); font-weight: 400; }
+
+/* Grundgerüst */
+.shell { display: flex; align-items: flex-start; }
+.side {
+  width: 290px; flex: none; position: sticky; top: calc(var(--top-h) + env(safe-area-inset-top, 0px));
+  height: calc(100vh - var(--top-h) - env(safe-area-inset-top, 0px)); overflow-y: auto;
+  background: var(--panel); border-right: 1px solid var(--line); padding-block: 8px 32px;
+  padding-left: env(safe-area-inset-left, 0px);
+}
+body:not(.side-open) .side { display: none; }
+.side-top { display: flex; justify-content: flex-start; padding: 8px 12px 4px; }
+.close-btn { width: 40px; height: 40px; border: 0; background: transparent; color: var(--fg); font-size: 22px; cursor: pointer; border-radius: 8px; }
+.close-btn:hover { background: var(--hover); }
+.side-bar { height: 8px; margin: 4px 12px 10px; border-radius: 0 0 8px 8px; background: var(--accent); }
+.side details { border-bottom: 1px solid transparent; }
+.side summary {
+  list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px;
+  padding: 11px 18px; font-weight: 700; font-size: 16px; line-height: 1.3;
+}
+.side summary::-webkit-details-marker { display: none; }
+.side summary:hover { background: var(--hover); }
+.chev { width: 14px; flex: none; display: inline-block; color: var(--muted); transition: transform .15s; font-weight: 400; }
+details[open] > summary .chev { transform: rotate(90deg); }
+.side .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--s); flex: none; }
+.side .item {
+  display: block; padding: 9px 18px 9px 52px; text-decoration: none; font-size: 15px; color: var(--fg);
+}
+.side .item:hover { background: var(--hover); }
+.side .item[aria-current="true"] { background: var(--surface); box-shadow: inset 4px 0 0 var(--s); font-weight: 600; }
+.side .off { display: block; padding: 9px 18px 9px 52px; font-size: 15px; color: var(--muted); }
+.scrim { display: none; }
+
+.content {
+  flex: 1; min-width: 0; padding-block: 24px 0;
+  padding-left: max(16px, min(3vw, 40px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.inner { max-width: 1120px; margin: 0 auto; }
+
+/* Banner */
+.hero { position: relative; height: 270px; border-radius: 10px; overflow: hidden; background: var(--hero-bg); }
+.hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero-text { position: absolute; left: clamp(16px, 7%, 80px); right: 16px; bottom: 34px; display: flex; flex-direction: column; align-items: flex-start; }
+.crumbs { background: var(--crumb-bg); padding: 8px 14px; font-size: 15px; display: flex; flex-wrap: wrap; gap: 6px; }
+.crumbs a { text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.crumbs .sep { color: var(--muted); }
+.hero-title {
+  margin: 0; background: var(--s); color: var(--on-col); padding: 6px 14px 8px;
+  font-weight: 700; font-size: clamp(1.45rem, 3.4vw, 2.35rem); line-height: 1.2; text-wrap: balance; max-width: 100%;
+}
+
+/* Reiter */
+.tabbar {
+  margin-top: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  display: flex; gap: 6px; padding: 0 18px; overflow-x: auto;
+}
+.tabbar button {
+  appearance: none; background: none; border: 0; border-bottom: 3px solid transparent; cursor: pointer;
+  padding: 18px 12px 15px; font: 300 17px/1 var(--f); color: var(--fg); white-space: nowrap;
+}
+.tabbar button:hover { color: var(--accent-ink); }
+.tabbar button[aria-selected="true"] { border-bottom-color: var(--accent); font-weight: 400; }
+
+.panel { padding-block: 32px 56px; display: flex; flex-direction: column; gap: 40px; }
+.label { font: 600 12px/1 var(--f); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 12px; }
+h2.sec { font-size: 1.35rem; font-weight: 700; margin: 0 0 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+h2.sec .count { font: 500 12px/1 var(--f-mono); color: var(--muted); }
+h2.sec .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--s); }
+
+/* Karten */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px;
+  display: flex; flex-direction: column; gap: 10px; min-width: 0;
+}
+.card.geplant { background: transparent; border-style: dashed; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { font: 500 11.5px/1 var(--f-mono); padding: 5px 7px; border-radius: 5px; background: var(--s); color: var(--on-col); }
+.chip.status { font-family: var(--f); font-weight: 600; background: transparent; border: 1px solid var(--line); color: var(--muted); }
+.chip.status.aktiv { border-color: var(--c); color: var(--c); }
+.chip.quer { font-family: var(--f); font-weight: 600; background: transparent; color: var(--muted); border: 1px dashed var(--line); }
+.card h3 { margin: 0; font-weight: 700; font-size: 1.1rem; line-height: 1.3; text-wrap: balance; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+.links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 4px; }
+.btn {
+  font: 600 13.5px/1 var(--f); padding: 9px 12px; border-radius: 6px; text-decoration: none;
+  border: 1px solid var(--c); color: var(--c); background: transparent;
+}
+.btn.primary { background: var(--s); border-color: var(--s); color: var(--on-col); }
+.btn:hover { filter: brightness(1.06); }
+.btn.off { border: 1px dashed var(--line); color: var(--muted); cursor: default; }
+
+/* Fachkarten (Überblick) */
+.fcard { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; min-width: 0; }
+.fcard .band { height: 12px; background: var(--s); }
+.fcard .body { padding: 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.fcard h3 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+.fcard ul { margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 14px; }
+.fcard li { padding: 3px 0; display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--line); }
+.fcard li span:last-child { font-family: var(--f-mono); font-size: 12px; }
+.fcard .go { margin-top: auto; padding-top: 8px; font-weight: 600; color: var(--c); }
+.fcard:hover { border-color: var(--s); }
+.later-card { border-style: dashed; background: transparent; }
+
+/* Werkzeuge */
+.tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.tool {
+  display: flex; align-items: center; gap: 12px; padding: 11px 12px; min-width: 0;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px; text-decoration: none; transition: border-color .15s;
+}
+.tool:hover { border-color: var(--c); }
+.tool .ico { flex: none; width: 40px; height: 40px; border-radius: 6px; background: var(--s); color: var(--on-col); display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+.tool .txt { min-width: 0; flex: 1; }
+.tool strong { display: block; font-weight: 600; font-size: 14.5px; }
+.tool small { display: block; color: var(--muted); font-size: 13px; line-height: 1.35; }
+.tool .arrow { color: var(--muted); }
+.tool .own { display: inline-block; margin-left: 6px; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; line-height: 1.4; vertical-align: 1px; border: 1px solid var(--c); color: var(--c); }
+
+.lp { color: var(--muted); font-size: 14px; margin: -4px 0 0; max-width: 75ch; }
+
+footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var(--muted); font-size: 13px; }
+
+/* Schmale Bildschirme: Seitenleiste als Schublade */
+@media (max-width: 899px) {
+  .topnav { display: none; }
+  .menu-btn { display: inline-grid; place-items: center; }
+  .side {
+    position: fixed; left: 0; top: calc(var(--top-h) + env(safe-area-inset-top, 0px)); bottom: 0; height: auto;
+    width: min(320px, 86vw); z-index: 35; box-shadow: 0 10px 30px var(--scrim);
+  }
+  body.side-open .scrim { display: block; position: fixed; inset: 0; z-index: 30; background: var(--scrim); }
+  .hero { height: 220px; }
+  .hero-text { bottom: 20px; }
+  .crumbs { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { .chev, .tool { transition: none; } }
+</style>
+
+<!--
+  ANPASSEN: Alle Inhalte (Fächer, Werkzeuge, Module, Links) stehen weiter unten
+  im Skript im Abschnitt "DATEN". Leere url ("") = Button erscheint als "folgt".
+-->
+
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="menu-btn" id="menu-btn" type="button" aria-label="Menü öffnen" aria-controls="side">☰</button>
+    <a class="logo" href="#uebersicht"><span>lern</span><b>atelier</b><small>Oberstufe</small></a>
+    <nav class="topnav" id="topnav" aria-label="Hauptnavigation"></nav>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="side" id="side" aria-label="Seitennavigation">
+    <div class="side-top"><button class="close-btn" id="close-btn" type="button" aria-label="Menü schliessen">✕</button></div>
+    <div class="side-bar" aria-hidden="true"></div>
+    <div id="side-tree"></div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content">
+    <div class="inner">
+      <section class="hero" id="hero" data-fach="start">
+        <canvas id="hero-canvas" aria-hidden="true"></canvas>
+        <div class="hero-text">
+          <nav class="crumbs" id="crumbs" aria-label="Pfad"></nav>
+          <h1 class="hero-title" id="hero-title">Lernatelier</h1>
+        </div>
+      </section>
+
+      <div class="tabbar" id="tabbar" role="tablist"></div>
+      <div class="panel" id="panel"></div>
+    </div>
+    <footer><div class="inner">Lernatelier · Stand November 2026 · Module mit gestrichelter Linie sind in Vorbereitung.</div></footer>
+  </main>
+</div>
+
+<script>
+/* ===================== DATEN ===================== */
+const FAECHER = [
+  {
+    id: "bg", kurz: "BG", name: "Bildnerisches Gestalten",
+    lp: "Lehrplan 21: BG.1 Wahrnehmung und Kommunikation · BG.2 Prozesse und Produkte · BG.3 Kontexte und Orientierung",
+    werkzeuge: [
+      { name: "Zufallsbild-Generator", info: "Zufällige Zeichenvorlage mit Timer", url: "https://digitalcreativ.github.io/Zufallsgenerator/", eigen: true },
+      { name: "Pixelbilder", info: "Pixelbild im Raster gestalten, als PNG speichern", url: "https://digitalcreativ.github.io/Pixelbild/index.html", eigen: true },
+      { name: "Photopea", info: "Bilder bearbeiten im Browser", url: "https://www.photopea.com" },
+      { name: "Adobe Color", info: "Farbpaletten und Farbkreis", url: "https://color.adobe.com" },
+      { name: "Google Arts & Culture", info: "Kunstwerke entdecken", url: "https://artsandculture.google.com" },
+      { name: "Krita", info: "Digital malen (Download)", url: "https://krita.org" }
+    ],
+    stufen: [
+      { name: "1. Oberstufe", module: [
+        { titel: "Farbe und Wirkung", lp: "BG.2", status: "aktiv",
+          text: "Farbkreis, Kontraste und Stimmungen mit Gouache erforschen.",
+          links: [ { label: "Auftrag", url: "" }, { label: "Material", url: "" }, { label: "Abgabe", url: "" } ] },
+        { titel: "Raum und Perspektive", lp: "BG.2", status: "aktiv",
+          text: "Mit Fluchtpunkten einen Innenraum oder eine Strasse zeichnen.",
+          links: [ { label: "Auftrag", url: "" }, { label: "Material", url: "" } ] },
+        { titel: "Porträt", lp: "BG.1", status: "geplant",
+          text: "Proportionen im Gesicht beobachten und ein Selbstporträt entwickeln.",
+          links: [] }
+      ]},
+      { name: "Wahlfach 2./3. Oberstufe", module: [
+        { titel: "Linoldruck", lp: "BG.2", status: "aktiv",
+          text: "Vom Entwurf zum Druck: Motiv spiegeln, schneiden, drucken.",
+          links: [ { label: "Auftrag", url: "" }, { label: "Material", url: "" }, { label: "Abgabe", url: "" } ] },
+        { titel: "Digitale Collage", lp: "BG.2", status: "aktiv",
+          text: "Fotos freistellen und mit Ebenen zu einer neuen Bildwelt verbinden.",
+          links: [ { label: "Auftrag", url: "" }, { label: "Photopea öffnen", url: "https://www.photopea.com" } ] }
+      ]}
+    ]
+  },
+  {
+    id: "ttg", kurz: "TTG", name: "Textiles Gestalten",
+    lp: "Lehrplan 21: TTG.1 Wahrnehmung und Kommunikation · TTG.2 Prozesse und Produkte · TTG.3 Kontexte und Orientierung",
+    werkzeuge: [
+      { name: "Tinkercad", info: "3D-Modelle für den 3D-Druck", url: "https://www.tinkercad.com" },
+      { name: "Silhouette Studio", info: "Software für den Schneideplotter (Download)", url: "https://www.silhouetteamerica.com/software" },
+      { name: "Inkscape", info: "Vektorgrafik für Plotter und Laser", url: "https://inkscape.org" },
+      { name: "Ink/Stitch", info: "Stickdateien aus Inkscape", url: "https://inkstitch.org" }
+    ],
+    stufen: [
+      { name: "1. Oberstufe", module: [
+        { titel: "Nähmaschinen-Ausweis", lp: "TTG.2", status: "aktiv",
+          text: "Einfädeln, Stichlänge, gerade Nähte: Übungen bis zum Ausweis.",
+          links: [ { label: "Auftrag", url: "" }, { label: "Video-Anleitung", url: "" } ] },
+        { titel: "Filzen", lp: "TTG.2", status: "aktiv",
+          text: "Nassfilzen und Nadelfilzen: vom Musterstück zum eigenen Objekt.",
+          links: [ { label: "Auftrag", url: "" }, { label: "Material", url: "" } ] },
+        { titel: "Tasche mit Siebdruck", lp: "TTG.2", status: "geplant",
+          text: "Eine Tasche nähen und mit eigenem Motiv bedrucken.",
+          links: [] }
+      ]},
+      { name: "Wahlfach 2./3. Oberstufe", module: [
+        { titel: "Eigenes Stickmotiv", lp: "TTG.2", status: "aktiv",
+          text: "Ein Motiv vektorisieren, in Ink/Stitch umwandeln und sticken.",
+          links: [ { label: "Auftrag", url: "" }, { label: "Ink/Stitch Anleitung", url: "https://inkstitch.org/de/docs/" } ] },
+        { titel: "Leuchtendes Textil", lp: "TTG.2", status: "geplant", quer: "mit Informatik",
+          text: "LEDs und Calliope mini in ein Kleidungsstück oder Accessoire einnähen.",
+          links: [] }
+      ]}
+    ]
+  },
+  {
+    id: "inf", kurz: "INF", name: "Wahlfach Informatik",
+    lp: "Lehrplan 21: MI.2.1 Datenstrukturen · MI.2.2 Algorithmen · MI.2.3 Informatiksysteme",
+    werkzeuge: [
+      { name: "Scratch", info: "Programmieren mit Blöcken", url: "https://scratch.mit.edu" },
+      { name: "Calliope mini", info: "Calliope programmieren mit MakeCode", url: "https://makecode.calliope.cc" },
+      { name: "WebTigerPython", info: "Python im Browser", url: "https://webtigerpython.ethz.ch" },
+      { name: "Blockly Games", info: "Knobeln und Programmieren üben", url: "https://blockly.games" }
+    ],
+    stufen: [
+      { name: "2. Oberstufe", module: [
+        { titel: "Eigenes Spiel mit Scratch", lp: "MI.2.2", status: "aktiv",
+          text: "Figuren, Steuerung, Punktezähler: ein Spiel planen und programmieren.",
+          links: [ { label: "Auftrag", url: "" }, { label: "Scratch öffnen", url: "https://scratch.mit.edu/projects/editor/" } ] },
+        { titel: "Calliope Schrittzähler", lp: "MI.2.3", status: "aktiv",
+          text: "Sensoren auslesen und Schritte auf der LED-Anzeige zählen.",
+          links: [ { label: "Auftrag", url: "" }, { label: "Calliope-Editor öffnen", url: "https://makecode.calliope.cc" } ] }
+      ]},
+      { name: "3. Oberstufe", module: [
+        { titel: "Scratch: Avatar steuern", lp: "MI.2.2", status: "aktiv",
+          text: "Eine Spielfigur mit den Pfeiltasten bewegen und beim Laufen mit Kostümwechseln animieren.",
+          links: [ { label: "Auftrag", url: "https://scratch.mit.edu/projects/1427163241/" }, { label: "Im Editor öffnen", url: "https://scratch.mit.edu/projects/1427163241/editor" } ] },
+        { titel: "Muster mit Python Turtle", lp: "MI.2.2", status: "aktiv", quer: "mit BG",
+          text: "Schleifen und Funktionen nutzen, um Ornamente und Muster zu zeichnen.",
+          links: [ { label: "Auftrag", url: "" }, { label: "WebTigerPython öffnen", url: "https://webtigerpython.ethz.ch" } ] },
+        { titel: "Geheimschriften", lp: "MI.2.1", status: "geplant",
+          text: "Caesar- und Vigenère-Verschlüsselung verstehen und programmieren.",
+          links: [] }
+      ]}
+    ]
+  }
+];
+
+const SPAETER = [
+  { kurz: "GZ", name: "Geometrisches Zeichnen", stufe: "Wahlfach 3. Oberstufe" },
+  { kurz: "M+I", name: "Medien und Informatik", stufe: "1. und 2. Oberstufe" }
+];
+/* ================== ENDE DATEN =================== */
+
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === null || v === undefined || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v);
+  }
+  for (const kid of kids.flat()) if (kid !== null && kid !== undefined && kid !== false && kid !== "") el.append(kid);
+  return el;
+}
+
+const VIEWS = ["uebersicht"].concat(FAECHER.map(f => f.id));
+const state = { tab: null, pendingScroll: null };
+const wide = () => window.matchMedia("(min-width: 900px)").matches;
+
+function currentView() {
+  const raw = location.hash.slice(1);
+  return VIEWS.includes(raw) ? raw : "uebersicht";
+}
+
+/* ---------- Bausteine ---------- */
+function linkBtn(l, i) {
+  if (!l.url) return h("span", { class: "btn off", title: "Wird noch ergänzt" }, l.label + " · folgt");
+  return h("a", { class: "btn" + (i === 0 ? " primary" : ""), href: l.url, target: "_blank", rel: "noopener" }, l.label);
+}
+
+function modulKarte(m) {
+  return h("article", { class: "card" + (m.status === "geplant" ? " geplant" : "") },
+    h("div", { class: "chips" },
+      h("span", { class: "chip" }, m.lp),
+      h("span", { class: "chip status " + m.status }, m.status === "aktiv" ? "Aktiv" : "In Vorbereitung"),
+      m.quer ? h("span", { class: "chip quer" }, m.quer) : null
+    ),
+    h("h3", {}, m.titel),
+    h("p", {}, m.text),
+    m.links.length ? h("div", { class: "links" }, m.links.map(linkBtn)) : null
+  );
+}
+
+function toolGrid(f) {
+  return h("div", { class: "tools", "data-fach": f.id }, f.werkzeuge.map(w =>
+    h("a", { class: "tool", href: w.url, target: "_blank", rel: "noopener" },
+      h("span", { class: "ico", "aria-hidden": "true" }, w.name.replace(/[^A-Za-z]/g, "").slice(0, 2)),
+      h("span", { class: "txt" }, h("strong", {}, w.name, w.eigen ? h("span", { class: "own" }, "Eigenes Tool") : null), h("small", {}, w.info)),
+      h("span", { class: "arrow", "aria-hidden": "true" }, "↗")
+    )));
+}
+
+/* ---------- Seitenleiste ---------- */
+function buildSide() {
+  const tree = document.getElementById("side-tree");
+  const go = (view, extra) => (e) => {
+    e.preventDefault();
+    state.tab = extra && extra.tab || null;
+    state.pendingScroll = extra && extra.scroll || null;
+    if (!wide()) setSide(false);
+    if (location.hash.slice(1) === view) render(); else { state.fromSide = true; location.hash = view; }
+  };
+  const items = [
+    h("details", { open: "" },
+      h("summary", {}, h("span", { class: "chev", "aria-hidden": "true" }, "›"), "Überblick"),
+      h("a", { class: "item", href: "#uebersicht", "data-view": "uebersicht", "data-tab": "faecher", onclick: go("uebersicht", { tab: "faecher" }) }, "Alle Fächer"),
+      h("a", { class: "item", href: "#uebersicht", "data-view": "uebersicht", "data-tab": "werkzeuge", onclick: go("uebersicht", { tab: "werkzeuge" }) }, "Alle Werkzeuge")
+    )
+  ];
+  FAECHER.forEach(f => {
+    items.push(h("details", { "data-fach": f.id, open: "" },
+      h("summary", {}, h("span", { class: "chev", "aria-hidden": "true" }, "›"), h("span", { class: "dot", "aria-hidden": "true" }), f.name),
+      f.stufen.map((s, i) => h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "module",
+        onclick: go(f.id, { tab: "module", scroll: "st-" + f.id + "-" + i }) }, s.name)),
+      h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "werkzeuge", onclick: go(f.id, { tab: "werkzeuge" }) }, "Werkzeuge")
+    ));
+  });
+  items.push(h("details", { "data-fach": "later" },
+    h("summary", {}, h("span", { class: "chev", "aria-hidden": "true" }, "›"), "Weitere Fächer"),
+    SPAETER.map(s => h("span", { class: "off" }, s.name + " · folgt"))
+  ));
+  tree.replaceChildren(...items);
+}
+
+function setSide(open) {
+  document.body.classList.toggle("side-open", open);
+  document.getElementById("menu-btn").setAttribute("aria-expanded", String(open));
+  if (wide()) { try { localStorage.setItem("lernatelier-side", open ? "1" : "0"); } catch (e) {} }
+}
+
+/* ---------- Banner-Zeichnung: Fäden, Stiche, Pixel ---------- */
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+function drawHero() {
+  const cv = document.getElementById("hero-canvas");
+  const w = cv.clientWidth, hgt = cv.clientHeight;
+  if (!w || !hgt) return;
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(w * dpr); cv.height = Math.round(hgt * dpr);
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const cs = getComputedStyle(document.getElementById("hero"));
+  const ink = cs.getPropertyValue("--hero-ink").trim() || "#8e9185";
+  const tint = cs.getPropertyValue("--s").trim() || ink;
+  ctx.clearRect(0, 0, w, hgt);
+  const view = currentView();
+  const r = rng(view.split("").reduce((a, c) => a + c.charCodeAt(0) * 31, 7));
+  ctx.lineCap = "round";
+
+  // Fäden: lange, geschwungene Linien
+  for (let i = 0; i < 9; i++) {
+    const y0 = r() * hgt, y1 = r() * hgt;
+    ctx.beginPath();
+    ctx.moveTo(-20, y0);
+    ctx.bezierCurveTo(w * (0.25 + r() * 0.2), r() * hgt, w * (0.55 + r() * 0.2), r() * hgt, w + 20, y1);
+    ctx.strokeStyle = i % 4 === 0 ? tint : ink;
+    ctx.globalAlpha = i % 4 === 0 ? 0.9 : 0.45;
+    ctx.lineWidth = i % 4 === 0 ? 2.2 : 1;
+    ctx.setLineDash(i % 3 === 1 ? [7, 5] : []);
+    ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  // Pixel-Raster rechts
+  const size = 16, gap = 6, cols = Math.min(14, Math.floor(w * 0.35 / (size + gap))), rows = Math.floor((hgt - 30) / (size + gap));
+  const x0 = w - cols * (size + gap) - 20;
+  for (let cx = 0; cx < cols; cx++) for (let cy = 0; cy < rows; cy++) {
+    const v = r();
+    if (v < 0.55) continue;
+    ctx.globalAlpha = v > 0.92 ? 0.85 : 0.5;
+    if (v > 0.92) { ctx.fillStyle = tint; ctx.fillRect(x0 + cx * (size + gap), 15 + cy * (size + gap), size, size); }
+    else { ctx.strokeStyle = ink; ctx.lineWidth = 1; ctx.strokeRect(x0 + cx * (size + gap) + 0.5, 15 + cy * (size + gap) + 0.5, size, size); }
+  }
+
+  // Kreuzstiche links oben
+  ctx.strokeStyle = ink; ctx.lineWidth = 1.4;
+  for (let i = 0; i < 26; i++) {
+    const x = 20 + r() * w * 0.45, y = 14 + r() * hgt * 0.45, s = 4 + r() * 3;
+    ctx.globalAlpha = 0.35 + r() * 0.35;
+    ctx.beginPath(); ctx.moveTo(x - s, y - s); ctx.lineTo(x + s, y + s); ctx.moveTo(x + s, y - s); ctx.lineTo(x - s, y + s); ctx.stroke();
+  }
+
+  // Pinselkreis
+  ctx.globalAlpha = 0.5; ctx.strokeStyle = tint; ctx.lineWidth = 10;
+  ctx.beginPath(); ctx.arc(w * (0.35 + r() * 0.2), hgt * 0.3, 34 + r() * 20, r() * 2, r() * 2 + 4.6); ctx.stroke();
+  ctx.globalAlpha = 1;
+}
+
+/* ---------- Hauptinhalt ---------- */
+function render() {
+  const view = currentView();
+  const fach = FAECHER.find(f => f.id === view);
+  const tabs = fach ? [["module", "Module"], ["werkzeuge", "Werkzeuge"]] : [["faecher", "Fächer"], ["werkzeuge", "Alle Werkzeuge"]];
+  if (!tabs.some(t => t[0] === state.tab)) state.tab = tabs[0][0];
+
+  // Kopfnavigation
+  document.getElementById("topnav").replaceChildren(
+    ...[["uebersicht", "Übersicht"]].concat(FAECHER.map(f => [f.id, f.kurz === "INF" ? "Informatik" : f.kurz]))
+      .map(([id, label]) => h("a", { href: "#" + id, "aria-current": id === view ? "true" : "false" }, label))
+  );
+
+  // Banner
+  const hero = document.getElementById("hero");
+  hero.setAttribute("data-fach", fach ? fach.id : "start");
+  document.getElementById("hero-title").textContent = fach ? fach.name : "Lernatelier Oberstufe";
+  const crumbs = [h("a", { href: "#uebersicht" }, "Startseite")];
+  if (fach) crumbs.push(h("span", { class: "sep", "aria-hidden": "true" }, "/"), h("span", {}, "Fächer"), h("span", { class: "sep", "aria-hidden": "true" }, "/"), h("span", {}, fach.kurz));
+  else crumbs.push(h("span", { class: "sep", "aria-hidden": "true" }, "/"), h("span", {}, "Übersicht"));
+  document.getElementById("crumbs").replaceChildren(...crumbs);
+
+  // Reiter
+  document.getElementById("tabbar").replaceChildren(...tabs.map(([id, label]) =>
+    h("button", { type: "button", role: "tab", "aria-selected": id === state.tab ? "true" : "false",
+      onclick: () => { state.tab = id; state.pendingScroll = null; render(); } }, label)));
+
+  // Inhalt
+  const panel = document.getElementById("panel");
+  let out = [];
+  if (fach && state.tab === "module") {
+    out.push(h("p", { class: "lp" }, fach.lp));
+    fach.stufen.forEach((s, i) => out.push(h("section", { "data-fach": fach.id, id: "st-" + fach.id + "-" + i },
+      h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), s.name, h("span", { class: "count" }, s.module.length + " Module")),
+      h("div", { class: "grid" }, s.module.map(modulKarte))
+    )));
+  } else if (fach) {
+    out.push(h("section", {}, h("p", { class: "label" }, "Werkzeuge für " + fach.name), toolGrid(fach)));
+  } else if (state.tab === "faecher") {
+    out.push(h("section", {},
+      h("p", { class: "label" }, "Meine Fächer"),
+      h("div", { class: "grid" }, FAECHER.map(f => h("a", { class: "fcard", href: "#" + f.id, "data-fach": f.id },
+        h("div", { class: "band" }),
+        h("div", { class: "body" },
+          h("h3", {}, f.name),
+          h("ul", {}, f.stufen.map(s => h("li", {}, h("span", {}, s.name), h("span", {}, s.module.length + " Module")))),
+          h("span", { class: "go" }, "Zum Fach →")
+        ))))
+    ));
+    out.push(h("section", { "data-fach": "later" },
+      h("p", { class: "label" }, "Kommen später dazu"),
+      h("div", { class: "grid" }, SPAETER.map(s => h("div", { class: "fcard later-card" },
+        h("div", { class: "band" }),
+        h("div", { class: "body" }, h("h3", {}, s.name), h("p", { class: "lp" }, s.stufe))
+      )))
+    ));
+  } else {
+    FAECHER.forEach(f => out.push(h("section", { "data-fach": f.id },
+      h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), f.name),
+      toolGrid(f)
+    )));
+  }
+  panel.replaceChildren(...out);
+
+  // Aktive Einträge in der Seitenleiste
+  document.querySelectorAll("#side-tree .item").forEach(a => {
+    a.setAttribute("aria-current", a.dataset.view === view && a.dataset.tab === state.tab ? "true" : "false");
+  });
+
+  drawHero();
+
+  if (state.pendingScroll) {
+    const el = document.getElementById(state.pendingScroll);
+    state.pendingScroll = null;
+    if (el) el.scrollIntoView({ behavior: "auto", block: "start" });
+  }
+}
+
+/* ---------- Start ---------- */
+buildSide();
+let startOpen = wide();
+if (startOpen) { try { if (localStorage.getItem("lernatelier-side") === "0") startOpen = false; } catch (e) {} }
+setSide(startOpen);
+document.getElementById("menu-btn").addEventListener("click", () => setSide(!document.body.classList.contains("side-open")));
+document.getElementById("close-btn").addEventListener("click", () => setSide(false));
+document.getElementById("scrim").addEventListener("click", () => setSide(false));
+window.addEventListener("hashchange", () => {
+  if (!state.fromSide) state.tab = null;
+  state.fromSide = false;
+  if (!state.pendingScroll) window.scrollTo({ top: 0 });
+  render();
+});
+window.addEventListener("resize", () => drawHero());
+try { window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawHero); } catch (e) {}
+new MutationObserver(drawHero).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+render();
+</script>
+
+</body>
+</html>
