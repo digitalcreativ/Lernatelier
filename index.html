@@ -325,12 +325,15 @@ const FAECHER = [
     projekte: [],
     stufen: [
       { name: "1. Oberstufe", module: [
-        { titel: "Nähmaschinen-Ausweis", lp: "TTG.2", status: "aktiv",
+        { titel: "Nähmaschinen-Ausweis", lp: "TTG.2", status: "geplant",
           text: "Einfädeln, Stichlänge, gerade Nähte: Übungen bis zum Ausweis.",
           links: [ { label: "Auftrag", url: "" }, { label: "Video-Anleitung", url: "" } ] },
-        { titel: "Filzen", lp: "TTG.2", status: "aktiv",
-          text: "Nassfilzen und Nadelfilzen: vom Musterstück zum eigenen Objekt.",
-          links: [ { label: "Auftrag", url: "" }, { label: "Material", url: "" } ] },
+        { titel: "Hoodie / Kapuzenpulli", lp: "TTG.2", status: "aktiv",
+          text: "Einen eigenen Kapuzenpulli planen, zuschneiden und nähen.",
+          links: [ { label: "Padlet öffnen", url: "https://padlet.com/claudiabuergisser1/hoodie-sweater-kapuzenpulli-xujmi44o27ly44ik" } ] },
+        { titel: "Meine Jogginghose / Shorts", lp: "TTG.2", status: "aktiv",
+          text: "Eine eigene Jogginghose oder Shorts planen, zuschneiden und nähen.",
+          links: [ { label: "Padlet öffnen", url: "https://padlet.com/claudiabuergisser1/meine-jogginghose-shorts-qbr65ofeipdictbv" } ] },
         { titel: "Tasche mit Siebdruck", lp: "TTG.2", status: "geplant",
           text: "Eine Tasche nähen und mit eigenem Motiv bedrucken.",
           links: [] }
@@ -464,8 +467,8 @@ function buildSide() {
   FAECHER.forEach(f => {
     items.push(h("details", { "data-fach": f.id, open: "" },
       h("summary", {}, h("span", { class: "chev", "aria-hidden": "true" }, "›"), h("span", { class: "dot", "aria-hidden": "true" }), f.name),
-      f.stufen.map((s, i) => h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "module",
-        onclick: go(f.id, { tab: "module", scroll: "st-" + f.id + "-" + i }) }, s.name)),
+      f.stufen.map((s, i) => h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "st" + i,
+        onclick: go(f.id, { tab: "st" + i }) }, s.name)),
       h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "projekte", onclick: go(f.id, { tab: "projekte" }) }, "Projekte"),
       h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "werkzeuge", onclick: go(f.id, { tab: "werkzeuge" }) }, "Werkzeuge")
     ));
@@ -558,7 +561,7 @@ function drawHero() {
 function render() {
   const view = currentView();
   const fach = FAECHER.find(f => f.id === view);
-  const tabs = fach ? [["module", "Module"], ["projekte", "Projekte"], ["werkzeuge", "Werkzeuge"]] : [["faecher", "Fächer"], ["werkzeuge", "Alle Werkzeuge"]];
+  const tabs = fach ? fach.stufen.map((s, i) => ["st" + i, s.name]).concat([["projekte", "Projekte"], ["werkzeuge", "Werkzeuge"]]) : [["faecher", "Fächer"], ["werkzeuge", "Alle Werkzeuge"]];
   if (!tabs.some(t => t[0] === state.tab)) state.tab = tabs[0][0];
 
   // Kopfnavigation
@@ -584,12 +587,13 @@ function render() {
   // Inhalt
   const panel = document.getElementById("panel");
   let out = [];
-  if (fach && state.tab === "module") {
+  if (fach && /^st\d+$/.test(state.tab)) {
+    const s = fach.stufen[+state.tab.slice(2)];
     out.push(h("p", { class: "lp" }, fach.lp));
-    fach.stufen.forEach((s, i) => out.push(h("section", { "data-fach": fach.id, id: "st-" + fach.id + "-" + i },
+    out.push(h("section", { "data-fach": fach.id },
       h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), s.name, h("span", { class: "count" }, s.module.length + " Module")),
       h("div", { class: "grid" }, s.module.map(modulKarte))
-    )));
+    ));
   } else if (fach && state.tab === "projekte") {
     out.push(h("section", { "data-fach": fach.id },
       h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), "Projekte",
