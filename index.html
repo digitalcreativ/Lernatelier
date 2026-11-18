@@ -70,6 +70,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 [data-fach="bg"]    { --c: var(--col-bg);  --s: var(--soft-bg); }
 [data-fach="ttg"]   { --c: var(--col-ttg); --s: var(--soft-ttg); }
 [data-fach="inf"]   { --c: var(--col-inf); --s: var(--soft-inf); }
+[data-fach="diverse"] { --c: var(--accent-ink); --s: var(--accent); }
 [data-fach="later"] { --c: var(--col-later); --s: var(--soft-later); }
 
 /* Kopfleiste */
@@ -383,6 +384,11 @@ const FAECHER = [
   }
 ];
 
+// Werkzeuge, die in mehreren Fächern gebraucht werden
+const DIVERSE = { id: "diverse", name: "Diverse Fächer", werkzeuge: [
+  { name: "Book Creator", info: "Digitale Bücher gestalten", url: "https://app.bookcreator.com/libraries" }
+]};
+
 const SPAETER = [
   { kurz: "GZ", name: "Geometrisches Zeichnen", stufe: "Wahlfach 3. Oberstufe" },
   { kurz: "M+I", name: "Medien und Informatik", stufe: "1. und 2. Oberstufe" }
@@ -595,6 +601,7 @@ function render() {
     ));
   } else if (fach) {
     out.push(h("section", {}, h("p", { class: "label" }, "Werkzeuge für " + fach.name), toolGrid(fach)));
+    out.push(h("section", { "data-fach": DIVERSE.id }, h("p", { class: "label" }, "Für diverse Fächer"), toolGrid(DIVERSE)));
   } else if (state.tab === "faecher") {
     out.push(h("section", {},
       h("p", { class: "label" }, "Meine Fächer"),
@@ -615,7 +622,7 @@ function render() {
       )))
     ));
   } else {
-    FAECHER.forEach(f => out.push(h("section", { "data-fach": f.id },
+    FAECHER.concat(DIVERSE).forEach(f => out.push(h("section", { "data-fach": f.id },
       h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), f.name),
       toolGrid(f)
     )));
