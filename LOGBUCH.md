@@ -21,6 +21,9 @@
 - **Filzen** entfernt
 - **Nähmaschinen-Ausweis** auf «In Vorbereitung» gesetzt
 
+### Platzhalter-Module
+- Alle erfundenen Beispiel-Module auf «In Vorbereitung» gesetzt. Aktiv sind nur noch die echten: Hoodie, Jogginghose / Shorts, Schlüsselanhänger, Scratch: Avatar steuern.
+
 ### Erledigt
 - Ordner `projekte` mit `index.html` hochgeladen.
 - Padlets für die Schülerinnen und Schüler freigegeben.
