@@ -7,6 +7,7 @@
 - **Fehler aus der Vorlage behoben:** Die Schleife für die Stockwerke in Etappe 5 endete nie. Dadurch brach das Zeichenprogramm ab, und die Zeichnungen in den Etappen 5, 6 und 7 fehlten. Schleife auf höchstens 10 Stockwerke begrenzt; jetzt ohne JavaScript-Fehler.
 - Druckregeln ergänzt und PDF erzeugt: `projekte/pdf/Grossstadt_von_oben.pdf` (4 Seiten A4). Button **«Anleitung als PDF»** auf der Projektkarte. Darstellung per Bildschirmfoto geprüft.
 - PDF-Übergang Seite 3/4 verbessert: Überschrift und Tabelle der Beurteilung bleiben zusammen und beginnen auf einer neuen Seite (Seite 4). Grauer Hintergrund im Druck entfernt. Alle vier PDF-Seiten als Bild gerendert und kontrolliert.
+- Zwei Werkzeuge zu Perspektive bei den **BG-Werkzeugen** ergänzt: **Perspective Grid Generator** (https://artincontext.org/perspective-grid-generator/, Raster mit verschiebbarem Fluchtpunkt als A4-PDF, ohne Anmeldung; geprüft) und **Google Earth** (https://earth.google.com/web/, Städte von oben). Der Perspective Grid Generator steht zusätzlich als Button auf der Karte «Grossstadt von oben».
 
 ### BG-Werkzeuge: Farbtools
 - Vier Farbtools bei den **Werkzeugen von Bildnerisches Gestalten** ergänzt (Links geprüft): **Image Color Picker** (https://imagecolorpicker.com/de, HEX/RGB aus Fotos, ohne Anmeldung), **Coolors** (https://coolors.co/, Palettengenerator, gratis mit Werbung), **Color Hunt** (https://colorhunt.co/, fertige Paletten) und **Kontrast-Checker** von WebAIM (https://webaim.org/resources/contrastchecker/, Lesbarkeit prüfen).
