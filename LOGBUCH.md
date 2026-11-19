@@ -2,6 +2,12 @@
 
 ## 19.11.2026
 
+### TTG-Werkzeuge für textile Techniken
+- Drei Werkzeug-Buttons bei **Textiles Gestalten** ergänzt (Links geprüft):
+  - **Stitch Fiddle** (https://www.stitchfiddle.com/): Muster im Raster entwerfen für Stricken, Häkeln, Kreuzstich, Bügelperlen und Pixel-Makramee. Bezahlte Zusatzfunktionen vorhanden.
+  - **BraceletBook** (https://www.braceletbook.com/): Knüpfmuster für Freundschaftsbänder mit Videos und Tutorials; Ansehen ohne Anmeldung, Englisch.
+  - **nadelspiel · Stricken & Häkeln** (https://www.nadelspiel.com/): deutsche Videokurse zu Grundtechniken; teils kostenlos, Muster teilweise kostenpflichtig, seit 2021 nicht mehr aktiv ergänzt.
+
 ### Schriftzug mit Flexfolie · Beispielwort
 - In der Anleitung den Beispielnamen durch **«happy»** ersetzt: in allen Zeichnungen (Blockschrift als «HAPPY», Schreibschrift als «happy»), im Speichernamen und in Schritt 2. Beim Entgittern heissen die Beispiel-Innenteile jetzt «A und P». Zwei kleine Darstellungsfehler korrigiert (Beschriftung in Schritt 2 und 3). PDF neu erzeugt und Darstellung per Bildschirmfoto geprüft.
 - PDF von 7 auf **4 Seiten** reduziert: Druckregeln mit zweispaltigem Layout (Text links, Zeichnung rechts), Verkleinerung auf 80 % und Seitenrändern von 10 mm. Die Ansicht im Browser bleibt unverändert. Beschriftung «zu dünn» bei den häufigen Fehlern korrigiert.
