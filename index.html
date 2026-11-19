@@ -314,6 +314,7 @@ const FAECHER = [
     id: "bg", kurz: "BG", name: "Bildnerisches Gestalten",
     lp: "Lehrplan 21: BG.1 Wahrnehmung und Kommunikation · BG.2 Prozesse und Produkte · BG.3 Kontexte und Orientierung",
     werkzeuge: [
+      { name: "Handlettering-Generator", info: "Schriftzüge gestalten und Übungsvorlagen erstellen · kostenlose Grundversion", url: "https://handletteringlernen.de/generator/" },
       { name: "Zufallsbild-Generator", info: "Zufällige Zeichenvorlage mit Timer", url: "https://digitalcreativ.github.io/Zufallsgenerator/", eigen: true },
       PHOTOPEA,
       PIXLR,
@@ -323,7 +324,12 @@ const FAECHER = [
     ],
     // Stufenübergreifende Projekte haben den gleichen Aufbau wie die Projekte unter «stufen».
     // { titel: "...", lp: "BG.2", status: "aktiv", text: "...", links: [ { label: "Auftrag", url: "" } ] }
-    projekte: [],
+    projekte: [
+      { titel: "Kartenwerkstatt – Handlettering & Stempeldruck", lp: "BG.2", status: "aktiv",
+        text: "Gestalte persönliche Weihnachtskarten: Entwickle eigene Stempel, übe Handlettering und kombiniere Schrift, Druck und Farbe auf A6-Karten. Für alle Klassen offen.",
+        anleitung: "projekte/weihnachtskarten.html", anleitungLabel: "Auftrag & Anleitungen",
+        links: [ { label: "Handlettering-Generator", url: "https://handletteringlernen.de/generator/" } ] }
+    ],
     stufen: [
       { name: "1. Oberstufe", module: [
         { titel: "Farbe und Wirkung", lp: "BG.2", status: "geplant",
@@ -856,7 +862,7 @@ function render() {
           h("ul", {}, f.stufen.map(s => {
             const anzahl = sichtbareModule(s.module).length;
             return h("li", {}, h("span", {}, s.name), h("span", {}, anzahl + (anzahl === 1 ? " Projekt" : " Projekte")));
-          }), h("li", {}, h("span", {}, "Projekte"), h("span", {}, String(sichtbareModule(f.projekte).length)))),
+          }), h("li", {}, h("span", {}, "Projekte"), h("span", {}, sichtbareModule(f.projekte).length + (sichtbareModule(f.projekte).length === 1 ? " Projekt" : " Projekte")))),
           h("span", { class: "go" }, "Zum Fach →")
         ))))
     ));
