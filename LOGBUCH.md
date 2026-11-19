@@ -2,6 +2,15 @@
 
 ## 19.11.2026
 
+### Bildnerisches Gestalten · Mein Farb-Moodboard zusammengeführt
+- Das bestehende Projekt **«Mein Farb-Moodboard»** (BG, 1. Oberstufe) und die neue, bebilderte Anleitung zu **einer** Anleitung im neuen Stil zusammengeführt. Dateipfad `projekte/farb-moodboard.html` und Projektkarte bleiben bestehen.
+- Aufbau: Farbwähler mit Live-Moodboard → Was ist ein Moodboard? → Material/Werkzeug → **A Farben verstehen und mischen** (1 Farbkreis, 2 Farben mischen, 3 Lieblingsfarbe hell/dunkel, 4 Komplementärkontrast, 5 Lieblingsfarbe erforschen) → **B Planen** (6) → **C Am PC gestalten** (7 Fotos, 8 Freistellen, 9 Raster anlegen/einfärben/beschriften) → **D Ausschneiden und Kleben** (10 Material, 11 Ausdrucken, 12 Probeweise legen und kleben) → Abgabe → interaktive Checkliste (13 Punkte).
+- Aus der bisherigen Fassung übernommen: Farben mischen mit Mischrezepten, hellere/dunklere Variante, eigene 4 × 4-Tabelle mit 4-cm-Feldern, Seitenlänge mit Lineal prüfen, probeweise legen, Abgabe mit beiden Arbeitsblättern und Selbsteinschätzung. Die Seite **Arbeitsblätter & Bewertungsraster** bleibt unverändert und ist in der Anleitung zweimal verlinkt.
+- Druckregeln wie bei den anderen Anleitungen ergänzt. Kurztext der Projektkarte angepasst. Darstellung per Bildschirmfoto geprüft.
+- **Arbeitsblätter** optisch an die neue Anleitung angeglichen (Schriften Inter/Space Grotesk, pinke Überschriften mit Linie, Kopfzeile «Mein Farb-Moodboard · Arbeitsblatt 1 / 2 / Bewertung»). Inhalte unverändert. Daraus ein PDF erzeugt: `projekte/pdf/Farb-Moodboard_Arbeitsblaetter.pdf` (3 Seiten A4, jedes Blatt auf eigener Seite). Button **«Arbeitsblätter als PDF»** auf der Projektkarte ergänzt; der Link zur HTML-Fassung bleibt.
+- Im Beispiel-Moodboard (Kopfbereich und Plan in Schritt 6) stehen in den drei Textfeldern nur noch **«Funfact»** statt farbspezifischer Sätze (Lebensfreude, Flamingo-Fakt), damit das Beispiel zu jeder gewählten Farbe passt.
+- Namensfelder auf allen drei Blättern entfernt (Datum und «Gewählte Farbe» bleiben). Das **Bewertungsraster** wird im Querformat gedruckt (Seiten 1–2 hoch, Seite 3 quer), etwas kompakter und über die ganze Breite. PDF neu erzeugt.
+
 ### Neues Fach: Geometrisches Zeichnen
 - **Geometrisches Zeichnen (GZ)** als eigenes Fach eröffnet: Reiter **Wahlfach 3. Oberstufe** und **Werkzeuge**, Eintrag «GZ» in der Kopfnavigation, eigener Bereich in der Seitenleiste, eigene Fachkarte auf der Startseite. Eigene Fachfarbe Graphit-Violett (hell und dunkel). Lehrplanzeile «MA.2 Form und Raum» (bitte prüfen).
 - Wunschgemäss **ohne Reiter «Projekte»**: Dafür kann ein Fach neu mit `ohneProjekte: true` angelegt werden; Reiter, Seitenleisten-Eintrag und Zeile auf der Fachkarte entfallen dann.

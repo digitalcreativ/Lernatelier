@@ -1,76 +1,670 @@
 <!doctype html>
-<html lang="de-CH">
+<html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mein Farb-Moodboard</title>
-  <style>
-    :root { color-scheme: light dark; font: 100%/1.55 system-ui, sans-serif; }
-    * { box-sizing: border-box; }
-    .embedded { overflow: hidden; }
-    body { margin: 0; padding: clamp(12px, 4vw, 32px); background: light-dark(#fff8f3, #221a22); color: light-dark(#302132, #f9ecf5); }
-    main { max-width: 50rem; margin: auto; }
-    h1 { font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.1; margin: .2em 0; }
-    h2 { margin: 0; font-size: 1.35rem; }
-    section { margin-top: 1rem; padding: clamp(12px, 3vw, 24px); border: 1px solid light-dark(#e2cbd8, #654e60); border-left: 5px solid var(--accent); border-radius: .65rem; background: light-dark(white, #302630); }
-    section:nth-of-type(3n+1) { --accent: #d778a4; }
-    section:nth-of-type(3n+2) { --accent: #619c89; }
-    section:nth-of-type(3n) { --accent: #a08ac8; }
-    ul, ol { padding-inline-start: 1.4rem; }
-    li + li { margin-top: .25rem; }
-    a { color: light-dark(#8e245a, #ffb1d5); font-weight: 600; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Mein Farb-Moodboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: eine Spalte, Phasen A–D, jeder Schritt = Text links + Zeichnung rechts (gestapelt auf dem Handy).
+   --c* = die gewählte Lieblingsfarbe (per Farbwähler änderbar), Standard: Pink #FF33CC */
+:root{
+  --bg:#f8f6f7; --surface:#ffffff; --fg:#211d20; --muted:#6a6268; --line:#e3dce1;
+  --grid:#ece6ea; --accent:#d1267c; --accent-ink:#b01e68; --ok:#2c8657; --warn:#c0482a;
+  --paper:#ffffff; --sheet:#d9d6d8; --check1:#e6e3e5; --check2:#ffffff;
+  --c:#ff33cc; --c-t1:#ff85e0; --c-t2:#ffadeb; --c-t3:#ffd6f5; --c-s1:#bf2699; --c-s2:#8c1c70; --comp:#33ff66; --on-c:#ffffff;
+  --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#171416; --surface:#211d20; --fg:#f0ebee; --muted:#aaa0a7; --line:#3a3237;
+  --grid:#2b2529; --accent:#f05aa4; --accent-ink:#f58cbf; --ok:#5cc08d; --warn:#e8805f;
+  --paper:#f4f2f3; --sheet:#4a4648; --check1:#3a3638; --check2:#4a4648; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#171416; --surface:#211d20; --fg:#f0ebee; --muted:#aaa0a7; --line:#3a3237;
+  --grid:#2b2529; --accent:#f05aa4; --accent-ink:#f58cbf; --ok:#5cc08d; --warn:#e8805f;
+  --paper:#f4f2f3; --sheet:#4a4648; --check1:#3a3638; --check2:#4a4648; color-scheme:dark }
+
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,5vw,40px)}
+h2{font-size:21px}
+p{margin:0}
+b{font-weight:600}
+a{color:var(--accent-ink);font-weight:600}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+.hero > div{min-width:0}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:44ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;margin-bottom:8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:var(--surface)}
+.btn{display:inline-block;border:1px solid var(--accent);border-radius:8px;padding:6px 12px;font-size:14px;text-decoration:none;color:var(--accent-ink);background:var(--surface)}
+
+.picker{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center}
+.picker label{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.picker input[type=color]{width:56px;height:38px;border:1px solid var(--line);border-radius:6px;padding:2px;background:var(--surface);cursor:pointer}
+.picker input[type=text]{font:500 15px var(--f-body);padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg);width:160px}
+.picker input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.codes{font:600 14px var(--f-body);font-variant-numeric:tabular-nums;display:flex;flex-direction:column}
+.codes span{color:var(--muted);font-weight:500;font-size:12px}
+
+/* Moodboard-Raster 4 × 4 */
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--paper);border:2px solid #2a2a2a;aspect-ratio:1;max-width:100%}
+.board .cell{position:relative;aspect-ratio:1;min-width:0;border:1px solid #2a2a2a;display:flex;align-items:center;justify-content:center;text-align:center;padding:4px;overflow:hidden;font-size:clamp(8px,1.5vw,12px);line-height:1.25;color:#222}
+.cell.n{background:var(--c);color:var(--on-c);font:700 clamp(12px,2.6vw,22px) var(--f-display);align-items:flex-end;justify-content:flex-start;padding:6px}
+.cell.hex{background:var(--c);color:var(--on-c);font-weight:600;align-items:flex-end;justify-content:flex-end;padding:6px}
+.cell.comp{background:var(--comp);color:#111;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:6px;text-align:left}
+.cell.t1{background:var(--c-t3);color:var(--c-s2);font-style:italic}
+.cell.t2{background:var(--c-t2);color:var(--c-s2);font-weight:700;text-transform:uppercase;letter-spacing:.02em}
+.cell.fun{background:#fff;color:#222}
+.cell.var{padding:0;flex-direction:column;align-items:stretch}
+.cell.var i{flex:1;display:block}
+.cell.pat{background-color:var(--c-t3);background-image:radial-gradient(var(--c) 18%,transparent 20%),radial-gradient(var(--c-t1) 18%,transparent 20%);background-size:16px 16px;background-position:0 0,8px 8px}
+.cell.f{background:var(--c-t3)}
+.cell.f svg{width:70%;height:70%}
+.cell.m1{background-color:var(--c-t1);background-image:radial-gradient(var(--c-s1) 1px,transparent 1.6px),radial-gradient(var(--c) 1px,transparent 1.6px);background-size:7px 7px,11px 11px;background-position:0 0,3px 5px}
+.cell.m2{background:repeating-linear-gradient(60deg,var(--c) 0 4px,var(--c-t1) 4px 7px)}
+.cell.m3{background-color:var(--c);background-image:radial-gradient(#fff 20%,transparent 22%);background-size:12px 12px}
+.cell.m4{background:repeating-linear-gradient(90deg,var(--c-s1) 0 3px,var(--c-t2) 3px 9px)}
+.cell.m5{background-color:var(--c-t1);background-image:repeating-linear-gradient(45deg,var(--c) 0 3px,transparent 3px 8px),repeating-linear-gradient(-45deg,var(--c-s1) 0 2px,transparent 2px 8px)}
+.cell .tag{position:absolute;top:4px;left:4px;font:700 11px var(--f-body);background:#222;color:#fff;border-radius:4px;padding:0 5px;line-height:17px}
+.board.plain .tag{display:none}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend b{display:inline-block;font:700 11px var(--f-body);background:#222;color:#fff;border-radius:4px;padding:0 5px;line-height:17px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+.material{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.material ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.material h2{margin-bottom:10px}
+.phase{display:flex;align-items:baseline;gap:12px;margin-top:8px;border-bottom:2px solid var(--accent);padding-bottom:8px}
+.phase .tag{font:700 22px var(--f-display);color:var(--accent-ink)}
+.phase p{color:var(--muted);font-size:14px}
+.step{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.step > div{min-width:0}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font:700 15px var(--f-display);margin-bottom:10px}
+.step h2{margin-bottom:8px;font-size:19px}
+.step p + p,.step p + ul,.step ul + p{margin-top:8px}
+.step ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.tip{margin-top:12px;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px}
+.tip.warn{border-left-color:var(--warn)}
+figure{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+figure svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--bg)}
+figcaption{font-size:13px;color:var(--muted)}
+.panel{border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:12px 14px;font-size:14px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
+.panel .k{color:var(--muted)}
+.panel .v{font-weight:600;font-variant-numeric:tabular-nums}
+.panel .head{grid-column:1/-1;font:600 12px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:2px}
+.panel .head:not(:first-child){margin-top:8px}
+.sw{display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--c);vertical-align:-2px;margin-right:6px;border:1px solid var(--line)}
+
+.checklist{display:flex;flex-direction:column;gap:14px}
+.crit{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:grid;grid-template-columns:1fr auto;gap:6px 16px}
+.crit h3{font-size:16px}
+.crit .pts{font:700 15px var(--f-display);color:var(--accent-ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.crit ul{grid-column:1/-1;margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.crit li{display:flex;gap:8px;align-items:flex-start}
+.crit input{margin-top:4px;accent-color:var(--accent);width:16px;height:16px;flex:none}
+.scale{font-size:14px;color:var(--muted)}
+.total{display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--accent);padding-top:10px;font:700 17px var(--f-display)}
+.abgabe ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+
+/* SVG */
+.gl{stroke:var(--grid);fill:none}
+.arrow{stroke:var(--fg);stroke-width:1.6;fill:none}
+.dim{stroke:var(--muted);stroke-width:1.2;fill:none}
+.cut{stroke:var(--warn);stroke-width:2;stroke-dasharray:5 3;fill:none}
+.okl{stroke:var(--ok);fill:none;stroke-width:2}
+.lbl{fill:var(--muted);font:500 12px var(--f-body)}
+.lblb{fill:var(--fg);font:600 13px var(--f-body)}
+.op{fill:var(--fg);font:700 18px var(--f-display)}
+.cc{fill:var(--c)} .ct1{fill:var(--c-t1)} .ct2{fill:var(--c-t2)} .ct3{fill:var(--c-t3)} .cs1{fill:var(--c-s1)} .ccomp{fill:var(--comp)}
+.paperf{fill:var(--paper);stroke:var(--line)}
+.sheetf{fill:var(--sheet)}
+
+@media (max-width:720px){
+  .hero,.step,.material{grid-template-columns:1fr}
+  .card{padding:16px}
+}
+@media (prefers-reduced-motion:no-preference){ .board .cell{transition:background-color .25s} }
+@page{ size:A4; margin:10mm }
+@media print{
+  html{zoom:.8}
+  body{padding:0;font-size:14px;line-height:1.45}
+  .wrap{max-width:none;gap:12px}
+  .hero,.step,.material{grid-template-columns:1fr 1fr;gap:18px}
+  .card{padding:14px 16px}
+  .picker{display:none}
+  .card,.crit,.hero{break-inside:avoid}
+  .phase{break-after:avoid;margin-top:4px}
+}
+</style>
 </head>
 <body>
-<main>
-  <header>
-    <p>Bildnerisches Gestalten · 1. Oberstufe</p>
-    <h1>Mein Farb-Moodboard</h1>
-    <p>Wie sieht deine Lieblingsfarbe aus, wenn du sie mischst, fotografierst und in verschiedenen Materialien findest? Gestalte ein Moodboard, das die Vielfalt deiner Farbe in 16 Quadraten zeigt.</p>
-    <p><a href="farb-moodboard-arbeitsblaetter.html" target="_blank" rel="noopener">Arbeitsblätter und Bewertungsraster öffnen</a></p>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="mat" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" class="gl"/></pattern>
+    <pattern id="checker" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="var(--check2)"/><rect width="6" height="6" fill="var(--check1)"/><rect x="6" y="6" width="6" height="6" fill="var(--check1)"/></pattern>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--fg)"/></marker>
+    <marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker>
+    <!-- Tasse als Beispiel-Gegenstand -->
+    <g id="mug"><path d="M0,0 H44 V40 Q44,52 32,52 H12 Q0,52 0,40 Z" class="cc"/><path d="M44,10 Q60,10 60,24 Q60,38 44,38" fill="none" stroke="var(--c)" stroke-width="6"/><rect x="4" y="4" width="8" height="40" rx="4" fill="#fff" opacity=".25"/></g>
+    <!-- Farbklecks -->
+    <path id="blob" d="M0,-16 C10,-17 17,-9 16,1 C16,11 8,17 -1,16 C-11,16 -17,9 -16,-1 C-16,-10 -9,-16 0,-16 Z"/>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Bildnerisches Gestalten · 1. Oberstufe</div>
+      <h1>Mein Farb-Moodboard</h1>
+      <p class="lead">Du wählst deine Lieblingsfarbe, mischst sie selbst und erforschst sie. Mit Farbproben, Fotos, Materialien, Texten und Farbcodes gestaltest du daraus ein Moodboard aus 16 Quadraten.</p>
+      <div class="meta"><span class="chip">16 Felder · 4 × 4</span><span class="chip">Malen · Word · Handarbeit</span><span class="chip">13 Punkte</span></div>
+      <div class="picker">
+        <label for="pick">Probier deine Farbe
+          <input type="color" id="pick" value="#ff33cc">
+        </label>
+        <label for="fname">Dein Farbname
+          <input type="text" id="fname" value="Flamingo" maxlength="20">
+        </label>
+        <div class="codes"><span>HEX</span><output id="hexOut">#FF33CC</output></div>
+        <div class="codes"><span>RGB</span><output id="rgbOut">255 / 51 / 204</output></div>
+      </div>
+    </div>
+    <div id="heroBoard" class="board plain" role="img" aria-label="Beispiel-Moodboard in der gewählten Farbe"></div>
   </header>
-  <section>
-    <h2>1. Farben mischen</h2>
-    <p>Probiere vier Mischungen aus je zwei Farben aus. Male die Ergebnisse auf das Blatt «Farben mischen» und notiere, welche Farben du verwendet hast. Mische dann deine Lieblingsfarbe und halte dein Rezept fest. Ungefähre Mengen helfen dir, den Ton erneut zu mischen.</p>
-    <p>Teile deine Mischung in drei Portionen. Behalte eine Probe als Vergleich und mische eine hellere und eine dunklere Variante desselben Farbtons. Male alle drei Proben auf und beschrifte deine Rezepte.</p>
+
+  <section class="card">
+    <h2 style="margin-bottom:8px">Was ist ein Moodboard?</h2>
+    <p style="max-width:70ch">Ein Moodboard ist eine Collage aus Bildern, Farben, Texten und Materialien. Es zeigt eine Stimmung oder eine Idee auf einen Blick. Designerinnen und Designer nutzen Moodboards in Mode, Architektur, Werbung und Produktgestaltung.</p>
   </section>
-  <section>
-    <h2>2. Deine Lieblingsfarbe erforschen</h2>
-    <p>Beschreibe deinen Farbton und erkläre, warum er dir gefällt. Erfinde einen eigenen Namen, etwa «Zimtwolke» oder «Mooslicht». Male oder klebe eine Farbprobe ein. Sammle Beispiele, wo deine Farbe vorkommt, und suche einen passenden digitalen Farbton. Notiere den HEX-Code und die drei RGB-Werte auf dem Arbeitsblatt «Meine Lieblingsfarbe».</p>
+
+  <section class="card material">
+    <div>
+      <h2>Material</h2>
+      <ul>
+        <li>Arbeitsblätter «Farben mischen» und «Meine Lieblingsfarbe»</li>
+        <li>Mischfarben (z. B. Gouache), Papier für Farbproben</li>
+        <li>Word-Vorlage mit der Raster-Tabelle (auf Teams)</li>
+        <li>Fotos von eigenen Gegenständen</li>
+        <li>Materialien in deiner Farbe: Filz, Wolle, Stoff, Papier …</li>
+      </ul>
+      <p style="margin-top:12px"><a class="btn" href="farb-moodboard-arbeitsblaetter.html" target="_blank" rel="noopener">Arbeitsblätter &amp; Bewertungsraster öffnen</a></p>
+    </div>
+    <div>
+      <h2>Werkzeug</h2>
+      <ul>
+        <li>Pinsel, Mischpalette, Wasserbecher</li>
+        <li>Kamera oder Tablet</li>
+        <li>Computer mit Word, Drucker</li>
+        <li>Schere, Lineal, Bleistift, evtl. Cutter</li>
+        <li>Leimstift, Skizzenheft</li>
+      </ul>
+    </div>
   </section>
-  <section>
-    <h2>3. Fotos und Raster in Word vorbereiten</h2>
-    <ol>
-      <li>Fotografiere zwei Gegenstände in deiner Farbwelt. Schneide beide Fotos quadratisch zu und speichere sie als Bilddateien.</li>
-      <li>Füge die Fotos in Word ein. Stelle die Gegenstände frei, sodass der Hintergrund entfernt ist. Prüfe die Kanten und stelle beide Bilder auf je 4 × 4 cm ein.</li>
-      <li>Erstelle eine Raster-Tabelle mit vier Spalten und vier Zeilen. Stelle die Spaltenbreite und die genaue Zeilenhöhe auf je 4 cm ein. Färbe die Felder passend ein.</li>
-      <li>Gestalte ein Quadrat mit deinem Farbnamen. Ergänze dort gut lesbar Farbvariationen, einen Farbcode oder einen Funfact. Drucke das Raster und die digitalen Quadrate aus. Kontrolliere die Seitenlänge mit dem Lineal.</li>
-    </ol>
+
+  <!-- PHASE A -->
+  <div class="phase"><span class="tag">A</span><div><h2>Farben verstehen und mischen</h2><p>Schritte 1–5</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">1</span>
+      <h2>Der Farbkreis</h2>
+      <ul>
+        <li><b>Primärfarben</b> sind Grundfarben. Man kann sie nicht aus anderen Farben mischen. Bei Malfarben sind es <b>Cyan, Magenta und Gelb</b>.</li>
+        <li><b>Sekundärfarben</b> entstehen, wenn man zwei Primärfarben mischt.</li>
+        <li><b>Tertiärfarben</b> entstehen aus einer Primärfarbe und der benachbarten Sekundärfarbe. Sie ergeben feinere Nuancen.</li>
+      </ul>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 240" role="img" aria-label="Farbkreis mit 12 Farben, Primär-, Sekundär- und Tertiärfarben markiert">
+        <rect width="340" height="240" fill="url(#mat)"/>
+        <g id="wheel" transform="translate(120,120)"></g>
+        <g transform="translate(236,70)">
+          <circle cx="6" cy="0" r="6" fill="var(--fg)"/><text x="18" y="4" class="lbl">P Primär</text>
+          <circle cx="6" cy="24" r="4" fill="var(--fg)"/><text x="18" y="28" class="lbl">S Sekundär</text>
+          <circle cx="6" cy="48" r="2" fill="var(--fg)"/><text x="18" y="52" class="lbl">T Tertiär</text>
+        </g>
+      </svg>
+    </figure>
   </section>
-  <section>
-    <h2>4. Moodboard zusammensetzen</h2>
+
+  <section class="card step">
+    <div>
+      <span class="num">2</span>
+      <h2>Farben mischen</h2>
+      <p>Probiere auf dem Arbeitsblatt <b>«Farben mischen»</b> vier Mischungen aus je zwei Farben aus. Male beide Ausgangsfarben und das Ergebnis auf.</p>
+      <p>Notiere unter jeder Probe, welche Farben du verwendet hast. Probiere zum Beispiel Gelb und Blau, Rot und Gelb, Blau und Rot sowie Grün und Weiss.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 220" role="img" aria-label="Vier Mischungen: Gelb und Blau ergibt Grün, Rot und Gelb ergibt Orange, Blau und Rot ergibt Violett, Grün und Weiss ergibt Hellgrün">
+        <rect width="340" height="220" fill="url(#mat)"/>
+        <g id="mixes"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">3</span>
+      <h2>Lieblingsfarbe mischen: hell und dunkel</h2>
+      <p>Mische deine <b>Lieblingsfarbe</b> möglichst genau und halte dein <b>Mischrezept</b> fest. Ungefähre Mengen helfen dir, den Ton später erneut zu mischen.</p>
+      <p>Teile die Mischung in drei Portionen. Behalte eine als Vergleich. Mische daraus eine <b>hellere</b> und eine <b>dunklere</b> Variante desselben Farbtons. Male alle drei Proben auf und beschrifte die Rezepte.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Drei Farbproben: hellere Variante, Lieblingsfarbe, dunklere Variante">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <rect x="24" y="40" width="88" height="100" rx="6" class="ct1"/>
+        <rect x="126" y="40" width="88" height="100" rx="6" class="cc"/>
+        <rect x="228" y="40" width="88" height="100" rx="6" class="cs1"/>
+        <text x="68" y="162" text-anchor="middle" class="lblb">heller</text>
+        <text x="170" y="162" text-anchor="middle" class="lblb">deine Farbe</text>
+        <text x="272" y="162" text-anchor="middle" class="lblb">dunkler</text>
+        <text x="68" y="180" text-anchor="middle" class="lbl">+ etwas Weiss</text>
+        <text x="170" y="180" text-anchor="middle" class="lbl">Vergleichsprobe</text>
+        <text x="272" y="180" text-anchor="middle" class="lbl">+ etwas Dunkles</text>
+        <text x="170" y="26" text-anchor="middle" class="lbl">Rezept unter jede Probe schreiben</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">4</span>
+      <h2>Der Komplementärkontrast</h2>
+      <p>Komplementärfarben liegen sich im Farbkreis <b>direkt gegenüber</b>. Nebeneinander verstärken sie sich und wirken besonders leuchtend.</p>
+      <p>Die Komplementärfarbe zu deiner Farbe gehört auch auf dein Moodboard.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Deine Farbe und ihre Komplementärfarbe nebeneinander">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <circle cx="80" cy="100" r="58" fill="none" stroke="var(--line)" stroke-width="14"/>
+        <circle id="dotA" cx="80" cy="42" r="12" class="cc" stroke="var(--surface)" stroke-width="3"/>
+        <circle id="dotB" cx="80" cy="158" r="12" class="ccomp" stroke="var(--surface)" stroke-width="3"/>
+        <line id="compLine" x1="80" y1="42" x2="80" y2="158" class="dim" stroke-dasharray="4 3"/>
+        <rect x="170" y="40" width="70" height="120" class="cc"/>
+        <rect x="240" y="40" width="70" height="120" class="ccomp"/>
+        <text x="205" y="178" text-anchor="middle" class="lbl">deine Farbe</text>
+        <text x="275" y="194" text-anchor="middle" class="lbl">Komplementär</text>
+      </svg>
+      <figcaption>Ändere oben deine Farbe: Die Komplementärfarbe passt sich an.</figcaption>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">5</span>
+      <h2>Deine Lieblingsfarbe erforschen</h2>
+      <p>Fülle das Arbeitsblatt <b>«Meine Lieblingsfarbe»</b> aus:</p>
+      <ul>
+        <li>Beschreibe deine Farbe möglichst genau. Warum gefällt sie dir?</li>
+        <li><b>Erfinde einen Namen:</b> nicht einfach Braun, sondern z. B. Kaffeelatte, Zimtwolke oder Mooslicht.</li>
+        <li>Male oder klebe eine <b>Farbprobe</b> ein.</li>
+        <li><b>Farbspurensuche:</b> Wo kommt deine Farbe vor? In Natur, Gegenständen, Kleidung, Kunst, Orten oder Gefühlen.</li>
+        <li><b>Knack den Farbcode:</b> Finde den digitalen Farbton, der deiner Probe möglichst genau entspricht. Notiere den HEX- und den RGB-Code.</li>
+      </ul>
+      <p class="tip">Den Code findest du mit einem Farbwähler, zum Beispiel oben auf dieser Seite oder in Word unter «Weitere Farben».</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 220" role="img" aria-label="Farbkarte mit Farbname, HEX- und RGB-Code">
+        <rect width="340" height="220" fill="url(#mat)"/>
+        <g transform="translate(70,18) rotate(-3)">
+          <rect width="200" height="184" rx="6" class="paperf"/>
+          <rect x="12" y="12" width="176" height="96" rx="3" class="cc"/>
+          <text id="cardName" x="20" y="134" style="font:700 20px var(--f-display);fill:#222">Flamingo</text>
+          <text id="cardHex" x="20" y="158" style="font:600 13px var(--f-body);fill:#555">HEX #FF33CC</text>
+          <text id="cardRgb" x="20" y="176" style="font:600 13px var(--f-body);fill:#555">RGB 255 / 51 / 204</text>
+        </g>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- PHASE B -->
+  <div class="phase"><span class="tag">B</span><div><h2>Planen</h2><p>Schritt 6</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">6</span>
+      <h2>16 Felder planen</h2>
+      <p>Überlege, was auf dein Moodboard kommt. Schreibe in deinem Skizzenheft eine Liste von <b>1 bis 16</b>.</p>
+      <ul>
+        <li><b>1 Feld</b> zeigt den Namen deiner Farbe.</li>
+        <li><b>2 Felder</b> zeigen je ein Foto eines Gegenstandes.</li>
+        <li><b>5 Felder</b> sind Materialquadrate, z. B. aus Filz oder Wolle.</li>
+        <li><b>8 Felder</b> gestaltest du frei passend zu deiner Farbe: deine Farbmischungen, Farbcodes, Farbvariationen, Komplementärfarbe, Funfact, Zitat, Muster, frottierte Oberflächen, Collage …</li>
+      </ul>
+      <p class="tip">Recherchiere im Internet nach spannenden Fakten zu deiner Farbe.</p>
+    </div>
+    <figure>
+      <div id="planBoard" class="board" role="img" aria-label="Moodboard-Plan mit Feldtypen"></div>
+      <div class="legend"><span><b>N</b> Name</span><span><b>F</b> Foto</span><span><b>M</b> Material</span><span><b>G</b> frei gestaltet</span></div>
+    </figure>
+  </section>
+
+  <!-- PHASE C -->
+  <div class="phase"><span class="tag">C</span><div><h2>Am PC gestalten</h2><p>Word · Schritte 7–9</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">7</span>
+      <h2>Fotos quadratisch speichern</h2>
+      <p>Fotografiere zwei Gegenstände in deiner Farbwelt. Schneide die Bilder <b>quadratisch</b> zu und speichere sie ab.</p>
+      <p class="tip">Fotografiere vor einem ruhigen, hellen Hintergrund. Dann gelingt das Freistellen leichter.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Foto mit quadratischem Zuschnitt">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <rect x="40" y="30" width="260" height="150" rx="4" class="ct3"/>
+        <use href="#mug" x="140" y="70"/>
+        <rect x="95" y="30" width="150" height="150" fill="none" stroke="var(--fg)" stroke-width="2" stroke-dasharray="6 4"/>
+        <rect x="40" y="30" width="55" height="150" fill="var(--bg)" opacity=".6"/>
+        <rect x="245" y="30" width="55" height="150" fill="var(--bg)" opacity=".6"/>
+        <text x="170" y="196" text-anchor="middle" class="lbl">Seitenverhältnis 1:1</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">8</span>
+      <h2>In Word freistellen und anpassen</h2>
+      <ul>
+        <li>Füge das Foto in die Word-Vorlage ein.</li>
+        <li>Stelle den Gegenstand <b>sauber frei</b>: Bild anklicken → <b>Bildformat → Hintergrund entfernen</b>. Prüfe die Kanten.</li>
+        <li>Stelle die Grösse auf <b>4 × 4 cm</b> ein (Bildformat → Grösse).</li>
+      </ul>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Vorher Foto mit Hintergrund, nachher freigestellter Gegenstand, 4 mal 4 Zentimeter">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <rect x="30" y="40" width="110" height="110" fill="#9aa3ad"/>
+        <rect x="30" y="118" width="110" height="32" fill="#7c858f"/>
+        <use href="#mug" x="52" y="66"/>
+        <path d="M152 95 H184" class="arrow" marker-end="url(#ah)"/>
+        <rect x="196" y="40" width="110" height="110" fill="url(#checker)"/>
+        <use href="#mug" x="218" y="66"/>
+        <path d="M196 164 H306" class="dim" marker-start="url(#ahm)" marker-end="url(#ahm)"/>
+        <text x="251" y="182" text-anchor="middle" class="lblb">4 × 4 cm</text>
+        <text x="85" y="182" text-anchor="middle" class="lbl">vorher</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">9</span>
+      <h2>Raster anlegen, einfärben und beschriften</h2>
+      <ul>
+        <li>Nutze die Word-Vorlage oder erstelle selbst eine Tabelle mit <b>4 Spalten und 4 Zeilen</b>. Stelle Spaltenbreite und genaue Zeilenhöhe auf je <b>4 cm</b> ein.</li>
+        <li>Färbe die Felder passend ein: Feld markieren → <b>Tabellenentwurf → Schattierung → Weitere Farben</b>. Dort kannst du den HEX-Code eingeben.</li>
+        <li>Gestalte das Feld mit deinem <b>Farbnamen</b>. Schreibe weitere Texte: Farbvariationen, Farbcodes oder einen Funfact.</li>
+        <li>Formatiere die Texte <b>gut lesbar</b>: genug Kontrast zum Hintergrund, nicht zu klein.</li>
+      </ul>
+    </div>
+    <figure>
+      <div class="panel">
+        <div class="head">Word · Tabellenlayout</div>
+        <span class="k">Tabelle</span><span class="v">4 Spalten × 4 Zeilen</span>
+        <span class="k">Spaltenbreite</span><span class="v">4 cm</span>
+        <span class="k">Zeilenhöhe</span><span class="v">genau 4 cm</span>
+        <div class="head">Word · Tabellenentwurf</div>
+        <span class="k">Schattierung</span><span class="v"><span class="sw"></span><span id="wordHex">#FF33CC</span></span>
+        <span class="k">Schrift</span><span class="v">gut lesbar, ab ca. 10 pt</span>
+      </div>
+      <svg viewBox="0 0 340 130" role="img" aria-label="Lesbar: heller Text auf kräftiger Farbe. Schlecht: blasser Text auf heller Farbe">
+        <rect width="340" height="130" fill="url(#mat)"/>
+        <rect x="30" y="16" width="110" height="90" class="cc"/>
+        <text x="40" y="94" style="font:600 15px var(--f-body)" id="goodTxt" fill="#fff">#FF33CC</text>
+        <rect x="200" y="16" width="110" height="90" class="ct3"/>
+        <text x="210" y="94" style="font:500 10px var(--f-body)" class="ct2">#FF33CC</text>
+        <circle cx="140" cy="16" r="10" fill="var(--ok)"/><path d="M135 16 l4 4 l6 -8" stroke="#fff" stroke-width="2" fill="none"/>
+        <circle cx="310" cy="16" r="10" fill="var(--warn)"/><path d="M306 12 l8 8 M314 12 l-8 8" stroke="#fff" stroke-width="2"/>
+        <text x="85" y="124" text-anchor="middle" class="lbl">gut lesbar</text>
+        <text x="255" y="124" text-anchor="middle" class="lbl">zu wenig Kontrast</text>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- PHASE D -->
+  <div class="phase"><span class="tag">D</span><div><h2>Ausschneiden und Kleben</h2><p>Schritte 10–12</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">10</span>
+      <h2>Materialquadrate herstellen</h2>
+      <p>Schneide <b>5 Materialien</b> in deiner Farbe auf die Grösse der Rasterfelder zu, also <b>4 × 4 cm</b>. Klebe jedes Stück auf ein Papierquadrat oder schlage das Papierquadrat mit dem Material ein.</p>
+    </div>
+    <figure>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">
+        <div class="board plain" style="grid-template-columns:1fr;border:0;background:none"><div class="cell m1"></div></div>
+        <div class="board plain" style="grid-template-columns:1fr;border:0;background:none"><div class="cell m2"></div></div>
+        <div class="board plain" style="grid-template-columns:1fr;border:0;background:none"><div class="cell m3"></div></div>
+        <div class="board plain" style="grid-template-columns:1fr;border:0;background:none"><div class="cell m4"></div></div>
+        <div class="board plain" style="grid-template-columns:1fr;border:0;background:none"><div class="cell m5"></div></div>
+      </div>
+      <figcaption>Zum Beispiel Filz, Wolle, Stoff mit Punkten, gestreiftes Papier, Strick.</figcaption>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">11</span>
+      <h2>Ausdrucken und exakt ausschneiden</h2>
+      <p>Drucke das Raster und deine digitalen Quadrate aus. Kontrolliere die Seitenlänge mit dem Lineal: Jedes Feld muss <b>4 cm</b> messen.</p>
+      <p>Schneide alle Quadrate <b>exakt</b> auf der Linie aus.</p>
+      <p class="tip">Mit Lineal und Cutter werden die Kanten besonders gerade.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Ausgedrucktes Blatt mit Schnittlinien um die Quadrate">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <rect x="70" y="14" width="200" height="176" class="paperf"/>
+        <rect x="90" y="30" width="50" height="50" class="cc"/>
+        <rect x="145" y="30" width="50" height="50" class="ct3"/>
+        <rect x="200" y="30" width="50" height="50" class="ccomp"/>
+        <rect x="90" y="85" width="50" height="50" class="ct2"/>
+        <rect x="145" y="85" width="50" height="50" class="ct3"/>
+        <use href="#mug" transform="translate(155,95) scale(.5)"/>
+        <rect x="90" y="30" width="160" height="105" fill="none" class="cut"/>
+        <line x1="140" y1="30" x2="140" y2="135" class="cut"/><line x1="145" y1="30" x2="145" y2="135" class="cut"/>
+        <line x1="195" y1="30" x2="195" y2="80" class="cut"/><line x1="200" y1="30" x2="200" y2="80" class="cut"/>
+        <line x1="90" y1="80" x2="250" y2="80" class="cut"/><line x1="90" y1="85" x2="195" y2="85" class="cut"/>
+        <text x="170" y="160" text-anchor="middle" class="lbl">genau auf der Linie</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">12</span>
+      <h2>Probeweise legen und bündig kleben</h2>
+      <p>Lege alle 16 Quadrate zuerst <b>probeweise</b> ins Raster. Prüfe, wie helle, dunkle und strukturierte Flächen zusammenwirken, und tausche bei Bedarf.</p>
+      <p>Klebe sie dann <b>bündig</b> ein: Kante an Kante, ohne Lücken und ohne Überstand. Nimm wenig Leim. Alles muss gut halten, und auf den sichtbaren Flächen dürfen <b>keine Leimspuren</b> sein.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 210" role="img" aria-label="Quadrat wird bündig in ein leeres Rasterfeld geklebt">
+        <rect width="340" height="210" fill="url(#mat)"/>
+        <g transform="translate(90,30)">
+          <rect width="160" height="160" class="sheetf"/>
+          <g fill="none" stroke="#2a2a2a" stroke-width="1"><path d="M40 0V160M80 0V160M120 0V160M0 40H160M0 80H160M0 120H160"/><rect width="160" height="160"/></g>
+          <rect x="0" y="0" width="40" height="40" class="cc"/><rect x="40" y="0" width="40" height="40" class="ct3"/><rect x="80" y="0" width="40" height="40" class="ct2"/><rect x="120" y="0" width="40" height="40" class="cs1"/>
+          <rect x="0" y="40" width="40" height="40" class="ccomp"/><rect x="40" y="40" width="40" height="40" class="ct1"/>
+          <rect x="80" y="40" width="40" height="40" fill="none" stroke="var(--ok)" stroke-width="2.5"/>
+        </g>
+        <rect x="268" y="10" width="40" height="40" class="ct2" transform="rotate(8 288 30)"/>
+        <path d="M268 50 Q240 60 218 86" class="arrow" marker-end="url(#ah)"/>
+        <text x="300" y="70" class="lbl" text-anchor="middle">Kante</text>
+        <text x="300" y="84" class="lbl" text-anchor="middle">an Kante</text>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- Abgabe -->
+  <section class="card abgabe">
+    <h2 style="margin-bottom:6px">Abgabe</h2>
+    <p>Gib Folgendes ab:</p>
     <ul>
-      <li><strong>1 Quadrat</strong> mit dem Namen deiner Farbe</li>
-      <li><strong>2 Quadrate</strong> mit je einem freigestellten Gegenstandsfoto</li>
-      <li><strong>5 Materialquadrate</strong>, etwa aus Filz, Wolle, Stoff oder Papier</li>
-      <li><strong>8 frei gestaltete Quadrate</strong>, etwa mit Farbmischungen, Mustern, frottierten Oberflächen oder Collagen</li>
+      <li>dein fertiges <b>Moodboard</b></li>
+      <li>die beiden ausgefüllten Arbeitsblätter <b>«Farben mischen»</b> und <b>«Meine Lieblingsfarbe»</b></li>
+      <li>deine <b>Selbsteinschätzung</b> im Bewertungsraster: Trage deine Punkte in die Spalte «Ich» ein. Die Spalte «LP» ist für die Lehrperson.</li>
     </ul>
-    <p>Schneide alle 16 Quadrate auf je 4 × 4 cm zu. Lege sie probeweise ins Raster und prüfe, wie helle, dunkle und strukturierte Flächen zusammenwirken. Klebe sie anschliessend bündig und ohne sichtbare Leimspuren ein.</p>
+    <p style="margin-top:12px"><a class="btn" href="farb-moodboard-arbeitsblaetter.html" target="_blank" rel="noopener">Arbeitsblätter &amp; Bewertungsraster öffnen</a></p>
   </section>
+
+  <!-- Checkliste -->
   <section>
-    <h2>Material und Abgabe</h2>
-    <p>Du brauchst Mischfarben, Pinsel, Mischpalette, Papier, eine Kamera, einen PC mit Word, einen Drucker, Materialreste, Lineal, Schere und Leim.</p>
-    <p>Gib dein Moodboard, die beiden ausgefüllten Arbeitsblätter und deine Selbsteinschätzung ab. Das Bewertungsraster umfasst 13 Punkte. Trage deine Einschätzung in die Spalte «Ich» ein. Die Spalte «LP» ist für die Lehrperson.</p>
+    <h2 style="margin-bottom:6px">Checkliste vor der Abgabe</h2>
+    <p class="scale" style="margin-bottom:14px">Nach dem Bewertungsraster · Erfüllt: 1 Punkt · Teilweise erfüllt: ½ Punkt · Fehlt: 0 Punkte</p>
+    <div class="checklist">
+      <div class="crit"><h3>Inhalt der 16 Felder</h3><span class="pts">/ 4</span>
+        <ul>
+          <li><input type="checkbox" id="c1"><label for="c1">1 Feld zeigt den Namen meiner Farbe.</label></li>
+          <li><input type="checkbox" id="c2"><label for="c2">2 Felder zeigen je ein Foto eines Gegenstandes.</label></li>
+          <li><input type="checkbox" id="c3"><label for="c3">5 Felder sind Materialquadrate, z. B. aus Filz oder Wolle.</label></li>
+          <li><input type="checkbox" id="c4"><label for="c4">8 Felder habe ich passend zu meiner Farbe frei gestaltet.</label></li>
+        </ul></div>
+      <div class="crit"><h3>Bildbearbeitung am PC</h3><span class="pts">/ 3</span>
+        <ul>
+          <li><input type="checkbox" id="c5"><label for="c5">Ich habe die Bilder quadratisch abgespeichert.</label></li>
+          <li><input type="checkbox" id="c6"><label for="c6">Ich habe die Gegenstände in Word sauber freigestellt.</label></li>
+          <li><input type="checkbox" id="c7"><label for="c7">Die Bilder sind in Word je 4 × 4 cm gross.</label></li>
+        </ul></div>
+      <div class="crit"><h3>Farbe und Text in Word</h3><span class="pts">/ 3</span>
+        <ul>
+          <li><input type="checkbox" id="c8"><label for="c8">Ich habe die Raster-Tabelle passend eingefärbt.</label></li>
+          <li><input type="checkbox" id="c9"><label for="c9">Mein Text zeigt Farbvariationen, Farbcodes oder einen Funfact.</label></li>
+          <li><input type="checkbox" id="c10"><label for="c10">Ich habe den Text gut lesbar formatiert.</label></li>
+        </ul></div>
+      <div class="crit"><h3>Ausschneiden und Kleben</h3><span class="pts">/ 3</span>
+        <ul>
+          <li><input type="checkbox" id="c11"><label for="c11">Ich habe alle 16 Quadrate exakt ausgeschnitten.</label></li>
+          <li><input type="checkbox" id="c12"><label for="c12">Die Quadrate sind bündig in die Rasterfelder geklebt.</label></li>
+          <li><input type="checkbox" id="c13"><label for="c13">Alles hält fest. Die sichtbaren Flächen sind frei von Leimspuren.</label></li>
+        </ul></div>
+      <div class="total"><span>Abgehakt</span><span><output id="done">0</output> / 13</span></div>
+    </div>
   </section>
-</main>
+
+</div>
+
 <script>
-  if (window.parent !== window && 'ResizeObserver' in window) {
-    document.documentElement.classList.add('embedded');
-    new ResizeObserver(() => {
-      const height = Math.ceil(document.body.getBoundingClientRect().height);
-      window.parent.postMessage({ projectGuideHeight: height }, '*');
-    }).observe(document.body);
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  function $(id){return document.getElementById(id);}
+
+  // Farbkreis (Malfarben, CMY als Primärfarben)
+  var wheel=[["#ffe500","P","Gelb"],["#9bcb3c","T"],["#1fa64a","S","Grün"],["#00a99d","T"],["#00aeef","P","Cyan"],["#2e6db4","T"],["#3b3a98","S","Blau"],["#7b3f98","T"],["#e6007e","P","Magenta"],["#e52d4f","T"],["#e53b2c","S","Rot"],["#f39200","T"]];
+  var w=$("wheel");
+  if(w){
+    var R=95,r=48,n=12;
+    wheel.forEach(function(c,i){
+      var a0=(i-0.5)/n*2*Math.PI-Math.PI/2, a1=(i+0.5)/n*2*Math.PI-Math.PI/2;
+      var p=function(rad,a){return (rad*Math.cos(a)).toFixed(1)+","+(rad*Math.sin(a)).toFixed(1);};
+      el("path",{d:"M"+p(r,a0)+" L"+p(R,a0)+" A"+R+","+R+" 0 0 1 "+p(R,a1)+" L"+p(r,a1)+" A"+r+","+r+" 0 0 0 "+p(r,a0)+" Z",fill:c[0],stroke:"var(--bg)","stroke-width":2},w);
+      var am=i/n*2*Math.PI-Math.PI/2, rr=c[1]==="P"?6:c[1]==="S"?4:2;
+      el("circle",{cx:(R+12)*Math.cos(am),cy:(R+12)*Math.sin(am),r:rr,fill:"var(--fg)"},w);
+    });
+    el("circle",{r:r-6,fill:"var(--surface)"},w);
+    var t=el("text",{y:-4,"text-anchor":"middle","class":"lblb"},w); t.textContent="CMY";
+    var t2=el("text",{y:14,"text-anchor":"middle","class":"lbl"},w); t2.textContent="Malfarben";
   }
+
+  // Schritt 2: vier Mischungen
+  var mx=$("mixes");
+  if(mx){
+    var rows=[["#ffe500","#2e6db4","#3f9a3a","Gelb + Blau = Grün"],["#e53b2c","#ffe500","#f39200","Rot + Gelb = Orange"],["#2e6db4","#e53b2c","#7b3f98","Blau + Rot = Violett"],["#1fa64a","#ffffff","#a6dcae","Grün + Weiss = Hellgrün"]];
+    rows.forEach(function(rw,i){
+      var y=32+i*50;
+      [[34,rw[0]],[88,rw[1]],[144,rw[2]]].forEach(function(b){ el("use",{href:"#blob",x:b[0],y:y,fill:b[1],stroke:"var(--line)","stroke-width":1},mx); });
+      var p=el("text",{x:61,y:y+6,"text-anchor":"middle","class":"op"},mx); p.textContent="+";
+      var q=el("text",{x:116,y:y+6,"text-anchor":"middle","class":"op"},mx); q.textContent="=";
+      var l=el("text",{x:172,y:y+4,"class":"lbl"},mx); l.textContent=rw[3];
+    });
+  }
+
+  // Moodboard-Raster
+  var layout=["n","g:t1","f","m1","g:comp","m2","g:hex","f","m3","g:t2","m4","g:fun","g:var","m5","g:pat","g:rgb"];
+  function buildBoard(box){
+    if(!box) return;
+    layout.forEach(function(k){
+      var d=document.createElement("div"); var type=k.split(":")[0], sub=k.split(":")[1];
+      d.className="cell";
+      var tag=document.createElement("span"); tag.className="tag";
+      if(type==="n"){ d.classList.add("n"); d.innerHTML='<span class="nm"></span>'; tag.textContent="N"; }
+      else if(type==="f"){ d.classList.add("f"); d.innerHTML='<svg viewBox="-6 -6 72 66" aria-hidden="true"><use href="#mug"/></svg>'; tag.textContent="F"; }
+      else if(type==="m1"||type==="m2"||type==="m3"||type==="m4"||type==="m5"){ d.classList.add(type); tag.textContent="M"; }
+      else { tag.textContent="G";
+        if(sub==="t1"){ d.classList.add("t1"); d.innerHTML='<span>Funfact</span>'; }
+        if(sub==="comp"){ d.classList.add("comp"); d.innerHTML='<span style="font-size:.85em">Komplementärfarbe</span><b class="compHex"></b>'; }
+        if(sub==="hex"){ d.classList.add("hex"); d.innerHTML='<b class="hx"></b>'; }
+        if(sub==="t2"){ d.classList.add("t2"); d.innerHTML='<span>Funfact</span>'; }
+        if(sub==="fun"){ d.classList.add("fun"); d.innerHTML='<span><b>Funfact</b></span>'; }
+        if(sub==="var"){ d.classList.add("var"); d.innerHTML='<i style="background:var(--c-t3)"></i><i style="background:var(--c-t2)"></i><i style="background:var(--c-t1)"></i><i style="background:var(--c)"></i><i style="background:var(--c-s1)"></i><i style="background:var(--c-s2)"></i>'; }
+        if(sub==="pat"){ d.classList.add("pat"); }
+        if(sub==="rgb"){ d.classList.add("t1"); d.style.fontStyle="normal"; d.innerHTML='<span>RGB<br><b class="rg"></b></span>'; }
+      }
+      d.appendChild(tag); box.appendChild(d);
+    });
+  }
+  buildBoard($("heroBoard")); buildBoard($("planBoard"));
+
+  // Farblogik
+  function hex2rgb(h){h=h.replace("#","");return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+  function rgb2hex(c){return "#"+c.map(function(v){v=Math.max(0,Math.min(255,Math.round(v)));return (v<16?"0":"")+v.toString(16);}).join("").toUpperCase();}
+  function mix(c,t,f){return c.map(function(v,i){return v+(t[i]-v)*f;});}
+  function rgb2hsl(c){var r=c[0]/255,g=c[1]/255,b=c[2]/255,mx=Math.max(r,g,b),mn=Math.min(r,g,b),h=0,s=0,l=(mx+mn)/2;
+    if(mx!==mn){var d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?(g-b)/d+(g<b?6:0):mx===g?(b-r)/d+2:(r-g)/d+4;h/=6;}return [h,s,l];}
+  function hsl2rgb(h,s,l){function f(p,q,t){if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p;}
+    if(s===0)return [l*255,l*255,l*255];var q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;return [f(p,q,h+1/3)*255,f(p,q,h)*255,f(p,q,h-1/3)*255];}
+  function lum(c){var a=c.map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);});return .2126*a[0]+.7152*a[1]+.0722*a[2];}
+
+  var root=document.documentElement;
+  function apply(hex){
+    var c=hex2rgb(hex), W=[255,255,255], B=[0,0,0];
+    var hsl=rgb2hsl(c), comp=hsl2rgb((hsl[0]+.5)%1,hsl[1],hsl[2]);
+    var vars={"--c":rgb2hex(c),"--c-t1":rgb2hex(mix(c,W,.35)),"--c-t2":rgb2hex(mix(c,W,.55)),"--c-t3":rgb2hex(mix(c,W,.78)),
+      "--c-s1":rgb2hex(mix(c,B,.25)),"--c-s2":rgb2hex(mix(c,B,.45)),"--comp":rgb2hex(comp),"--on-c":lum(c)>.45?"#1a1a1a":"#ffffff"};
+    for(var k in vars) root.style.setProperty(k,vars[k]);
+    var H=rgb2hex(c), RGB=c.join(" / ");
+    $("hexOut").textContent=H; $("rgbOut").textContent=RGB;
+    document.querySelectorAll(".hx").forEach(function(e){e.textContent=H;});
+    document.querySelectorAll(".rg").forEach(function(e){e.textContent=RGB;});
+    document.querySelectorAll(".compHex").forEach(function(e){e.textContent=vars["--comp"];});
+    $("cardHex").textContent="HEX "+H; $("cardRgb").textContent="RGB "+RGB; $("wordHex").textContent=H;
+    var gt=$("goodTxt"); gt.textContent=H; gt.setAttribute("fill",vars["--on-c"]);
+    // Position im Komplementär-Kreis
+    var a=hsl[0]*2*Math.PI-Math.PI/2, cx=80, cy=100, R=58;
+    $("dotA").setAttribute("cx",cx+R*Math.cos(a)); $("dotA").setAttribute("cy",cy+R*Math.sin(a));
+    $("dotB").setAttribute("cx",cx-R*Math.cos(a)); $("dotB").setAttribute("cy",cy-R*Math.sin(a));
+    var L=$("compLine"); L.setAttribute("x1",cx+R*Math.cos(a)); L.setAttribute("y1",cy+R*Math.sin(a)); L.setAttribute("x2",cx-R*Math.cos(a)); L.setAttribute("y2",cy-R*Math.sin(a));
+  }
+  function setName(n){ n=n.trim()||"Meine Farbe"; document.querySelectorAll(".nm").forEach(function(e){e.textContent=n;}); $("cardName").textContent=n; }
+  var pick=$("pick"), fname=$("fname");
+  pick.addEventListener("input",function(){apply(pick.value);});
+  fname.addEventListener("input",function(){setName(fname.value);});
+  apply(pick.value); setName(fname.value);
+
+  // Checkliste zählen
+  var boxes=document.querySelectorAll(".crit input");
+  function count(){var n=0;boxes.forEach(function(b){if(b.checked)n++;});$("done").textContent=n;}
+  boxes.forEach(function(b){b.addEventListener("change",count);}); count();
+})();
+</script>
+
+<script>
+if (window.parent !== window) {
+  const reportHeight = () => {
+    window.parent.postMessage({ projectGuideHeight: document.body.getBoundingClientRect().height }, "*");
+  };
+  new ResizeObserver(reportHeight).observe(document.body);
+}
 </script>
 </body>
 </html>

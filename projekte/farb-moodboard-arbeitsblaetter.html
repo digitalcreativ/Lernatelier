@@ -4,19 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mein Farb-Moodboard – Arbeitsblätter und Bewertung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
   <style>
+    :root { --bg:#f8f6f7; --surface:#ffffff; --fg:#211d20; --muted:#6a6268; --line:#e3dce1; --accent:#d1267c; --accent-ink:#b01e68;
+      --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif; --f-body:"Inter","Segoe UI",system-ui,sans-serif; }
     * { box-sizing: border-box; }
-    body { margin: 0; padding: 1rem; background: #fff8f3; color: #302132; font: 1rem/1.4 system-ui, sans-serif; }
+    body { margin: 0; padding: 1rem; background: var(--bg); color: var(--fg); font: 15px/1.5 var(--f-body); }
     main, nav { max-width: 48rem; margin: auto; }
     nav { display: flex; flex-wrap: wrap; gap: .75rem 1rem; align-items: center; }
-    a { color: #8e245a; }
-    button { font: inherit; cursor: pointer; }
-    section { margin-top: 1rem; padding: clamp(.7rem, 3vw, 1.5rem); background: white; border: 1px solid #e2cbd8; border-radius: .65rem; }
-    h1, h2, h3 { line-height: 1.2; }
-    h1 { margin-top: .25rem; }
-    h3 { font-size: 1rem; margin-bottom: .35rem; }
+    a { color: var(--accent-ink); font-weight: 600; }
+    button { font: 600 14px var(--f-body); cursor: pointer; border: 1px solid var(--accent); color: var(--accent-ink); background: var(--surface); border-radius: 8px; padding: 6px 12px; }
+    section { margin-top: 1rem; padding: clamp(.7rem, 3vw, 1.5rem); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+    h1, h2, h3 { line-height: 1.2; font-family: var(--f-display); }
+    h1, h2 { margin: .1rem 0 .6rem; font-size: 26px; padding-bottom: .4rem; border-bottom: 2px solid var(--accent); }
+    h3 { font-size: 16px; margin: 1.1rem 0 .35rem; color: var(--accent-ink); }
+    .eyebrow { margin: 0; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); font-weight: 600; }
     .mixes, .variants { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: .5rem; }
-    .mixes > div, .variants > div, .sample { border: 1px solid #7e7180; border-radius: .3rem; padding: .5rem; }
+    .mixes > div, .variants > div, .sample { border: 1px solid #7e7180; border-radius: 6px; padding: .5rem; }
     .mixes > div, .variants > div { min-height: 6.5rem; }
     .mixes span { font-size: 1.4rem; white-space: nowrap; }
     .variants .line { margin-top: 3rem; }
@@ -25,15 +30,27 @@
     table { border-collapse: collapse; width: 100%; }
     caption { text-align: left; padding-bottom: .5rem; }
     th, td { border: 1px solid #7e7180; padding: .35rem; text-align: left; vertical-align: top; }
+    thead th { background: #fbe6f1; font-family: var(--f-display); }
+    tfoot th, tfoot td { font-weight: 700; }
     tbody th { font-weight: normal; }
     td { white-space: nowrap; }
     table ul { margin: .25rem 0; padding-inline-start: 1.15rem; }
     @page { size: A4; margin: 14mm; }
+    @page quer { size: A4 landscape; margin: 12mm; }
     @media print {
-      body { background: white; color: black; padding: 0; }
+      body { background: white; color: black; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       nav { display: none; }
       section { border: 0; margin: 0; padding: 0; }
       section + section { break-before: page; }
+      main { max-width: none; }
+      #bewertung { page: quer; font-size: 13px; line-height: 1.35; }
+      #bewertung h2 { margin-bottom: .4rem; }
+      #bewertung p { margin: .3rem 0; }
+      #bewertung th, #bewertung td { padding: .25rem .4rem; }
+      #bewertung td { width: 5.5rem; }
+      #bewertung table ul { margin: .1rem 0; }
+      #bewertung h3 { margin-top: .6rem; }
+      #bewertung .line { min-height: 1.4rem; }
       tr { break-inside: avoid; }
     }
   </style>
@@ -47,8 +64,8 @@
 </nav>
 <main>
   <section id="mischen">
+    <p class="eyebrow">Mein Farb-Moodboard · Arbeitsblatt 1</p>
     <h1>Farben mischen</h1>
-    <p>Name ________________________</p>
     <h3>Farben erforschen</h3>
     <p>Mische jeweils zwei Farben. Male beide Ausgangsfarben und das Ergebnis auf. Notiere unter jeder Probe die verwendeten Farben. Probiere zum Beispiel Gelb und Blau, Rot und Gelb, Blau und Rot sowie Grün und Weiss.</p>
     <div class="mixes">
@@ -70,8 +87,9 @@
     </div>
   </section>
   <section id="lieblingsfarbe">
+    <p class="eyebrow">Mein Farb-Moodboard · Arbeitsblatt 2</p>
     <h2>Meine Lieblingsfarbe</h2>
-    <p>Name ________________________ &nbsp; Datum ______________</p>
+    <p>Datum ______________</p>
     <h3>Deine Farbe</h3>
     <p>Wie sieht deine Lieblingsfarbe aus? Warum gefällt sie dir?</p>
     <div class="line"></div><div class="line"></div><div class="line"></div>
@@ -90,8 +108,9 @@
     <div class="line"></div><div class="line"></div>
   </section>
   <section id="bewertung">
-    <h2>Bewertungsraster · Mein Farb-Moodboard</h2>
-    <p>Name ________________________ &nbsp; Gewählte Farbe ________________________</p>
+    <p class="eyebrow">Mein Farb-Moodboard · Bewertung</p>
+    <h2>Bewertungsraster</h2>
+    <p>Gewählte Farbe ________________________</p>
     <table>
       <caption>Pro Teilkriterium gibt es 1 Punkt für «erfüllt», ½ Punkt für «teilweise erfüllt» oder 0 Punkte für «fehlt».</caption>
       <thead><tr><th scope="col">Kriterien</th><th scope="col">Ich</th><th scope="col">LP</th></tr></thead>
