@@ -93,7 +93,21 @@ figcaption{font-size:13px;color:var(--muted)}
   .hero,.step,.errors,.material,.variants{grid-template-columns:1fr}
   .card{padding:16px}
 }
-@media print{ body{padding-block:0} .card,.var,.err,.hero{break-inside:avoid} .phase{break-after:avoid} }
+@page{ size:A4; margin:10mm }
+@media print{
+  html{zoom:.8}
+  body{padding:0;font-size:14px;line-height:1.45}
+  .wrap{max-width:none;gap:12px}
+  .hero{grid-template-columns:1fr 1.1fr;gap:18px}
+  .material,.step,.variants{grid-template-columns:1fr 1fr;gap:18px}
+  .card{padding:14px 16px}
+  .var{padding:14px}
+  .errors{grid-template-columns:repeat(3,1fr);gap:10px}
+  .err{padding:12px}
+  .step figure svg{max-height:170px;width:auto;max-width:100%;margin:0 auto}
+  .card,.var,.err,.hero{break-inside:avoid}
+  .phase{break-after:avoid;margin-top:4px}
+}
 </style>
 </head>
 <body>
@@ -523,7 +537,7 @@ figcaption{font-size:13px;color:var(--muted)}
   if((g=$("f8"))){
     fork(g,true,true);
     el("circle",{cx:165,cy:66,r:30,"class":"okl"},g);
-    text(g,248,98,"Enden lang lassen","lbl");
+    text(g,336,110,"Enden lang lassen","lbl","end");
     text(g,30,40,"mittlerer Schlitz","lbl");
     path(g,"M80 46 Q130 40 160 50","var(--muted)",1.2,{"marker-end":"url(#ahm)"});
   }
@@ -544,7 +558,7 @@ figcaption{font-size:13px;color:var(--muted)}
     path(g,"M170 120 Q150 160 130 194","var(--w3d)",2.4); path(g,"M170 120 Q190 160 210 194","var(--w3d)",2.4);
     for(var q=0;q<10;q++) line(g,40+rnd()*40,150+rnd()*30,40+rnd()*40+6,150+rnd()*30+3,"var(--w1)",2);
     text(g,60,140,"Reste","lbl","middle");
-    text(g,240,186,"Abbindefäden bleiben","lbl");
+    text(g,336,186,"Abbindefäden bleiben","lbl","end");
   }
   if((g=$("f11"))){
     // Nadel und Faden
@@ -556,10 +570,11 @@ figcaption{font-size:13px;color:var(--muted)}
     pompom(g,170,100,32,"var(--w2)","var(--w3)");
     bead(g,170,140,7,6,"var(--bead2)");
     tassel(g,170,150,80,"var(--w1)","var(--w1d)");
-    var labels=[[44,"3  Perlen"],[100,"2  Pompom (mitten durch)"],[140,"1  Perle"],[180,"Start: Quaste"]];
+    var labels=[[44,"3  Perlen"],[100,"2  Pompom"],[140,"1  Perle"],[180,"Start: Quaste"]];
     labels.forEach(function(l){ text(g,212,l[0]+4,l[1],"lbl"); path(g,"M208 "+l[0]+" H"+(l[0]===100?206:186),"var(--muted)",1); });
     path(g,"M120 200 V40","var(--fg)",1.6,{"marker-end":"url(#ah)"});
-    text(g,112,120,"von unten nach oben","lbl","end");
+    text(g,112,116,"von unten","lbl","end");
+    text(g,112,131,"nach oben","lbl","end");
   }
   if((g=$("f12"))){
     hanger(g,170,20,1.2,"var(--w2)","var(--w3)","","","var(--w1)","var(--w1d)");

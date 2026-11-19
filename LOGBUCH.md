@@ -2,6 +2,11 @@
 
 ## 19.11.2026
 
+### Schriftzug mit Flexfolie · Beispielwort
+- In der Anleitung den Beispielnamen durch **«happy»** ersetzt: in allen Zeichnungen (Blockschrift als «HAPPY», Schreibschrift als «happy»), im Speichernamen und in Schritt 2. Beim Entgittern heissen die Beispiel-Innenteile jetzt «A und P». Zwei kleine Darstellungsfehler korrigiert (Beschriftung in Schritt 2 und 3). PDF neu erzeugt und Darstellung per Bildschirmfoto geprüft.
+- PDF von 7 auf **4 Seiten** reduziert: Druckregeln mit zweispaltigem Layout (Text links, Zeichnung rechts), Verkleinerung auf 80 % und Seitenrändern von 10 mm. Die Ansicht im Browser bleibt unverändert. Beschriftung «zu dünn» bei den häufigen Fehlern korrigiert.
+- Dieselben Druckregeln für **Schmetterling, Wimpelkette, Quasten und Pompoms** sowie den **Schlüsselanhänger** übernommen. Neue Seitenzahlen: Schlüsselanhänger 3, Schmetterling 4, Wimpelkette 4, Quasten und Pompoms 4 (dort zusätzlich die Zeichnungen im Druck etwas niedriger). Abgeschnittene Beschriftungen korrigiert: Quasten (Schritte 8, 10, 11), Wimpelkette (Schritt 10), Schlüsselanhänger (Schritte 2, 5, 7). Alle PDFs neu erzeugt.
+
 ### TTG-Anleitungen als PDF
 - Bei den vier TTG-Projekten **Schriftzug mit Flexfolie, Schmetterling falten, Wimpelkette nähen** und **Quasten und Pompoms** einen Button **«Anleitung als PDF»** ergänzt. Er lädt das PDF direkt herunter.
 - Die PDFs liegen in `projekte/pdf/` und wurden mit Microsoft Edge aus den HTML-Anleitungen erzeugt (5–7 Seiten, A4). Dafür in den vier Anleitungen eine Druckregel ergänzt, damit Schritte nicht über einen Seitenumbruch laufen.

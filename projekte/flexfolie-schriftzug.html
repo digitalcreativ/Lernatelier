@@ -88,7 +88,18 @@ figcaption{font-size:13px;color:var(--muted)}
   .hero,.step,.errors{grid-template-columns:1fr}
   .step{padding:16px}
 }
-@media print{ body{padding-block:0} .step,.err,.hero{break-inside:avoid} }
+@page{ size:A4; margin:10mm }
+@media print{
+  html{zoom:.8}
+  body{padding:0;font-size:14px;line-height:1.45}
+  .wrap{max-width:none;gap:12px}
+  .hero{grid-template-columns:1fr 1.2fr;gap:18px}
+  .step{grid-template-columns:1fr 1fr;gap:18px;padding:14px 16px}
+  .step.wide{grid-template-columns:1fr}
+  .errors{grid-template-columns:repeat(3,1fr);gap:10px}
+  .err{padding:12px}
+  .step,.err,.hero{break-inside:avoid}
+}
 </style>
 </head>
 <body>
@@ -113,7 +124,7 @@ figcaption{font-size:13px;color:var(--muted)}
       <div class="meta"><span class="chip">ca. 2 Lektionen</span><span class="chip">ca. 22 × 5 cm</span><span class="chip">Baumwolle oder Polyester</span></div>
     </div>
     <figure>
-      <svg viewBox="0 0 500 230" role="img" aria-label="Hoodie mit aufgebügeltem Schriftzug CLAUDIA auf der Brust">
+      <svg viewBox="0 0 500 230" role="img" aria-label="Hoodie mit aufgebügeltem Schriftzug HAPPY auf der Brust">
         <rect width="500" height="230" fill="url(#grid)"/>
         <path d="M196 60 Q190 14 250 10 Q310 14 304 60 Z" class="fabd"/>
         <use href="#hoodie" class="fab"/>
@@ -121,7 +132,7 @@ figcaption{font-size:13px;color:var(--muted)}
         <path d="M238 70 L234 102 M262 70 L266 102" stroke="var(--foil)" stroke-width="2" stroke-linecap="round"/>
         <path d="M205 170 L295 170 L308 210 L192 210 Z" fill="none" stroke="var(--fabric-dark)" stroke-width="2"/>
         <rect x="170" y="206" width="160" height="8" class="fabd"/>
-        <text x="250" y="140" text-anchor="middle" class="vt foil" font-size="22" textLength="124" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+        <text x="250" y="140" text-anchor="middle" class="vt foil" font-size="26" textLength="110" lengthAdjust="spacingAndGlyphs">HAPPY</text>
         <text x="392" y="98" class="lblb">Flexfolie</text>
         <path d="M400 104 L322 128" class="dim" marker-end="url(#arr)"/>
       </svg>
@@ -160,7 +171,7 @@ figcaption{font-size:13px;color:var(--muted)}
         <li><b>Silhouette Studio</b> öffnen und eine neue Datei anlegen.</li>
         <li>Rechts oben auf <b>Seite</b> klicken.</li>
         <li>Schneidematte und Mediengrösse auf <b>12 × 12 Zoll (30,5 × 30,5 cm)</b> stellen.</li>
-        <li>Datei sofort speichern, z. B. «Schriftzug Claudia».</li>
+        <li>Datei sofort speichern, z. B. «Schriftzug happy».</li>
       </ol>
     </div>
     <figure>
@@ -181,7 +192,7 @@ figcaption{font-size:13px;color:var(--muted)}
       <span class="num">2</span>
       <h2>Den Schriftzug schreiben</h2>
       <ol class="do">
-        <li>Mit dem <b>Textwerkzeug</b> (T) auf die Arbeitsfläche klicken und den Namen oder das Wort tippen.</li>
+        <li>Mit dem <b>Textwerkzeug</b> (T) auf die Arbeitsfläche klicken und das Wort tippen, z. B. «happy».</li>
         <li>Eine <b>kräftige Schrift</b> wählen, z. B. Arial Black oder Impact.</li>
         <li>Mit <b>Shift</b> an einer Ecke ziehen, bis der Schriftzug <b>20–25 cm breit</b> ist.</li>
         <li>Unten am Rand mit dem Lineal kontrollieren.</li>
@@ -189,14 +200,14 @@ figcaption{font-size:13px;color:var(--muted)}
       <p class="tip warn">Jede Linie muss mindestens <b>2 mm dick</b> sein. Feinere Teile reissen beim Entgittern oder lösen sich in der Wäsche.</p>
     </div>
     <figure>
-      <svg viewBox="0 0 340 180" role="img" aria-label="Schriftzug CLAUDIA mit Massangaben: 20 bis 25 Zentimeter breit, etwa 5 Zentimeter hoch">
+      <svg viewBox="0 0 340 180" role="img" aria-label="Schriftzug HAPPY mit Massangaben: 20 bis 25 Zentimeter breit, etwa 5 Zentimeter hoch">
         <rect width="340" height="180" fill="url(#grid)"/>
         <rect x="64" y="72" width="212" height="40" class="dash"/>
-        <text x="170" y="108" text-anchor="middle" class="vt solid" font-size="44" textLength="200" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+        <text x="170" y="108" text-anchor="middle" class="vt solid" font-size="44" textLength="200" lengthAdjust="spacingAndGlyphs">HAPPY</text>
         <path d="M64 134 H276" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
         <text x="170" y="154" text-anchor="middle" class="lblb">20–25 cm</text>
-        <path d="M296 72 V112" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
-        <text x="304" y="96" class="lbl">≈ 5 cm</text>
+        <path d="M288 72 V112" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
+        <text x="294" y="96" class="lbl">≈ 5 cm</text>
         <text x="64" y="52" class="lbl">kräftige Schrift, Linien ≥ 2 mm</text>
       </svg>
       <figcaption>Für die Brust eines Hoodies passen 20–25 cm. Für Kindergrössen oder einen Ärmel entsprechend kleiner.</figcaption>
@@ -218,12 +229,12 @@ figcaption{font-size:13px;color:var(--muted)}
     <figure>
       <svg viewBox="0 0 340 180" role="img" aria-label="Vorher: Schreibschrift mit sich überschneidenden Linien. Nachher: verschweisst, nur eine Aussenkontur">
         <rect width="340" height="180" fill="url(#grid)"/>
-        <text x="85" y="100" text-anchor="middle" class="sc" font-size="36" textLength="120" lengthAdjust="spacingAndGlyphs" fill="none" stroke="var(--accent-dark)" stroke-width="1.3">Claudia</text>
+        <text x="80" y="100" text-anchor="middle" class="sc" font-size="32" textLength="100" lengthAdjust="spacingAndGlyphs" fill="none" stroke="var(--accent-dark)" stroke-width="1.3">happy</text>
         <text x="85" y="150" text-anchor="middle" class="lbl">Linien überschneiden sich</text>
-        <path d="M152 88 H186" class="dim" stroke-width="2" marker-end="url(#arr)"/>
-        <text x="169" y="74" text-anchor="middle" class="lbl">Schweissen</text>
-        <text x="255" y="100" text-anchor="middle" class="sc" font-size="36" textLength="120" lengthAdjust="spacingAndGlyphs" fill="none" stroke="var(--accent-dark)" stroke-width="3">Claudia</text>
-        <text x="255" y="100" text-anchor="middle" class="sc" font-size="36" textLength="120" lengthAdjust="spacingAndGlyphs" fill="var(--bg)">Claudia</text>
+        <path d="M152 50 H186" class="dim" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="169" y="36" text-anchor="middle" class="lbl">Schweissen</text>
+        <text x="260" y="100" text-anchor="middle" class="sc" font-size="32" textLength="100" lengthAdjust="spacingAndGlyphs" fill="none" stroke="var(--accent-dark)" stroke-width="3">happy</text>
+        <text x="260" y="100" text-anchor="middle" class="sc" font-size="32" textLength="100" lengthAdjust="spacingAndGlyphs" fill="var(--bg)">happy</text>
         <text x="255" y="150" text-anchor="middle" class="lbl">eine Kontur</text>
       </svg>
       <figcaption>Die Linie zeigt, wo das Messer schneidet.</figcaption>
@@ -249,13 +260,13 @@ figcaption{font-size:13px;color:var(--muted)}
           <rect x="20" y="40" width="220" height="120" rx="6" class="bed"/>
           <rect x="20" y="40" width="220" height="120" rx="6" fill="url(#grid)"/>
           <g transform="translate(130,0) scale(-1,1)">
-            <text x="0" y="114" text-anchor="middle" class="vt solid" font-size="34" textLength="170" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+            <text x="0" y="116" text-anchor="middle" class="vt solid" font-size="40" textLength="170" lengthAdjust="spacingAndGlyphs">HAPPY</text>
           </g>
           <text x="130" y="186" text-anchor="middle" class="lblb">Bildschirm und Matte: gespiegelt</text>
           <path d="M252 96 Q280 50 308 96" class="dim" stroke-width="2" marker-end="url(#arr)"/>
           <text x="280" y="42" text-anchor="middle" class="lbl">Folie wenden</text>
           <rect x="320" y="40" width="220" height="120" rx="8" class="fab"/>
-          <text x="430" y="114" text-anchor="middle" class="vt foil" font-size="34" textLength="170" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+          <text x="430" y="116" text-anchor="middle" class="vt foil" font-size="40" textLength="170" lengthAdjust="spacingAndGlyphs">HAPPY</text>
           <rect x="336" y="74" width="188" height="54" rx="3" class="carrier"/>
           <text x="430" y="186" text-anchor="middle" class="lblb">Auf dem Stoff: lesbar</text>
         </svg>
@@ -325,7 +336,7 @@ figcaption{font-size:13px;color:var(--muted)}
       <ol class="do">
         <li>Die Folie von der Matte lösen und grob um den Schriftzug herum ausschneiden.</li>
         <li>An einer Ecke die <b>Restfolie</b> langsam und flach abziehen.</li>
-        <li>Die Innenteile, z. B. in <b>A</b> und <b>D</b>, mit dem <b>Entgitterhaken</b> herausheben.</li>
+        <li>Die Innenteile, z. B. in <b>A</b> und <b>P</b>, mit dem <b>Entgitterhaken</b> herausheben.</li>
         <li>Am Schluss bleiben nur die Buchstaben auf dem Träger.</li>
       </ol>
       <p class="tip">Kommt ein Buchstabe mit? Zurücklegen, mit dem Finger andrücken und von der anderen Seite her abziehen.</p>
@@ -335,7 +346,7 @@ figcaption{font-size:13px;color:var(--muted)}
         <rect width="340" height="190" fill="url(#grid)"/>
         <rect x="30" y="40" width="280" height="110" rx="3" class="carrier"/>
         <g transform="translate(160,0) scale(-1,1)">
-          <text x="0" y="112" text-anchor="middle" class="vt solid" font-size="36" textLength="200" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+          <text x="0" y="114" text-anchor="middle" class="vt solid" font-size="42" textLength="190" lengthAdjust="spacingAndGlyphs">HAPPY</text>
         </g>
         <path d="M262 40 H310 V150 H292 Q312 96 262 40 Z" class="solid"/>
         <path d="M262 40 Q312 96 292 150 L300 150 Q326 92 274 34 Z" class="side"/>
@@ -366,7 +377,7 @@ figcaption{font-size:13px;color:var(--muted)}
         <use href="#shirt" class="fab"/>
         <path d="M130 30 Q170 62 210 30" fill="none" stroke="var(--fabric-dark)" stroke-width="4"/>
         <line x1="170" y1="48" x2="170" y2="205" stroke="var(--foil)" stroke-opacity=".5" stroke-dasharray="4 4"/>
-        <text x="170" y="100" text-anchor="middle" class="vt foil" font-size="20" textLength="110" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+        <text x="170" y="100" text-anchor="middle" class="vt foil" font-size="24" textLength="100" lengthAdjust="spacingAndGlyphs">HAPPY</text>
         <path d="M232 46 V84" stroke="var(--foil)" stroke-width="1.2" marker-start="url(#arr)" marker-end="url(#arr)"/>
         <text x="300" y="20" class="lblb" text-anchor="end">≈ 8 cm</text>
         <path d="M282 26 L238 60" class="dim"/>
@@ -451,7 +462,7 @@ figcaption{font-size:13px;color:var(--muted)}
     <h2 style="margin-bottom:14px">Häufige Fehler</h2>
     <div class="errors">
       <div class="err">
-        <svg viewBox="0 0 160 70" aria-hidden="true"><rect x="10" y="8" width="140" height="54" rx="6" class="fab"/><g transform="translate(80,0) scale(-1,1)"><text x="0" y="46" text-anchor="middle" class="vt foil" font-size="22" textLength="100" lengthAdjust="spacingAndGlyphs">CLAUDIA</text></g><circle cx="138" cy="18" r="8" fill="var(--warn)"/><path d="M134 14 L142 22 M142 14 L134 22" stroke="#fff" stroke-width="2"/></svg>
+        <svg viewBox="0 0 160 70" aria-hidden="true"><rect x="10" y="8" width="140" height="54" rx="6" class="fab"/><g transform="translate(80,0) scale(-1,1)"><text x="0" y="46" text-anchor="middle" class="vt foil" font-size="26" textLength="96" lengthAdjust="spacingAndGlyphs">HAPPY</text></g><circle cx="138" cy="18" r="8" fill="var(--warn)"/><path d="M134 14 L142 22 M142 14 L134 22" stroke="#fff" stroke-width="2"/></svg>
         <h3>Nicht gespiegelt</h3>
         <p>Der Schriftzug steht spiegelverkehrt auf dem Kleidungsstück.</p>
         <span class="fix">Lösung: vor dem Schneiden horizontal spiegeln.</span>
@@ -463,7 +474,7 @@ figcaption{font-size:13px;color:var(--muted)}
         <span class="fix">Lösung: glänzende Seite nach unten.</span>
       </div>
       <div class="err">
-        <svg viewBox="0 0 160 70" aria-hidden="true"><text x="80" y="46" text-anchor="middle" font-family="Georgia,serif" font-weight="300" font-size="30" fill="none" stroke="var(--accent)" stroke-width="1">claudia</text><path d="M108 18 L118 30" class="warnl"/><text x="122" y="16" class="lbl">zu dünn</text></svg>
+        <svg viewBox="0 0 160 70" aria-hidden="true"><text x="80" y="46" text-anchor="middle" font-family="Georgia,serif" font-weight="300" font-size="30" fill="none" stroke="var(--accent)" stroke-width="1">happy</text><path d="M128 18 L116 30" class="warnl"/><text x="156" y="13" text-anchor="end" class="lbl">zu dünn</text></svg>
         <h3>Zu feine Linien</h3>
         <p>Dünne Teile reissen beim Entgittern oder lösen sich in der Wäsche.</p>
         <span class="fix">Lösung: kräftige Schrift, Linien ≥ 2 mm.</span>

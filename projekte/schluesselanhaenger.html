@@ -84,7 +84,18 @@ figcaption{font-size:13px;color:var(--muted)}
   .hero,.step,.errors{grid-template-columns:1fr}
   .step{padding:16px}
 }
-@media print{ body{padding-block:0} .step,.err,.hero{break-inside:avoid} }
+@page{ size:A4; margin:10mm }
+@media print{
+  html{zoom:.8}
+  body{padding:0;font-size:14px;line-height:1.45}
+  .wrap{max-width:none;gap:12px}
+  .hero{grid-template-columns:1fr 1.2fr;gap:18px}
+  .step{grid-template-columns:1fr 1fr;gap:18px;padding:14px 16px}
+  .step.wide{grid-template-columns:1fr}
+  .errors{grid-template-columns:repeat(3,1fr);gap:10px}
+  .err{padding:12px}
+  .step,.err,.hero{break-inside:avoid}
+}
 </style>
 </head>
 <body>
@@ -191,9 +202,9 @@ figcaption{font-size:13px;color:var(--muted)}
           <text class="lbl" y="40">Radius: 20 mm</text>
           <text class="lbl" y="58">Innenradius: 10 mm</text>
           <text class="lbl" y="76">Höhe: 3 mm</text>
-          <rect y="94" width="90" height="9" class="solid"/>
-          <rect y="103" width="90" height="3" class="side"/>
-          <text class="lbl" x="98" y="104">3 mm</text>
+          <rect y="94" width="70" height="9" class="solid"/>
+          <rect y="103" width="70" height="3" class="side"/>
+          <text class="lbl" x="76" y="104">3 mm</text>
           <text class="lbl" y="124">Seitenansicht</text>
         </g>
       </svg>
@@ -296,7 +307,7 @@ figcaption{font-size:13px;color:var(--muted)}
           <text x="406" y="122" class="lbl">hoch</text>
           <text x="406" y="144" class="lbl">tief</text>
           <path d="M440 118 V140" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
-          <text x="428" y="170" class="lbl">4–6 mm</text>
+          <text x="464" y="170" class="lbl" text-anchor="end">4–6 mm</text>
           <use href="#kc"/>
           <circle cx="102" cy="108" r="14" class="okl"/>
           <circle cx="172" cy="112" r="12" class="okl"/>
@@ -362,7 +373,7 @@ figcaption{font-size:13px;color:var(--muted)}
         <path d="M33 180 H362" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
         <text x="197" y="198" text-anchor="middle" class="lblb">≈ 80 mm</text>
         <path d="M378 60 V140" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
-        <text x="372" y="54" class="lblb">≈ 35 mm</text>
+        <text x="396" y="50" class="lblb" text-anchor="end">≈ 35 mm</text>
       </svg>
       <figcaption>Nach dem Gruppieren ist alles eine Farbe und ein Objekt.</figcaption>
     </figure>
