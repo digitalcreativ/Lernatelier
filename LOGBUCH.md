@@ -2,6 +2,18 @@
 
 ## 19.11.2026
 
+### GZ-Basics-Checks, Wordwall und Kahoot
+- In allen drei GZ-Anleitungen ist ein aufklappbarer **«GZ-Basics-Check · 5 Fragen»** ergänzt, aufgebaut wie die Word-Basics-Checks: Auswahlfragen mit Auswertung und Erklärung sowie eine kleine Übung «Jetzt direkt am Zeichenbrett ausprobieren». Gemeinsames Skript `projekte/gz-basics.js`; nichts wird gespeichert, im PDF ausgeblendet.
+  - **Einstieg ins GZ** (nach Teil B): Linienarten, Reissschiene und Dreieck, Winkel.
+  - **Präzisionsübungen** (vor Übung II): Strecken teilen mit Hilfslinie, Parallelen, Raster, Geflecht.
+  - **Strichbilder und Zirkelübungen** (vor Strichbild I): Kreisteilung, Welle, Zirkel, Blume, Kolorieren.
+- **Wordwall** (https://wordwall.net/de) und **Kahoot!** (https://kahoot.com/schools/) bei **«Diverse Fächer»** ergänzt (Links geprüft). LearningApps war dort bereits vorhanden.
+- Keine JavaScript-Fehler auf den drei Seiten; Check per Bildschirmfoto getestet. Die PDFs bleiben unverändert.
+
+### Geometrisches Zeichnen · Strichbilder und Zirkelübungen
+- **«Strichbilder und Zirkelübungen»** (Dossier 2, sechs Übungen) als drittes aktives Projekt bei **GZ → Wahlfach 3. Oberstufe** ergänzt (MA.2). Anleitung unter `projekte/strichbilder-zirkel.html`: Auftrag, vier Tipps, Strichbild I–III (6 Vorlagen, Welle, Würfel), Kreisbild I–III (Streifen, Spirale, Blume), Lernziel-Fortschritt, Bewertungscheck pro Übung, Bewertungsraster und Abschluss-Check. Alle Zeichnungen werden im Browser berechnet; keine JavaScript-Fehler.
+- PDF erzeugt: `projekte/pdf/Strichbilder_Zirkeluebungen.pdf` (8 Seiten A4): Seite 1 Auftrag und Tipps, Seiten 2–7 je eine Übung, Seite 8 Bewertung und Abschluss-Check. Sprungknöpfe, Fortschritt und interaktive Bewertungschecks im PDF ausgeblendet. Button **«Dossier als PDF»** auf der Projektkarte. Alle Seiten als Bild kontrolliert.
+
 ### Geometrisches Zeichnen · Präzisionsübungen
 - **«Präzisionsübungen»** (Dossier 1, Übungen II–VI) als aktives Projekt bei **GZ → Wahlfach 3. Oberstufe** nach «Einstieg ins GZ» ergänzt (MA.2). Anleitung unter `projekte/praezisionsuebungen.html` mit 18 eingebetteten Vorlagenbildern, Lernziel-Fortschritt, Bewertungscheck pro Übung und Bewertungsraster. Keine JavaScript-Fehler.
 - PDF erzeugt: `projekte/pdf/Praezisionsuebungen.pdf` (6 Seiten A4). Im PDF sind alle Vorlagen aufgeklappt; Sprungknöpfe, Fortschrittsbalken und die interaktiven Bewertungschecks sind ausgeblendet. Jede Übung beginnt auf einer neuen Seite, die letzte Seite enthält Bewertung und Abschluss-Check. Button **«Dossier als PDF»** auf der Projektkarte. Alle Seiten als Bild kontrolliert.

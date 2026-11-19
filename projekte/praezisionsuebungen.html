@@ -144,6 +144,8 @@ td.c{text-align:center;color:var(--muted)}
     <small>Die Häkchen dienen deiner Übersicht und werden beim Neuladen zurückgesetzt.</small>
   </div>
 
+  <div id="gz-check"></div>
+
   <!-- II -->
   <section class="card ex" id="u2" style="--c:var(--c2)">
     <h2>Präzisionsübung II · Geflecht</h2>
@@ -394,6 +396,20 @@ td.c{text-align:center;color:var(--muted)}
 })();
 </script>
 
+<script src="gz-basics.js"></script>
+<script>
+GZBasicsCheck({
+  host: "#gz-check",
+  questions: [
+    ["Eine Seite von 168 mm soll in 12 gleiche Teile geteilt werden. Wie gross ist ein Teil?", ["12 mm", "14 mm", "15 mm"], 1, "168 mm : 12 = 14 mm. Solche Masse sind mit dem Lineal schwer genau abzutragen."],
+    ["Warum teilst du eine Strecke mit einer schrägen Hilfslinie?", ["Auf ihr lassen sich runde Masse wie 15 mm genau abtragen, und die Parallelen übertragen die Teilung", "Weil schräge Linien schöner aussehen", "Weil man so ohne Lineal arbeiten kann"], 0, "Die Parallelen teilen die Strecke im gleichen Verhältnis wie die Hilfslinie."],
+    ["Wie verlaufen die Linien von der Hilfslinie zur Strecke?", ["Alle laufen zu einem gemeinsamen Punkt", "Alle stehen senkrecht auf der Strecke", "Alle sind parallel zur Verbindungslinie vom letzten Punkt zur Ecke"], 2, "Du verschiebst das Dreieck entlang der Reissschiene oder eines Lineals und ziehst lauter Parallelen."],
+    ["Wann radierst du das Hilfsraster aus?", ["Bevor du die Linien ausziehst", "Nachdem die Umrisse mit Tusche ausgezogen sind", "Gar nicht, es gehört zur Zeichnung"], 1, "Erst ausziehen, dann radieren: So verlierst du keine Konstruktionspunkte."],
+    ["Beim Geflecht: Woran erkennt man, welches Band oben liegt?", ["Das obere Band läuft an der Kreuzung durch, das untere ist unterbrochen", "Am dickeren Rand", "Nur an der Farbe"], 0, "Das abwechselnde Über- und Unterlaufen macht das Flechtmuster aus."]
+  ],
+  task: "Teile auf einem Übungsblatt eine Strecke von 100 mm mit einer schrägen Hilfslinie in 7 gleiche Teile. Miss danach nach: Sind alle Teile gleich lang?"
+});
+</script>
 <script>
 if (window.parent !== window) {
   const reportHeight = () => {

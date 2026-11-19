@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Strichbilder und Zirkelübungen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout wie «Präzisionsübungen» / «Office Academy · Word»: Titel, Auftrag, Tipps, Sprungknöpfe, Fortschritt, eine Karte pro Übung.
+   Alle Zeichnungen werden in Millimetern berechnet und auf weissem «Papier» gezeigt. */
+:root{
+  --bg:#f4f6f9; --surface:#ffffff; --fg:#141b26; --muted:#4f5a69; --line:#dde3ea;
+  --accent:#0f5ea8; --accent-ink:#0c5193; --accent-tint:#eaf2fb; --soft:#f2f4f7;
+  --c1:#c2185b; --c2:#2e7d32; --c3:#1565c0; --c4:#5e35b1; --c5:#37474f; --c6:#ef6c00;
+  --ok:#2e7d32; --warn:#c0482a; --track:#e4e8ee;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12161c; --surface:#1b2129; --fg:#e9edf3; --muted:#a7b1bf; --line:#313a46;
+  --accent:#6aa9ea; --accent-ink:#8fc0f1; --accent-tint:#1c2a3c; --soft:#222a34;
+  --c1:#f06292; --c2:#66bb6a; --c3:#64b5f6; --c4:#9575cd; --c5:#b0bec5; --c6:#ffa040;
+  --ok:#66bb6a; --warn:#e8805f; --track:#2c3540; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12161c; --surface:#1b2129; --fg:#e9edf3; --muted:#a7b1bf; --line:#313a46;
+  --accent:#6aa9ea; --accent-ink:#8fc0f1; --accent-tint:#1c2a3c; --soft:#222a34;
+  --c1:#f06292; --c2:#66bb6a; --c3:#64b5f6; --c4:#9575cd; --c5:#b0bec5; --c6:#ffa040;
+  --ok:#66bb6a; --warn:#e8805f; --track:#2c3540; color-scheme:dark }
+
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{margin:0;line-height:1.2;text-wrap:balance}
+h1{font-size:clamp(30px,5.5vw,42px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:22px;font-weight:700;color:var(--accent-ink)}
+h3{font-size:15px;font-weight:700}
+p{margin:0}
+.kicker{margin-top:8px;font-size:14px;color:var(--muted)}
+.kicker b{color:var(--fg)}
+.slogan{margin-top:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:10px;padding:20px 22px;display:flex;flex-direction:column;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;font:600 14px var(--f-body);color:var(--accent-ink);background:var(--surface);border:1px solid var(--accent);border-radius:8px;padding:8px 12px;text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--accent-tint)}
+.btn:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.jump{display:flex;flex-wrap:wrap;gap:8px}
+.progress{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.bar{height:10px;background:var(--track);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.progress small{color:var(--muted)}
+
+.tips{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tip-box{border-radius:8px;padding:12px 14px;background:var(--soft)}
+.tip-box h3{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.tip-box h3 span{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px}
+:root[data-theme="dark"] .tip-box h3 span{color:#10151c}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tip-box h3 span{color:#10151c} }
+.tip-box ul{margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:2px}
+
+.ex{border-top-color:var(--c)}
+.ex h2{color:var(--c)}
+.ex .meta{display:flex;flex-wrap:wrap;gap:6px}
+.ex .meta span{font:600 12px var(--f-body);background:var(--soft);border-radius:6px;padding:2px 8px;color:var(--muted)}
+.goals{display:flex;flex-direction:column;gap:6px}
+.goals label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.goals input{width:16px;height:16px;margin-top:4px;accent-color:var(--c);flex:none}
+ol.steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+ol.steps li::marker{font-weight:700;color:var(--c)}
+.check{font-size:14px}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--c);padding-left:10px}
+.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.figs.six{grid-template-columns:repeat(3,1fr)}
+.figs figure{margin:0;display:flex;flex-direction:column;gap:4px;min-width:0}
+.figs figcaption{font-size:12px;color:var(--muted)}
+.paper{display:block;width:100%;height:auto;aspect-ratio:1;background:#fff;border:1px solid var(--line);border-radius:6px}
+.paper.tall{aspect-ratio:auto}
+
+.rate{border:1.5px solid var(--c);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.rate h3{color:var(--c);font-size:16px}
+.rate .hint{font-size:13px;color:var(--muted)}
+.rubric{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+th.l1{color:#2e7d32} th.l2{color:#1565c0} th.l3{color:#e08a00} th.l4{color:#c62828}
+.l1,.l2,.l3,.l4{text-align:center}
+td.r,td.c{text-align:center;width:13%;color:var(--muted)}
+.rate input[type=radio]{width:18px;height:18px;accent-color:var(--c);cursor:pointer}
+.rate .sum{font-size:14px;font-weight:600}
+.rate .sum span{font-weight:500;color:var(--muted)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (max-width:700px){ .card{padding:16px} .tips{grid-template-columns:1fr} .figs,.figs.six{grid-template-columns:1fr 1fr} }
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .bar i{transition:none} }
+@page{ size:A4; margin:10mm }
+@media print{
+  html{zoom:.8}
+  html,body{background:#fff}
+  body{padding:0;font-size:14px;line-height:1.45}
+  .wrap{max-width:none;gap:12px}
+  .jump,.progress,.rate{display:none}
+  .card{padding:14px 16px}
+  .tips{grid-template-columns:1fr 1fr}
+  .figs,.figs.six{grid-template-columns:repeat(3,1fr)}
+  .ex h2,.card > h2{break-after:avoid}
+  .figs figure,.goals,ol.steps,.rubric,.tip-box{break-inside:avoid}
+  .ex{break-before:page}
+  .card:not(.ex){break-inside:avoid}
+  #k3 + .card{break-before:page}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <h1>Strichbilder und Zirkelübungen</h1>
+    <p class="kicker"><b>Dossier 2 · Sechs Übungen</b> · Geometrisches Zeichnen · Wahlfach 3. Oberstufe</p>
+    <p class="slogan">Aus geraden Linien werden Kurven. Aus Kreisen werden Muster.</p>
+  </header>
+
+  <section class="card">
+    <h2>Auftrag</h2>
+    <p>In drei <b>Strichbildern</b> entstehen Kurven, Wellen und Würfel nur aus geraden Linien. In drei <b>Zirkelübungen</b> konstruierst du Kreismuster und färbst sie nach einer Regel.</p>
+    <p>Pro GZ-Stunde bearbeitest du eine Übung. Eine angefangene Zeichnung ist bis zur nächsten Stunde fertig. Jede Zeichnung wird nach dem Bewertungsraster beurteilt.</p>
+  </section>
+
+  <section class="card">
+    <h2>Tipps</h2>
+    <div class="tips">
+      <div class="tip-box"><h3><span>1</span>Gut vorbereiten</h3><ul><li>Saubere Unterlage und sauberes Lineal.</li><li>Bleistift und Farbstifte gut spitzen.</li><li>Punkte klein und fein markieren.</li></ul></div>
+      <div class="tip-box"><h3><span>2</span>Genau konstruieren</h3><ul><li>Abstände sorgfältig messen.</li><li>Hilfslinien mit wenig Druck zeichnen.</li><li>Lineal festhalten und Linien in einem Zug ziehen.</li><li>Regelmässig Abstände und Symmetrie prüfen.</li></ul></div>
+      <div class="tip-box"><h3><span>3</span>Farben planen</h3><ul><li>Wähle 2–4 passende Farben.</li><li>Wiederhole Farben nach einer klaren Regel.</li><li>Nutze Hell-Dunkel-Kontraste.</li><li>Auch weisse Flächen dürfen bleiben.</li></ul></div>
+      <div class="tip-box"><h3><span>4</span>Sorgfältig kolorieren</h3><ul><li>Hilfslinien vorher wegradieren.</li><li>Mit leichtem Druck beginnen.</li><li>Mehrere dünne Farbschichten auftragen.</li><li>Kleine Bewegungen, saubere Ränder.</li><li>Ein Schutzblatt unter die Zeichenhand legen.</li></ul></div>
+    </div>
+  </section>
+
+  <nav class="jump" aria-label="Zu den Übungen springen">
+    <a class="btn" href="#s1">Strichbild I · 6 Vorlagen</a>
+    <a class="btn" href="#s2">Strichbild II · Welle</a>
+    <a class="btn" href="#s3">Strichbild III · Würfel</a>
+    <a class="btn" href="#k1">Kreisbild I · Streifen</a>
+    <a class="btn" href="#k2">Kreisbild II · Spirale</a>
+    <a class="btn" href="#k3">Kreisbild III · Blume</a>
+  </nav>
+
+  <div class="progress" aria-live="polite">
+    <span>Fortschritt · Lernziele abhaken</span>
+    <div class="bar"><i id="barFill"></i></div>
+    <span><output id="doneCount">0</output> von <output id="allCount">0</output> Lernzielen abgehakt</span>
+    <small>Die Häkchen dienen deiner Übersicht und werden beim Neuladen zurückgesetzt.</small>
+  </div>
+
+  <div id="gz-check"></div>
+
+  <!-- STRICHBILD I -->
+  <section class="card ex" id="s1" style="--c:var(--c1)">
+    <h2>Strichbild I · 6 Vorlagen</h2>
+    <div class="meta"><span>Quadrat s = 160 mm</span><span>1 von 6 Vorlagen wählen und gross zeichnen</span></div>
+    <p>Gerade Linien, die von Punkten am Rand zu einem Ziel laufen, ergeben Fächer, Sterne und Kurven. Du wählst eine der sechs Vorlagen aus und zeichnest sie gross.</p>
+    <div class="goals">
+      <label><input type="checkbox">Ich erkenne, nach welcher Regel die Linien einer Vorlage verlaufen.</label>
+      <label><input type="checkbox">Ich übertrage eine kleine Vorlage genau ins grosse Format.</label>
+      <label><input type="checkbox">Ich ziehe viele Linien sauber und gleichmässig.</label>
+    </div>
+    <ol class="steps">
+      <li>Schau dir die <b>6 Vorlagen</b> an und <b>wähle eine</b> aus.</li>
+      <li>Finde die Regel: Wo beginnen die Linien, wohin laufen sie, wie gross sind die Abstände?</li>
+      <li>Zeichne ein Quadrat mit <b>s = 160 mm</b>.</li>
+      <li>Markiere auf den Seiten die Punkte in gleichen Abständen (z. B. alle 5 mm).</li>
+      <li>Ziehe die Linien wie in der Vorlage mit dem Lineal, jede in einem Zug.</li>
+    </ol>
+    <div class="figs six" id="ideas"></div>
+    <p class="check"><b>Zum Prüfen:</b> Stimmt deine grosse Zeichnung mit der Vorlage überein, und laufen alle Linien genau zu ihrem Zielpunkt?</p>
+  </section>
+
+  <!-- STRICHBILD II -->
+  <section class="card ex" id="s2" style="--c:var(--c2)">
+    <h2>Strichbild II · Welle</h2>
+    <div class="meta"><span>4 Schenkel à 135 mm</span><span>Winkel 60°</span><span>Teilung 9 mm (15 Teile)</span></div>
+    <p>Ein Zickzack aus vier gleich langen Schenkeln. In jedem Winkel verbindest du die Teilpunkte über Kreuz. So entsteht eine weiche Welle.</p>
+    <div class="goals">
+      <label><input type="checkbox">Ich zeichne Schenkel mit genauen 60°-Winkeln.</label>
+      <label><input type="checkbox">Ich teile jeden Schenkel in 15 gleiche Teile.</label>
+      <label><input type="checkbox">Ich verbinde die Punkte nach der Regel 1–14, 2–13 …</label>
+    </div>
+    <ol class="steps">
+      <li>Blatt hochkant. Zeichne einen Zickzack aus <b>4 Schenkeln à 135 mm</b>. Jeder Knick hat <b>60°</b>.</li>
+      <li>Teile jeden Schenkel alle <b>9 mm</b> ein: 15 Teile, Punkte 1 bis 14 dazwischen.</li>
+      <li>Nimm den ersten Winkel: Verbinde Punkt <b>1</b> auf dem einen Schenkel mit Punkt <b>14</b> auf dem anderen, dann 2 mit 13, 3 mit 12 …</li>
+      <li>Wiederhole das bei allen drei Winkeln. Die Linien überkreuzen sich zur Welle.</li>
+    </ol>
+    <div class="figs" id="welle"></div>
+    <p class="check"><b>Zum Prüfen:</b> Ist die Kurve in jedem Winkel gleichmässig gerundet, ohne Knick?</p>
+  </section>
+
+  <!-- STRICHBILD III -->
+  <section class="card ex" id="s3" style="--c:var(--c3)">
+    <h2>Strichbild III · Würfel</h2>
+    <div class="meta"><span>Quadrat 180 mm</span><span>Raster 30 mm (6 × 6)</span><span>3 Blautöne</span></div>
+    <p>Aus einem Raster mit Schrägen entsteht ein Feld aus 6 oder 7 Würfeln. Drei Farbtöne lassen sie räumlich wirken.</p>
+    <div class="goals">
+      <label><input type="checkbox">Ich konstruiere ein Raster mit 3-cm-Quadraten.</label>
+      <label><input type="checkbox">Ich finde die Würfel im Linienraster und ziehe sie fett nach.</label>
+      <label><input type="checkbox">Ich setze hell, mittel und dunkel immer gleich ein.</label>
+    </div>
+    <ol class="steps">
+      <li>Quadrat <b>180 × 180 mm</b> zeichnen und in <b>Quadrate von 3 cm</b> teilen.</li>
+      <li>In jeder Spalte eine Schräge von der oberen Ecke über <b>2 Felder</b> nach unten zur anderen Ecke ziehen.</li>
+      <li>Dasselbe in die andere Richtung: Es entsteht ein Dreiecksraster.</li>
+      <li>Die Würfel (Sechsecke aus drei Rauten) mit dem Fineliner <b>fett</b> nachziehen.</li>
+      <li>Alle übrigen Hilfslinien ausradieren.</li>
+      <li>Färben: Jede Würfelseite hat immer denselben Ton (oben hell, links mittel, rechts dunkel).</li>
+    </ol>
+    <div class="figs" id="wuerfel"></div>
+    <p class="check"><b>Zum Prüfen:</b> Haben alle gleich liegenden Würfelflächen denselben Farbton?</p>
+  </section>
+
+  <!-- KREISBILD I -->
+  <section class="card ex" id="k1" style="--c:var(--c4)">
+    <h2>Kreisbild I · Kreise und Streifen</h2>
+    <div class="meta"><span>10 Kreise, Abstand 1 cm</span><span>Querlinien alle 1 cm</span><span>Aufgabe 1/3</span></div>
+    <p>Konzentrische Kreise und waagrechte Streifen ergeben ein Schachbrett in Kreisform.</p>
+    <div class="goals">
+      <label><input type="checkbox">Ich bestimme den Mittelpunkt des Blattes mit den Diagonalen.</label>
+      <label><input type="checkbox">Ich zeichne Kreise mit genau 1 cm Abstand.</label>
+      <label><input type="checkbox">Ich färbe abwechselnd, ohne einen Fehler im Muster.</label>
+    </div>
+    <ol class="steps">
+      <li>Den <b>Mittelpunkt</b> des Blattes bestimmen: die beiden Diagonalen dünn ziehen.</li>
+      <li><b>10 Kreise</b> mit Abstand 1 cm zeichnen. 1. Kreis: Radius 1 cm, letzter: 10 cm.</li>
+      <li>Mit dem Geodreieck <b>waagrechte Querlinien</b> alle 1 cm einzeichnen.</li>
+      <li>Die Querlinien nur innerhalb des grossen Kreises mit Fineliner nachziehen. Diagonalen ausradieren.</li>
+      <li>Felder abwechselnd färben, wie auf einem Schachbrett.</li>
+    </ol>
+    <div class="figs" id="kreis1"></div>
+    <p class="check"><b>Zum Prüfen:</b> Grenzt jedes farbige Feld nur an weisse Felder?</p>
+  </section>
+
+  <!-- KREISBILD II -->
+  <section class="card ex" id="k2" style="--c:var(--c5)">
+    <h2>Kreisbild II · Spirale</h2>
+    <div class="meta"><span>Hilfskreis r = 3,5 cm</span><span>16 Teile à 22,5°</span><span>16 Kreise r = 5,5 cm</span><span>Aufgabe 2/31</span></div>
+    <p>16 gleich grosse Kreise, deren Mittelpunkte auf einem kleinen Hilfskreis liegen. Schwarz gefärbt entsteht eine Spirale.</p>
+    <div class="goals">
+      <label><input type="checkbox">Ich teile einen Kreis mit dem Geodreieck in 16 gleiche Teile.</label>
+      <label><input type="checkbox">Ich steche den Zirkel genau auf den Markierungen ein.</label>
+      <label><input type="checkbox">Ich erkenne die Spirale und färbe sie Stück für Stück.</label>
+    </div>
+    <ol class="steps">
+      <li>Mittelpunkt des Blattes ermitteln (Fadenkreuz).</li>
+      <li>Hilfskreis mit <b>Radius 3,5 cm</b> zeichnen.</li>
+      <li>Kreis in <b>16 Teile</b> teilen: 360° : 16 = <b>22,5°</b>. Markierungen bei 22,5°, 45°, 67,5° … setzen.</li>
+      <li>Geodreieck so anlegen, dass es von der Markierung durch den Mittelpunkt läuft. So findest du die gegenüberliegenden Punkte.</li>
+      <li>Bei jeder Markierung den Zirkel einstechen und einen Kreis mit <b>Radius 5,5 cm</b> ziehen, bis um alle 16 Punkte ein Kreis gezogen ist.</li>
+      <li>Hilfskreis ausradieren.</li>
+      <li>Nach dem Muster färben: Jede zweite «Sichel» schwarz.</li>
+    </ol>
+    <div class="figs" id="kreis2"></div>
+    <p class="check"><b>Zum Prüfen:</b> Laufen alle Kreise genau durch dieselben Schnittpunkte, und sind die Spiralarme gleich breit?</p>
+  </section>
+
+  <!-- KREISBILD III -->
+  <section class="card ex" id="k3" style="--c:var(--c6)">
+    <h2>Kreisbild III · Blume</h2>
+    <div class="meta"><span>Grundkreis r = 4,5 cm</span><span>12 Kreise r = 4,5 cm</span><span>Aussenkreis r = 9 cm</span><span>Aufgabe 1/20</span></div>
+    <p>Zwölf Kreise laufen alle durch den Mittelpunkt. Ihre Überschneidungen bilden Blütenblätter in mehreren Ringen.</p>
+    <div class="goals">
+      <label><input type="checkbox">Ich konstruiere Kreise, die genau durch den Mittelpunkt gehen.</label>
+      <label><input type="checkbox">Ich teile den Grundkreis in 12 gleiche Teile.</label>
+      <label><input type="checkbox">Ich färbe die Ringe von innen nach aussen in einer Farbfolge.</label>
+    </div>
+    <ol class="steps">
+      <li>Fadenkreuz zeichnen und Grundkreis mit <b>Radius 4,5 cm</b> ziehen.</li>
+      <li>Auf den vier Schnittpunkten mit dem Fadenkreuz einstechen und je einen Kreis mit <b>r = 4,5 cm</b> ziehen. Alle gehen durch den Mittelpunkt.</li>
+      <li>Den Grundkreis in <b>12 Teile</b> teilen (alle 30°) und auch dort Kreise mit r = 4,5 cm ziehen.</li>
+      <li>Den <b>Aussenkreis</b> mit r = 9 cm um den Mittelpunkt ziehen.</li>
+      <li>Fadenkreuz und Grundkreis ausradieren, Kreise mit Fineliner nachziehen.</li>
+      <li>Färben: Ring für Ring von innen nach aussen, z. B. Blau – Hellblau – Violett – Grün – Oliv – Gelb – Orange.</li>
+    </ol>
+    <p class="note">Tipp: Den Radius 4,5 cm mit dem Zirkel einmal einstellen und bis zum Schluss nicht mehr verändern.</p>
+    <div class="figs" id="kreis3"></div>
+    <p class="check"><b>Zum Prüfen:</b> Treffen sich alle Kreise genau im Mittelpunkt, und ist jeder Ring einheitlich gefärbt?</p>
+  </section>
+
+  <section class="card">
+    <h2>Bewertung</h2>
+    <p>Jede Übung wird nach diesen vier Kriterien beurteilt. Am Ende jeder Übung findest du einen Bewertungscheck zur Selbsteinschätzung.</p>
+    <div class="rubric">
+      <table>
+        <thead><tr><th>Kriterium</th><th class="l1">Übertroffen</th><th class="l2">Erreicht</th><th class="l3">Teilweise</th><th class="l4">Nicht erreicht</th></tr></thead>
+        <tbody>
+          <tr><td>Die Arbeit ist technisch richtig gezeichnet und enthält keine Fehler.</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td>Linien treffen sich (und überschneiden sich nicht bzw. bleiben nicht offen).</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td>Das Strichbild, die Strichführung ist gleichmässig.</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td>Sorgfältige Ausgestaltung der Arbeit (Farbdichte, Sauberkeit …).</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Abschluss-Check</h2>
+    <p>Lege deine sechs Zeichnungen nebeneinander. Was war schwieriger: gerade Linien oder Kreise? Bei welcher Übung bist du am genauesten geworden?</p>
+    <p><b>Reflexion:</b> Welche Farbregel hat am besten gewirkt, und warum?</p>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg", INK="#1a1f27";
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  function fig(host,caption,tall){var f=document.createElement("figure");host.appendChild(f);var c=document.createElement("figcaption");c.textContent=caption;return {f:f,cap:c,tall:tall};}
+  function svgFig(host,caption,vb,label){var o=fig(host,caption);var s=el("svg",{viewBox:vb,"class":"paper",role:"img","aria-label":label||caption},o.f);o.f.appendChild(o.cap);return s;}
+  function line(s,a,b,w,col,dash){var e=el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:col||INK,"stroke-width":w||.4},s);if(dash)e.setAttribute("stroke-dasharray",dash);return e;}
+  function lerp(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];}
+
+  // ---------- Fortschritt ----------
+  var boxes=document.querySelectorAll(".goals input");
+  document.getElementById("allCount").textContent=boxes.length;
+  function upd(){var n=0;boxes.forEach(function(b){if(b.checked)n++;});document.getElementById("doneCount").textContent=n;document.getElementById("barFill").style.width=(n/boxes.length*100)+"%";}
+  boxes.forEach(function(b){b.addEventListener("change",upd);});upd();
+
+  // ---------- Strichbild I: 6 Ideen (s = 100 als Vorschau) ----------
+  var ideas=document.getElementById("ideas"), S=100, sq=[[0,0],[S,0],[S,S],[0,S]];
+  function frame(s){el("rect",{x:0,y:0,width:S,height:S,fill:"none",stroke:INK,"stroke-width":.8},s);}
+  function sidePts(a,b,t0,t1,n){var r=[];for(var i=0;i<=n;i++)r.push(lerp(a,b,t0+(t1-t0)*i/n));return r;}
+  var I=[
+    function(s){var c=[50,50];for(var k=0;k<4;k++){sidePts(sq[k],sq[(k+1)%4],.2,.8,16).forEach(function(p){line(s,p,c,.3);});}},
+    function(s){var L=[45,100],R=[55,100];sidePts(sq[0],[45,0],0,1,12).forEach(function(p){line(s,p,L,.3);});sidePts([0,0],[0,96],0,1,14).forEach(function(p){line(s,p,L,.3);});sidePts([55,0],sq[1],0,1,12).forEach(function(p){line(s,p,R,.3);});sidePts([100,0],[100,96],0,1,14).forEach(function(p){line(s,p,R,.3);});},
+    function(s){var m=[[50,0],[100,50],[50,100],[0,50]];m.forEach(function(p,i){line(s,p,sq[(i+2)%4],.4);line(s,p,sq[(i+3)%4],.4);});
+      [[0,0,[50,0],[0,50]],[100,0,[50,0],[100,50]],[100,100,[100,50],[50,100]],[0,100,[0,50],[50,100]]].forEach(function(c){var a=lerp(c[2],c[3],.36),b=lerp(c[2],c[3],.64);sidePts(a,b,0,1,12).forEach(function(p){line(s,[c[0],c[1]],p,.25);});});},
+    function(s){var n=14;for(var i=0;i<=n;i++){var t=i/n*100;line(s,[t,0],[100,t],.3);line(s,[100,t],[100-t,100],.3);line(s,[100-t,100],[0,100-t],.3);line(s,[0,100-t],[t,0],.3);}},
+    function(s){var p=sq.slice();for(var k=0;k<7;k++){el("polygon",{points:p.map(function(q){return q.join(",");}).join(" "),fill:"none",stroke:INK,"stroke-width":.5},s);p=p.map(function(q,i){return lerp(q,p[(i+1)%4],.5);});}},
+    function(s){[1,.7,.48,.3,.18,.08].forEach(function(f){var h=50*f;el("rect",{x:50-h,y:50-h,width:2*h,height:2*h,fill:"none",stroke:INK,"stroke-width":.5},s);});}
+  ];
+  I.forEach(function(fn,i){var s=svgFig(ideas,"Vorlage "+(i+1),"-4 -4 108 108","Strichbild-Vorlage "+(i+1));frame(s);fn(s);});
+
+  // ---------- Strichbild II: Welle ----------
+  var W=document.getElementById("welle");
+  (function(){
+    var L=135,dx=L*Math.cos(Math.PI/6),dy=L*Math.sin(Math.PI/6);
+    var P=[[dx,0],[0,dy],[dx,2*dy],[0,3*dy],[dx,4*dy]]; // Zickzack von oben nach unten
+    var n=15;
+    function base(s,ticks){for(var i=0;i<4;i++){line(s,P[i],P[i+1],.8);if(ticks)for(var k=1;k<n;k++){var q=lerp(P[i],P[i+1],k/n),v=[P[i+1][0]-P[i][0],P[i+1][1]-P[i][1]],l=Math.hypot(v[0],v[1]),nn=[-v[1]/l*2,v[0]/l*2];line(s,[q[0]-nn[0],q[1]-nn[1]],[q[0]+nn[0],q[1]+nn[1]],.4);}}}
+    function strings(s,v){var V=P[v],A=P[v-1],B=P[v+1];for(var k=1;k<n;k++){line(s,lerp(V,A,k/n),lerp(V,B,(n-k)/n),.45);}}
+    var vb="-10 -10 "+(dx+20)+" "+(4*dy+20);
+    var s1=svgFig(W,"1 · Zickzack mit Teilung",vb);base(s1,true);
+    var t=el("text",{x:8,y:dy+4,style:"font:600 9px Inter,sans-serif;fill:"+INK},s1);t.textContent="60°";
+    var s2=svgFig(W,"2 · Erster Winkel verbunden",vb);base(s2,true);strings(s2,1);
+    var s3=svgFig(W,"3 · Fertige Welle",vb);base(s3,false);strings(s3,1);strings(s3,2);strings(s3,3);
+    [s1,s2,s3].forEach(function(s){s.classList.add("tall");s.style.aspectRatio=(dx+20)+"/"+(4*dy+20);});
+  })();
+
+  // ---------- Strichbild III: Würfel ----------
+  var Wu=document.getElementById("wuerfel");
+  (function(){
+    var u=30; function P(x,y){return [x*u,y*u];}
+    function grid(s,diag){for(var i=0;i<=6;i++){line(s,P(i,0),P(i,6),.4);line(s,P(0,i),P(6,i),.4);}
+      if(diag)for(var r=0;r<6;r+=2)for(var c=0;c<6;c++){line(s,P(c,r),P(c+1,r+2),.35);line(s,P(c+1,r),P(c,r+2),.35);}}
+    var centers=[[3.5,3],[3.5,1],[3.5,5],[2,2],[5,2],[2,4],[5,4]];
+    var cols=["#33ccff","#0099ff","#0055ff"];
+    function cube(s,c,fill){var x=c[0],y=c[1],C=P(x,y),V=[P(x-1,y),P(x-.5,y-1),P(x+.5,y-1),P(x+1,y),P(x+.5,y+1),P(x-.5,y+1)];
+      var faces=[[C,V[0],V[1],V[2]],[C,V[2],V[3],V[4]],[C,V[4],V[5],V[0]]];
+      faces.forEach(function(f,i){el("polygon",{points:f.map(function(p){return p.join(",");}).join(" "),fill:fill?cols[i]:"none",stroke:INK,"stroke-width":1.4,"stroke-linejoin":"round"},s);});}
+    var vb="-6 -6 192 192";
+    var a=svgFig(Wu,"1 · Raster und Schrägen",vb);grid(a,true);
+    var b=svgFig(Wu,"2 · Würfel fett nachziehen",vb);grid(b,true);centers.forEach(function(c){cube(b,c,false);});
+    var d=svgFig(Wu,"3 · Färben",vb);centers.forEach(function(c){cube(d,c,true);});
+  })();
+
+  // ---------- Pixel-Zeichnungen für Kreisbilder ----------
+  function canvasFig(host,caption,R,colorAt,strokes){
+    var o=fig(host,caption);var cv=document.createElement("canvas");cv.className="paper";cv.setAttribute("role","img");cv.setAttribute("aria-label",caption);o.f.appendChild(cv);o.f.appendChild(o.cap);
+    var px=420,dpr=Math.min(2,window.devicePixelRatio||1),N=Math.round(px*dpr);cv.width=N;cv.height=N;
+    var ctx=cv.getContext("2d"),k=N/(2*R+8);
+    if(colorAt){var img=ctx.createImageData(N,N),d=img.data;
+      for(var j=0;j<N;j++)for(var i=0;i<N;i++){var x=i/k-(R+4),y=j/k-(R+4),c=colorAt(x,y),o4=(j*N+i)*4;var cc=c||[255,255,255];d[o4]=cc[0];d[o4+1]=cc[1];d[o4+2]=cc[2];d[o4+3]=255;}
+      ctx.putImageData(img,0,0);}
+    else{ctx.fillStyle="#fff";ctx.fillRect(0,0,N,N);}
+    ctx.setTransform(k,0,0,k,(R+4)*k,(R+4)*k);ctx.strokeStyle="#1a1f27";ctx.lineWidth=Math.max(.35,1.1/k);
+    strokes&&strokes(ctx,k);
+  }
+  function circ(ctx,x,y,r,w,col){ctx.beginPath();ctx.arc(x,y,r,0,2*Math.PI);if(col)ctx.strokeStyle=col;if(w)ctx.lineWidth=w;ctx.stroke();ctx.strokeStyle="#1a1f27";}
+  function hex(h){return [parseInt(h.substr(1,2),16),parseInt(h.substr(3,2),16),parseInt(h.substr(5,2),16)];}
+
+  // Kreisbild I
+  (function(){
+    var host=document.getElementById("kreis1"),R=100,blue=hex("#5f5fff");
+    canvasFig(host,"1 · Mittelpunkt und 10 Kreise",R,null,function(c,k){c.lineWidth=.6/k*2;c.beginPath();c.moveTo(-R,-R);c.lineTo(R,R);c.moveTo(R,-R);c.lineTo(-R,R);c.strokeStyle="#9aa3ad";c.stroke();c.strokeStyle="#1a1f27";for(var r=10;r<=R;r+=10)circ(c,0,0,r);});
+    canvasFig(host,"2 · Querlinien im Kreis",R,null,function(c){for(var r=10;r<=R;r+=10)circ(c,0,0,r);for(var y=-90;y<=90;y+=10){var x=Math.sqrt(R*R-y*y);c.beginPath();c.moveTo(-x,y);c.lineTo(x,y);c.stroke();}});
+    canvasFig(host,"3 · Abwechselnd färben",R,function(x,y){var r=Math.hypot(x,y);if(r>=R)return null;var ring=Math.floor(r/10),st=Math.floor((y+R)/10);return (ring+st)%2?blue:null;},function(c){for(var r=10;r<=R;r+=10)circ(c,0,0,r);for(var y=-90;y<=90;y+=10){var x=Math.sqrt(R*R-y*y);c.beginPath();c.moveTo(-x,y);c.lineTo(x,y);c.stroke();}});
+  })();
+
+  // Kreisbild II
+  (function(){
+    var host=document.getElementById("kreis2"),h=35,r=55,R=h+r,n=16,C=[];
+    for(var i=0;i<n;i++){var a=i/n*2*Math.PI-Math.PI/2;C.push([h*Math.cos(a),h*Math.sin(a)]);}
+    function inside(i,x,y){var c=C[(i+n)%n];return (x-c[0])*(x-c[0])+(y-c[1])*(y-c[1])<r*r;}
+    canvasFig(host,"1 · Hilfskreis, 16 Teile, erste Kreise",R,null,function(c,k){circ(c,0,0,h,null,"#9aa3ad");C.forEach(function(p){c.beginPath();c.arc(p[0],p[1],1.4,0,7);c.fillStyle="#c0482a";c.fill();});for(var i=0;i<5;i++)circ(c,C[i][0],C[i][1],r);});
+    canvasFig(host,"2 · Alle 16 Kreise",R,null,function(c){C.forEach(function(p){circ(c,p[0],p[1],r);});});
+    canvasFig(host,"3 · Spirale färben",R,function(x,y){for(var i=0;i<n;i+=2){if(inside(i,x,y)&&!inside(i-1,x,y))return [20,20,20];}return null;},function(c,k){c.lineWidth=.5/k*2;c.strokeStyle="#9aa3ad";C.forEach(function(p){c.beginPath();c.arc(p[0],p[1],r,0,2*Math.PI);c.stroke();});});
+  })();
+
+  // Kreisbild III
+  (function(){
+    var host=document.getElementById("kreis3"),r=45,R=90,n=12,C=[];
+    for(var i=0;i<n;i++){var a=i/n*2*Math.PI-Math.PI/2;C.push([r*Math.cos(a),r*Math.sin(a)]);}
+    var pal=["#ff8c00","#ffe800","#8c8a00","#008a2e","#7b7dff","#6fd3ff","#0a33ff"].map(hex);
+    canvasFig(host,"1 · Grundkreis und 4 Kreise",R,null,function(c){c.strokeStyle="#9aa3ad";c.beginPath();c.moveTo(-R,0);c.lineTo(R,0);c.moveTo(0,-R);c.lineTo(0,R);c.stroke();circ(c,0,0,r,null,"#9aa3ad");[0,3,6,9].forEach(function(i){circ(c,C[i][0],C[i][1],r);});});
+    canvasFig(host,"2 · 12 Kreise und Aussenkreis",R,null,function(c){C.forEach(function(p){circ(c,p[0],p[1],r);});circ(c,0,0,R);});
+    canvasFig(host,"3 · Ringe färben",R,function(x,y){if(x*x+y*y>=R*R)return null;var m=0;for(var i=0;i<n;i++){var p=C[i];if((x-p[0])*(x-p[0])+(y-p[1])*(y-p[1])<r*r)m++;}return pal[Math.min(m,6)];},function(c){C.forEach(function(p){circ(c,p[0],p[1],r);});circ(c,0,0,R);});
+  })();
+
+  // ---------- Bewertungscheck pro Übung ----------
+  var CRIT=["Die Arbeit ist technisch richtig gezeichnet und enthält keine Fehler.","Linien treffen sich (und überschneiden sich nicht bzw. bleiben nicht offen).","Das Strichbild, die Strichführung ist gleichmässig.","Sorgfältige Ausgestaltung der Arbeit (Farbdichte, Sauberkeit …)."];
+  var LV=[["Übertroffen","l1"],["Erreicht","l2"],["Teilweise","l3"],["Nicht erreicht","l4"]];
+  document.querySelectorAll("section.ex").forEach(function(sec){
+    var id=sec.id, box=document.createElement("div"); box.className="rate";
+    var h='<h3>Bewertungscheck</h3><p class="hint">Schätze deine fertige Zeichnung selbst ein, bevor du sie abgibst.</p><div class="rubric"><table><thead><tr><th>Kriterium</th>';
+    LV.forEach(function(l){h+='<th class="'+l[1]+'">'+l[0]+'</th>';});
+    h+='</tr></thead><tbody>';
+    CRIT.forEach(function(c,i){h+='<tr><td>'+c+'</td>';LV.forEach(function(l,j){var rid=id+'-k'+i+'-'+j;h+='<td class="r"><input type="radio" id="'+rid+'" name="'+id+'-k'+i+'" value="'+j+'"><label class="vh" for="'+rid+'">'+l[0]+': '+c+'</label></td>';});h+='</tr>';});
+    h+='</tbody></table></div><p class="sum" aria-live="polite">Deine Einschätzung: <span>noch offen</span></p>';
+    box.innerHTML=h; sec.appendChild(box);
+    box.addEventListener("change",function(){var cnt=[0,0,0,0],n=0;for(var i=0;i<CRIT.length;i++){var r=box.querySelector('input[name="'+id+'-k'+i+'"]:checked');if(r){cnt[+r.value]++;n++;}}
+      var parts=[];LV.forEach(function(l,j){if(cnt[j])parts.push(cnt[j]+"× "+l[0]);});
+      box.querySelector(".sum span").textContent=n<CRIT.length?(parts.join(", ")||"noch offen")+" · "+(CRIT.length-n)+" Kriterium"+(CRIT.length-n>1?"en":"")+" offen":parts.join(", ");});
+  });
+})();
+</script>
+
+<script src="gz-basics.js"></script>
+<script>
+GZBasicsCheck({
+  host: "#gz-check",
+  questions: [
+    ["Ein Kreis soll in 16 gleiche Teile geteilt werden. Wie gross ist jeder Winkel?", ["22,5°", "16°", "30°"], 0, "Ein Kreis hat 360°. 360° : 16 = 22,5°."],
+    ["Bei der Welle ist jeder Schenkel in 15 Teile geteilt. Punkt 1 verbindest du mit …", ["Punkt 2", "Punkt 14", "Punkt 15"], 1, "Die Regel lautet 1–14, 2–13, 3–12 … Die Summe ist immer 15."],
+    ["Viele gleich grosse Kreise sollen entstehen. Was ist beim Zirkel wichtig?", ["Den Radius nach jedem Kreis neu einstellen", "Den Zirkel möglichst locker halten", "Den Radius einmal einstellen und nicht mehr verändern"], 2, "So bleiben alle Kreise genau gleich gross."],
+    ["Bei der Blume gehen alle Kreise durch den Mittelpunkt. Warum?", ["Ihr Radius ist gleich gross wie der Radius des Grundkreises, auf dem du einstichst", "Weil du sie freihand zeichnest", "Weil der Aussenkreis sie dorthin zwingt"], 0, "Der Abstand vom Einstichpunkt zum Mittelpunkt ist genau ein Radius."],
+    ["Wie färbst du sauber?", ["Mit viel Druck in einer einzigen Schicht", "Mit leichtem Druck in mehreren dünnen Schichten", "Erst färben, dann die Hilfslinien radieren"], 1, "Mehrere dünne Schichten ergeben eine gleichmässige Farbdichte und saubere Ränder."]
+  ],
+  task: "Stelle den Zirkel auf 3 cm ein und zeichne einen Kreis. Steche nacheinander auf der Kreislinie ein und zeichne 6 gleich grosse Kreise, die alle durch den Mittelpunkt gehen. Es entsteht eine Blüte."
+});
+</script>
+<script>
+if (window.parent !== window) {
+  const reportHeight = () => {
+    window.parent.postMessage({ projectGuideHeight: document.body.getBoundingClientRect().height }, "*");
+  };
+  new ResizeObserver(reportHeight).observe(document.body);
+}
+</script>
+</body>
+</html>
