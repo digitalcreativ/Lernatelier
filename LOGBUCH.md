@@ -2,6 +2,32 @@
 
 ## 19.11.2026
 
+### Bildnerisches Gestalten · Kartenwerkstatt
+- **«Kartenwerkstatt – Handlettering & Stempeldruck»** als aktives, stufenübergreifendes Projekt unter **Bildnerisches Gestalten → Projekte** ergänzt. Projektkarte und eingebettete Anleitung folgen dem bestehenden Aufbau von digital LAB.
+- Auftrag: **1–2 eigene Stempel**, **1–2 A6-Karten**, passende Handlettering-Symbole und **mindestens drei Stempeldrucke pro Karte**. Materialliste und Hinweise zum sicheren Schnitzen ergänzt.
+- Aufbau der Projektseite: **Auftrag → Beispiele (zum Aufklappen) → 01 · Weihnachtsmotiv als Stempel → 02 · Weihnachtsgruss in Handlettering → 03 · Karte gestalten → Bewertung**. Die Überschriften verwenden keine Bezeichnungen wie «Mission» oder «Dein/Deine».
+- Die sieben bereitgestellten Bilder eingebunden: vier Kartenbeispiele, je eine Bildanleitung für Handlettering und Stempeldruck sowie das Original-Bewertungsraster. Alle lokalen Bildverweise geprüft.
+- Bewertungsraster mit fünf Kriterien und je 1–4 Punkten (**maximal 20 Punkte**) zusätzlich als lesbare Tabelle umgesetzt; Abschluss-Check und Reflexionsfragen ergänzt.
+- Der endgültige Projekttitel erscheint auf der Projektkarte, als Seitenüberschrift und im Browsertitel. Der bestehende Dateipfad `projekte/weihnachtskarten.html` bleibt erhalten.
+
+### Weitere Präsentationswerkzeuge für diverse Fächer
+- **Genially** als Werkzeug-Button ergänzt: interaktive Präsentationen, Quiz und Escape Rooms. Die Kurzbeschreibung weist auf den kostenlosen Einstieg und den Zugang unter 16 Jahren über die Lehrperson hin. Link: https://genially.com/.
+- **Microsoft Sway** als Werkzeug-Button ergänzt: multimediale Präsentationen und Projektberichte. Die Kurzbeschreibung nennt das erforderliche Microsoft-Konto. Link: https://sway.cloud.microsoft/.
+- Beide Einträge nutzen die gemeinsame Werkzeugliste und erscheinen unter «Diverse Fächer» sowie in den Fachansichten unter «Für diverse Fächer». Änderungen lokal gespeichert; keine Online-Veröffentlichung in diesem Arbeitsschritt.
+### Canva für diverse Fächer
+- **Canva** als Werkzeug-Button unter **Diverse Fächer** ergänzt. Der Link führt zu https://www.canva.com/; die Kurzbeschreibung nennt Präsentationen, Plakate, Karten und Steckbriefe. Durch die gemeinsame Werkzeugliste erscheint Canva auch in den Fachansichten unter «Für diverse Fächer».
+
+### Handlettering-Generator
+- Den [Handlettering-Generator](https://handletteringlernen.de/generator/) bei den **BG-Werkzeugen**, auf der **Projektkarte der Kartenwerkstatt** und als Button im **Abschnitt 02** verlinkt.
+- Kurze Anleitung für den Einsatz ergänzt: Kartengruss eingeben, Schriftstile vergleichen, Vorlage zum Üben nutzen und den Schriftzug anschliessend von Hand auf die Karte übertragen.
+- Kostenhinweis aufgenommen: Die Grundversion ist kostenlos; zusätzliche Plus-Funktionen sind kostenpflichtig.
+
+### Einheitliche Projektzahlen
+- Auf den Fachkarten der Übersicht die bisher alleinstehenden Zahlen in der Zeile «Projekte» um die Beschriftung ergänzt. Alle Fächer verwenden nun einheitlich **«0 Projekte»**, **«1 Projekt»** beziehungsweise **«2 Projekte»** usw.
+
+### Stand dieser Anpassungen
+- Die Änderungen wurden in den lokalen Lernatelier-Dateien gespeichert. Eine Online-Veröffentlichung und eine visuelle Prüfung im Browser wurden in diesem Arbeitsschritt nicht durchgeführt.
+
 ### Name und Navigation
 - **«Lernatelier Zyklus 3»** ersetzt «Lernatelier Oberstufe» in der Kopfzeile, auf der Startseite und im Browsertitel. Der Name orientiert sich am Lehrplan 21.
 - Die sichtbaren Bezeichnungen lauten **«Projekt»** und **«Projekte»**. Die 13 geplanten Projekte sind über den standardmässig zugeklappten Eintrag **«Projekte in Vorbereitung»** erreichbar. Beim Wechsel auf «aktiv» erscheint ein Projekt automatisch beim vorgesehenen Fach und Jahrgang.
