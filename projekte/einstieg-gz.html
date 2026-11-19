@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Einstieg ins GZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: eine Spalte. Teil A Grundlagen, Teil B Technik, Teil C das Dossier «Reissschiene und Dreieck» in 6 Aufgaben.
+   Zeichnungen in Millimetern berechnet (1 Einheit = 1 mm), Papier cremefarben wie das Dossier */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --fg:#1c1f26; --muted:#5e6573; --line:#dadee6;
+  --accent:#2a55c0; --accent-ink:#1f449f; --accent-tint:#e4ebfa; --ok:#2c8657; --warn:#c0482a;
+  --paper:#fbf7ea; --ink:#22252b; --done:#8b8f98; --cur-fill:#d7e2fb; --board:#c9cdd4; --rule:#e2a62f;
+  --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#13151a; --surface:#1c1f26; --fg:#eceef3; --muted:#a4abb8; --line:#333845;
+  --accent:#6f95ec; --accent-ink:#9db7f3; --accent-tint:#1f2a44; --ok:#5cc08d; --warn:#e8805f;
+  --paper:#24262c; --ink:#e3e5ea; --done:#7b808b; --cur-fill:#2a3a63; --board:#41464f; --rule:#c48b1d; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#13151a; --surface:#1c1f26; --fg:#eceef3; --muted:#a4abb8; --line:#333845;
+  --accent:#6f95ec; --accent-ink:#9db7f3; --accent-tint:#1f2a44; --ok:#5cc08d; --warn:#e8805f;
+  --paper:#24262c; --ink:#e3e5ea; --done:#7b808b; --cur-fill:#2a3a63; --board:#41464f; --rule:#c48b1d; color-scheme:dark }
+
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:940px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(30px,5.4vw,44px)}
+h2{font-size:21px}
+p{margin:0}
+b{font-weight:600}
+.hero{display:grid;grid-template-columns:.85fr 1.15fr;gap:24px;align-items:center}
+.hero > div{min-width:0}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:44ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;margin-bottom:8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:var(--surface)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.two ul,.card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.two h2,.card > h2{margin-bottom:10px}
+.examples{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:14px}
+.ex{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:13px;color:var(--muted)}
+.ex svg{width:100%;max-width:110px;height:auto;background:var(--paper);border:1px solid var(--line);border-radius:8px}
+.uses{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.uses span{font:600 13px var(--f-body);background:var(--accent-tint);color:var(--accent-ink);border-radius:6px;padding:4px 10px}
+.banner{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;background:var(--accent);color:#fff;border-radius:10px;padding:16px 20px}
+.banner b{font:700 20px var(--f-display)}
+.banner a{display:inline-flex;align-items:center;gap:8px;font:600 14px var(--f-body);color:var(--accent-ink);background:#fff;border-radius:999px;padding:6px 14px;text-decoration:none}
+.banner a:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+.phase{display:flex;align-items:baseline;gap:12px;margin-top:8px;border-bottom:2px solid var(--accent);padding-bottom:8px}
+.phase .tag{font:700 22px var(--f-display);color:var(--accent-ink)}
+.phase p{color:var(--muted);font-size:14px}
+.step{display:grid;grid-template-columns:1fr 1.1fr;gap:24px;align-items:start}
+.step > div{min-width:0}
+.num{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 8px;border-radius:15px;background:var(--accent);color:#fff;font:700 14px var(--f-display);margin-bottom:10px}
+:root[data-theme="dark"] .num{color:#10131a}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .num{color:#10131a} }
+.step h2{margin-bottom:8px;font-size:19px}
+.step p + p,.step p + ol,.step ol + p{margin-top:8px}
+ol.do{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+ol.do li::marker{color:var(--muted);font-variant-numeric:tabular-nums}
+.tip{margin-top:12px;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px}
+.tip.warn{border-left-color:var(--warn)}
+.figs{display:inline-flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.figs span{font:700 13px var(--f-display);border:1.5px solid var(--accent);color:var(--accent-ink);border-radius:6px;min-width:26px;text-align:center;padding:0 6px}
+figure{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+figure svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--paper);border:1px solid var(--line)}
+figcaption{font-size:13px;color:var(--muted)}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--muted)}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.key i{display:inline-block;width:22px;height:0;border-top:2px solid var(--done)}
+.key i.cur{border-top:3px solid var(--accent)}
+.place{font-variant-numeric:tabular-nums}
+
+.lines{display:flex;flex-direction:column;gap:12px}
+.lines div{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center;font-size:14px}
+.lines svg{width:110px;height:14px;background:none;border:0}
+
+.checklist{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.checklist label{display:flex;gap:10px;align-items:flex-start}
+.checklist input{width:17px;height:17px;margin-top:3px;accent-color:var(--accent);flex:none}
+
+/* SVG */
+.lbl{fill:var(--muted);font:500 12px var(--f-body)}
+.lblb{fill:var(--fg);font:600 13px var(--f-body)}
+.arrow{stroke:var(--fg);stroke-width:1.6;fill:none}
+
+@media (max-width:760px){
+  .hero,.step,.two{grid-template-columns:1fr}
+  .card{padding:16px}
+  .examples{grid-template-columns:repeat(3,1fr)}
+}
+@page{ size:A4; margin:10mm }
+@media print{
+  html{zoom:.76}
+  html,body{background:#fff}
+  body{padding:0;font-size:14px;line-height:1.45}
+  .wrap{max-width:none;gap:12px}
+  .hero{grid-template-columns:.85fr 1.15fr;gap:18px}
+  .step{grid-template-columns:1fr 1.1fr;gap:18px}
+  .two{grid-template-columns:1fr 1fr;gap:18px}
+  .examples{grid-template-columns:repeat(5,1fr)}
+  .card{padding:14px 16px}
+  .card,.hero,.banner{break-inside:avoid}
+  .phase{break-after:avoid;margin-top:4px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--fg)"/></marker>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Geometrisches Zeichnen · Einstieg</div>
+      <h1>Einstieg ins GZ</h1>
+      <p class="lead">Du lernst die Zeichenplatte kennen und zeichnest mit Reissschiene und Dreieck eine Kette aus 13 Figuren. Jede neue Figur baut auf der vorherigen auf: Wer genau arbeitet, kommt am Schluss genau an.</p>
+      <div class="meta"><span class="chip">6 Aufgaben</span><span class="chip">Winkel 30° · 45° · 60° · 90°</span><span class="chip">A4 quer</span></div>
+    </div>
+    <figure>
+      <svg id="hero" role="img" aria-label="Die fertige Figurenkette aus 13 Figuren"></svg>
+    </figure>
+  </header>
+
+  <!-- TEIL A -->
+  <div class="phase"><span class="tag">A</span><div><h2>Was ist geometrisches Zeichnen?</h2><p>Grundlagen</p></div></div>
+
+  <section class="card">
+    <p style="max-width:70ch">Geometrische und technische Zeichnungen sind überall. Sie folgen festen Regeln und Zeichen. So versteht man sie auf der ganzen Welt, auch ohne Worte.</p>
+    <div class="examples">
+      <div class="ex"><svg viewBox="0 0 100 80" aria-hidden="true"><polygon points="50,10 88,72 12,72" fill="#fff" stroke="#c0392b" stroke-width="7" stroke-linejoin="round"/><rect x="47" y="32" width="6" height="22" fill="#222"/><circle cx="50" cy="62" r="3.5" fill="#222"/></svg>Verkehrszeichen</div>
+      <div class="ex"><svg viewBox="0 0 100 80" aria-hidden="true"><rect x="20" y="8" width="60" height="64" rx="6" fill="#1f5fae"/><circle cx="50" cy="22" r="6" fill="#fff"/><path d="M50 30 L50 50 M50 36 L38 46 M50 36 L62 44 M50 50 L40 66 M50 50 L60 66" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>Piktogramme</div>
+      <div class="ex"><svg viewBox="0 0 100 80" aria-hidden="true"><path d="M15 20 H85 V60 H15 Z" fill="none" stroke="var(--ink)" stroke-width="2"/><line x1="40" y1="12" x2="40" y2="28" stroke="var(--ink)" stroke-width="2"/><line x1="46" y1="16" x2="46" y2="24" stroke="var(--ink)" stroke-width="4"/><rect x="36" y="16" width="14" height="8" fill="var(--paper)"/><line x1="40" y1="13" x2="40" y2="27" stroke="var(--ink)" stroke-width="2"/><line x1="46" y1="16" x2="46" y2="24" stroke="var(--ink)" stroke-width="4"/><circle cx="70" cy="60" r="9" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/><path d="M64 54 L76 66 M76 54 L64 66" stroke="var(--ink)" stroke-width="2"/></svg>Schaltplan</div>
+      <div class="ex"><svg viewBox="0 0 100 80" aria-hidden="true"><g fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round"><path d="M28 18 L30 52 M60 16 L62 50 M28 34 L62 33 M27 52 L64 51 M30 52 L28 70 M62 51 L64 70 M26 18 Q44 12 61 16"/><path d="M24 70 H70" opacity=".4"/></g></svg>Skizze</div>
+      <div class="ex"><svg viewBox="0 0 100 80" aria-hidden="true"><rect width="100" height="80" fill="#e8f0d8"/><path d="M0 50 Q30 30 55 45 T100 30" fill="none" stroke="#5b8bd0" stroke-width="5"/><path d="M20 0 L35 80" stroke="#999" stroke-width="3"/><g fill="none" stroke="#a5865a" stroke-width="1"><ellipse cx="72" cy="62" rx="16" ry="9"/><ellipse cx="72" cy="62" rx="9" ry="5"/></g></svg>Karte</div>
+    </div>
+    <h3 style="margin-top:20px;font-size:16px">Wofür braucht man technische Zeichnungen?</h3>
+    <p style="max-width:70ch;margin-top:6px">Die technische Zeichnung ist ein internationales Verständigungsmittel. Sie ist so alt wie die Technik selbst und benutzt festgelegte Zeichen.</p>
+    <div class="uses"><span>Konstruktion</span><span>Planung</span><span>Fertigung</span><span>Verkauf</span><span>Reparatur</span></div>
+  </section>
+
+  <section class="two">
+    <div class="card">
+      <h2>Materialliste</h2>
+      <ul>
+        <li>TZ-Brett (gehört der Schule)</li>
+        <li>Tuschestifte Edding 0,25 / 0,5 / 0,7</li>
+        <li>Druckbleistift, Radiergummi</li>
+        <li>Geodreieck, Lineal</li>
+        <li>Zirkel, Farbstifte</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Arbeitsregeln</h2>
+      <ul>
+        <li>Das Arbeitsmaterial ist immer vollständig dabei. Es kann auch in der Schule bleiben.</li>
+        <li>Eine angefangene Zeichnung ist bis zur nächsten GZ-Stunde fertig.</li>
+        <li>Jede Zeichnung wird nach Kriterien benotet.</li>
+        <li>Keine Korrekturen vornehmen: «Fehler» sind Lernfelder.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="banner">
+    <b>Erfolg durch Genauigkeit</b>
+    <a href="https://www.youtube.com/watch?v=ErfLz7DkakA&amp;t=4s" target="_blank" rel="noopener">▶ Video: Zeichenplatte kurz erklärt (3 Min.)</a>
+  </div>
+
+  <!-- TEIL B -->
+  <div class="phase"><span class="tag">B</span><div><h2>Mit Reissschiene und Dreieck arbeiten</h2><p>Technik · 4 Grundlagen</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">B1</span>
+      <h2>Blatt einrichten</h2>
+      <ol class="do">
+        <li>Lege die Reissschiene mit dem Kopf <b>links</b> an die Zeichenplatte.</li>
+        <li>Lege das Blatt (A4 quer) auf die Platte und richte die Oberkante genau an der Reissschiene aus.</li>
+        <li>Klebe das Blatt an den Ecken fest oder klemme es ein.</li>
+      </ol>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 220" role="img" aria-label="Zeichenplatte mit Blatt und Reissschiene am linken Rand">
+        <rect x="10" y="10" width="320" height="200" rx="8" fill="var(--board)"/>
+        <rect x="70" y="40" width="230" height="150" fill="var(--paper)" stroke="var(--line)"/>
+        <g fill="var(--rule)" opacity=".85"><rect x="64" y="34" width="16" height="10" transform="rotate(-35 72 39)"/><rect x="290" y="34" width="16" height="10" transform="rotate(35 298 39)"/><rect x="64" y="184" width="16" height="10" transform="rotate(35 72 189)"/><rect x="290" y="184" width="16" height="10" transform="rotate(-35 298 189)"/></g>
+        <rect x="14" y="98" width="16" height="52" rx="3" fill="var(--accent)"/>
+        <rect x="30" y="112" width="290" height="16" fill="var(--accent)" opacity=".75"/>
+        <path d="M22 92 V70" class="arrow" marker-end="url(#ah)"/><path d="M22 156 V178" class="arrow" marker-end="url(#ah)"/>
+        <text x="40" y="146" class="lbl" style="fill:var(--fg)">Reissschiene: Kopf links anlegen,</text>
+        <text x="40" y="161" class="lbl" style="fill:var(--fg)">auf und ab schieben</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">B2</span>
+      <h2>Waagrecht und senkrecht</h2>
+      <ol class="do">
+        <li><b>Waagrechte Linien</b> zeichnest du an der Oberkante der Reissschiene, immer von links nach rechts.</li>
+        <li><b>Senkrechte Linien</b>: Stelle das Dreieck auf die Reissschiene und zeichne an seiner senkrechten Kante von unten nach oben.</li>
+        <li>Mit der linken Hand hältst du Reissschiene und Dreieck fest.</li>
+      </ol>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Dreieck steht auf der Reissschiene, senkrechte Linie entlang der Dreieckkante">
+        <rect width="340" height="200" fill="var(--paper)"/>
+        <rect x="0" y="150" width="340" height="16" fill="var(--accent)" opacity=".75"/>
+        <polygon points="150,150 150,40 260,150" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="2" opacity=".9"/>
+        <line x1="40" y1="148" x2="300" y2="148" stroke="var(--ink)" stroke-width="2"/>
+        <line x1="148" y1="148" x2="148" y2="40" stroke="var(--ink)" stroke-width="2"/>
+        <path d="M60 136 H120" class="arrow" marker-end="url(#ah)"/>
+        <path d="M134 120 V70" class="arrow" marker-end="url(#ah)"/>
+        <text x="40" y="186" class="lbl">waagrecht: an der Reissschiene</text>
+        <text x="126" y="92" class="lbl" text-anchor="end">senkrecht:</text>
+        <text x="126" y="107" class="lbl" text-anchor="end">am Dreieck</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">B3</span>
+      <h2>Winkel 30°, 45° und 60°</h2>
+      <p>Lege das Geodreieck mit der langen Seite auf die Reissschiene. Drehe es, bis der gewünschte Winkel auf der Skala an der Kante der Reissschiene steht.</p>
+      <p>Für <b>Parallelen</b> verschiebst du das Dreieck entlang der Reissschiene. Für eine <b>Senkrechte zu einer schrägen Linie</b> legst du die Mittellinie des Geodreiecks auf die Linie.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Winkelfächer 30, 45, 60 und 90 Grad von einem Punkt auf der Waagrechten">
+        <rect width="340" height="200" fill="var(--paper)"/>
+        <rect x="0" y="160" width="340" height="14" fill="var(--accent)" opacity=".75"/>
+        <g id="fan"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">B4</span>
+      <h2>Vorzeichnen und Ausziehen</h2>
+      <ol class="do">
+        <li>Zeichne alles zuerst <b>dünn mit dem Druckbleistift</b> vor.</li>
+        <li>Kontrolliere Masse und Winkel.</li>
+        <li>Ziehe die Linien mit <b>Tusche</b> aus, jede Linienart in ihrer Stärke.</li>
+      </ol>
+    </div>
+    <figure>
+      <div class="card lines" style="padding:16px">
+        <div><svg aria-hidden="true"><line x1="0" y1="7" x2="110" y2="7" stroke="var(--ink)" stroke-width="3"/></svg><span><b>Dicke Volllinie (0,7 / 0,5)</b> · Umrisse der Figuren</span></div>
+        <div><svg aria-hidden="true"><line x1="0" y1="7" x2="110" y2="7" stroke="var(--ink)" stroke-width="1"/></svg><span><b>Dünne Volllinie (0,25)</b> · Hilfslinien, Winkelbögen, Masse</span></div>
+        <div><svg aria-hidden="true"><line x1="0" y1="7" x2="110" y2="7" stroke="var(--ink)" stroke-width="1.6" stroke-dasharray="14 4 2 4"/></svg><span><b>Strichpunktlinie (0,25)</b> · Mittel- und Kontrolllinien</span></div>
+      </div>
+    </figure>
+  </section>
+
+  <!-- TEIL C -->
+  <div class="phase"><span class="tag">C</span><div><h2>Dossier: Reissschiene und Dreieck</h2><p>Figurenkette in 6 Aufgaben</p></div></div>
+
+  <section class="card">
+    <p style="max-width:70ch">Die Figurenkette besteht aus 13 Figuren. Jede Aufgabe fügt ein paar Figuren dazu. Damit wir über die Punkte sprechen können, haben die wichtigen Ecken Buchstaben (A, B, C …). Diese schreibst du <b>nur mit Bleistift</b> klein dazu.</p>
+    <p class="place" style="margin-top:10px">Die ganze Figur ist ca. <b id="sizeOut">210 × 140 mm</b> gross. Damit sie auf A4 quer in der Mitte liegt, beginnt die linke obere Ecke von Rechteck 1 ca. <b id="startOut">45 mm vom linken und 35 mm vom oberen Blattrand</b>.</p>
+    <div class="key" style="margin-top:12px"><span><i class="cur"></i>neu in dieser Aufgabe</span><span><i></i>schon gezeichnet</span></div>
+  </section>
+
+  <section class="card step" data-task="1">
+    <div>
+      <span class="num">Aufgabe 1</span>
+      <h2>Rechteck</h2>
+      <div class="figs"><span>1</span></div>
+      <ol class="do">
+        <li>Markiere den Startpunkt (linke obere Ecke).</li>
+        <li>Zeichne mit der Reissschiene die obere Seite: <b>50 mm</b> waagrecht.</li>
+        <li>Zeichne mit dem Dreieck die beiden senkrechten Seiten: <b>40 mm</b> nach unten.</li>
+        <li>Verbinde unten: Das ist die Strecke <b>AB</b>.</li>
+      </ol>
+    </div>
+    <figure><svg class="task" role="img" aria-label="Aufgabe 1: Rechteck 1 mit 50 mal 40 Millimetern"></svg></figure>
+  </section>
+
+  <section class="card step" data-task="2">
+    <div>
+      <span class="num">Aufgabe 2</span>
+      <h2>Drei Dreiecke</h2>
+      <div class="figs"><span>2</span><span>3</span><span>4</span></div>
+      <ol class="do">
+        <li><b>Figur 2:</b> Zeichne von A und von B je eine Linie unter <b>60°</b> nach unten. Der Schnittpunkt ist <b>C</b>. Das Dreieck ist gleichseitig.</li>
+        <li><b>Figur 3:</b> Verlängere die linke Rechteckseite senkrecht nach unten. Zeichne von C eine Linie unter <b>60°</b> nach links unten. Der Schnittpunkt ist <b>D</b>. Die Winkel bei A und D sind je 30°.</li>
+        <li><b>Figur 4:</b> Zeichne bei C die Senkrechte zu CD nach rechts unten und trage <b>50 mm</b> ab: Punkt <b>E</b>. Verbinde D und E.</li>
+      </ol>
+      <p class="tip">Kontrolle: Der Winkel bei D zwischen DC und DE ist 45°.</p>
+    </div>
+    <figure><svg class="task" role="img" aria-label="Aufgabe 2: Dreiecke 2, 3 und 4"></svg></figure>
+  </section>
+
+  <section class="card step" data-task="3">
+    <div>
+      <span class="num">Aufgabe 3</span>
+      <h2>Quadrat und rechtwinkliges Dreieck</h2>
+      <div class="figs"><span>5</span><span>6</span></div>
+      <ol class="do">
+        <li><b>Figur 5:</b> BC und CE sind zwei Seiten des Quadrats. Zeichne durch B eine Parallele zu CE und durch E eine Parallele zu BC. Der Schnittpunkt ist <b>F</b>.</li>
+        <li><b>Figur 6:</b> Verlängere die Linie CE über E hinaus um <b>50 mm</b>: Punkt <b>Z</b>. Verbinde F und Z.</li>
+      </ol>
+      <p class="tip">Kontrolle: Der Winkel bei F zwischen FE und FZ ist 45°.</p>
+    </div>
+    <figure><svg class="task" role="img" aria-label="Aufgabe 3: Quadrat 5 und Dreieck 6"></svg></figure>
+  </section>
+
+  <section class="card step" data-task="4">
+    <div>
+      <span class="num">Aufgabe 4</span>
+      <h2>Viereck, Rechteck und Raute</h2>
+      <div class="figs"><span>7</span><span>8</span><span>9</span></div>
+      <ol class="do">
+        <li>Zeichne von B eine Strecke von <b>30 mm</b> unter <b>45°</b> zu BF nach rechts oben: Punkt <b>G</b>.</li>
+        <li>Zeichne durch G eine dünne <b>waagrechte Hilfslinie</b> und eine Linie unter <b>30°</b> nach rechts unten.</li>
+        <li>Zeichne bei F die <b>Senkrechte zu FZ</b> nach rechts oben. Wo sie die 30°-Linie schneidet, ist <b>H</b>. <b>Figur 7</b> ist das Viereck B-G-H-F.</li>
+        <li><b>Figur 8:</b> Zeichne durch H eine Parallele zu FZ und durch Z eine Parallele zu FH. Der Schnittpunkt ist <b>X</b>.</li>
+        <li><b>Figur 9:</b> Spiegle GH an der waagrechten Hilfslinie: Linie unter 30° nach rechts oben, gleich lang: Punkt <b>P</b>. Von P und H je eine 30°-Linie zur Hilfslinie ergibt <b>Q</b>. Zeichne die senkrechte Diagonale PH dünn.</li>
+      </ol>
+    </div>
+    <figure><svg class="task" role="img" aria-label="Aufgabe 4: Figuren 7, 8 und 9"></svg></figure>
+  </section>
+
+  <section class="card step" data-task="5">
+    <div>
+      <span class="num">Aufgabe 5</span>
+      <h2>Trapez und gleichseitiges Dreieck</h2>
+      <div class="figs"><span>10</span><span>11</span></div>
+      <ol class="do">
+        <li><b>Figur 10:</b> Zeichne bei Q die Senkrechte zu PQ nach oben und trage <b>15 mm</b> ab: Punkt <b>S</b>. Zeichne durch S eine Parallele zu PQ.</li>
+        <li>Zeichne von P eine Linie unter <b>45°</b> zu PQ nach oben. Der Schnittpunkt mit der Parallelen ist <b>R</b>.</li>
+        <li><b>Figur 11:</b> Zeichne von H und von X je eine Linie unter <b>60°</b> zu HX nach rechts. Der Schnittpunkt ist <b>W</b>.</li>
+      </ol>
+    </div>
+    <figure><svg class="task" role="img" aria-label="Aufgabe 5: Figuren 10 und 11"></svg></figure>
+  </section>
+
+  <section class="card step" data-task="6">
+    <div>
+      <span class="num">Aufgabe 6</span>
+      <h2>Parallelogramm, Rechteck, Abschluss</h2>
+      <div class="figs"><span>12</span><span>13</span></div>
+      <ol class="do">
+        <li><b>Figur 12:</b> Zeichne von Q eine Strecke von <b>20 mm</b> parallel zu HW: Punkt <b>U</b>. Durch U eine Parallele zu QW, durch W eine Parallele zu QU: Punkt <b>V</b>.</li>
+        <li><b>Figur 13:</b> Zeichne bei W und bei V die Senkrechte zu WV nach unten und trage je <b>60 mm</b> ab: Punkte <b>M</b> und <b>Y</b>. Verbinde sie.</li>
+        <li>Verbinde R und Y mit einer <b>Strichpunktlinie</b>.</li>
+        <li>Kontrolliere alles. Ziehe dann mit Tusche aus: Umrisse dick, Hilfslinien und Winkelbögen dünn.</li>
+      </ol>
+    </div>
+    <figure><svg class="task" role="img" aria-label="Aufgabe 6: Figuren 12 und 13 und Strichpunktlinie"></svg></figure>
+  </section>
+
+  <section class="card">
+    <h2>Checkliste vor der Abgabe</h2>
+    <p style="color:var(--muted);font-size:14px">Vorschlag, passend zu «Erfolg durch Genauigkeit».</p>
+    <div class="checklist">
+      <label><input type="checkbox" id="k1">Alle 13 Figuren sind vollständig und nummeriert.</label>
+      <label><input type="checkbox" id="k2">Masse und Winkel stimmen. Die Figuren schliessen sauber aneinander an.</label>
+      <label><input type="checkbox" id="k3">Umrisse sind dick, Hilfslinien und Winkelbögen dünn, die Strichpunktlinie ist korrekt.</label>
+      <label><input type="checkbox" id="k4">Die Linien treffen sich genau in den Ecken, ohne Überstand.</label>
+      <label><input type="checkbox" id="k5">Das Blatt ist sauber: keine Tuscheflecken, Bleistiftlinien sind wegradiert.</label>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  function add(a,b){return [a[0]+b[0],a[1]+b[1]];} function sub(a,b){return [a[0]-b[0],a[1]-b[1]];}
+  function mul(a,k){return [a[0]*k,a[1]*k];} function len(a){return Math.hypot(a[0],a[1]);}
+  function unit(a){var l=len(a);return [a[0]/l,a[1]/l];} function dir(deg){var r=deg*Math.PI/180;return [Math.cos(r),Math.sin(r)];}
+  function rot(a,deg){var r=deg*Math.PI/180,c=Math.cos(r),s=Math.sin(r);return [a[0]*c-a[1]*s,a[0]*s+a[1]*c];}
+  function inter(p,d,q,e){var den=d[0]*e[1]-d[1]*e[0];var t=((q[0]-p[0])*e[1]-(q[1]-p[1])*e[0])/den;return add(p,mul(d,t));}
+
+  // ---- Konstruktion der Figurenkette (Masse in mm, y nach unten) ----
+  var s=50, h1=40, bg=30, qs=15, qu=20, h13=60;
+  var P={};
+  P.O=[0,0]; P.A=[0,h1]; P.B=[s,h1];
+  P.C=add(P.A,mul(dir(60),s));
+  P.D=add(P.A,[0,s*Math.sqrt(3)]);
+  P.E=add(P.C,rot(sub(P.D,P.C),-90));
+  P.F=add(P.B,sub(P.E,P.C));
+  P.Z=add(P.E,sub(P.E,P.C));
+  var bf=sub(P.F,P.B), ang=Math.atan2(bf[1],bf[0])*180/Math.PI;
+  P.G=add(P.B,mul(dir(ang-45),bg));
+  var fz=sub(P.Z,P.F);
+  P.H=inter(P.G,dir(30),P.F,rot(fz,-90));
+  P.P=[P.H[0],P.G[1]-(P.H[1]-P.G[1])];
+  P.Q=[P.G[0]+2*(P.H[0]-P.G[0]),P.G[1]];
+  var pq=unit(sub(P.Q,P.P));
+  P.S=add(P.Q,mul(rot(pq,-90),qs));
+  P.R=inter(P.P,rot(pq,-45),P.S,pq);
+  P.X=add(P.H,fz);
+  P.W=add(P.H,rot(sub(P.X,P.H),-60));
+  P.U=add(P.Q,mul(unit(sub(P.W,P.H)),qu));
+  P.V=add(P.U,sub(P.W,P.Q));
+  var wv=unit(sub(P.V,P.W)), down=rot(wv,90);
+  P.Y=add(P.V,mul(down,h13)); P.M=add(P.W,mul(down,h13));
+
+  var FIG=[
+    {n:1,t:1,pts:["O",[s,0],"B","A"]},
+    {n:2,t:2,pts:["A","B","C"]},{n:3,t:2,pts:["A","C","D"]},{n:4,t:2,pts:["D","C","E"]},
+    {n:5,t:3,pts:["B","F","E","C"]},{n:6,t:3,pts:["F","Z","E"]},
+    {n:7,t:4,pts:["B","G","H","F"]},{n:8,t:4,pts:["F","H","X","Z"]},{n:9,t:4,pts:["G","P","Q","H"]},
+    {n:10,t:5,pts:["P","R","S","Q"]},{n:11,t:5,pts:["H","W","X"]},
+    {n:12,t:6,pts:["Q","U","V","W"]},{n:13,t:6,pts:["W","V","Y","M"]}
+  ];
+  function pt(k){return typeof k==="string"?P[k]:k;}
+  // Winkel: [Aufgabe, Scheitel, Schenkel1, Schenkel2, Text]
+  var ANG=[
+    [2,"A","B","C","60°"],[2,"B","A","C","60°"],[2,"A","D","C","30°"],[2,"D","A","C","30°"],[2,"D","C","E","45°"],[2,"C","D","E","R"],
+    [3,"F","E","Z","45°"],
+    [4,"B","F","G","45°"],[4,"G","P","H","60°"],
+    [5,"P","R","Q","45°"],[5,"Q","P","S","R"],[5,"H","X","W","60°"],[5,"X","H","W","60°"],
+    [6,"W","V","M","R"]
+  ];
+  // Masse: [Aufgabe, von, bis, Text, Seite(+1/-1)]
+  var DIM=[[1,"O",[s,0],"50",-1],[1,"O","A","40",1],[4,"B","G","30",-1],[5,"Q","S","15",1],[6,"Q","U","20",-1],[6,"V","Y","60",1]];
+  var LABELS={1:["A","B"],2:["A","B","C","D","E"],3:["B","C","E","F","Z"],4:["B","F","G","H","X","Z","P","Q"],5:["P","Q","R","S","H","X","W"],6:["Q","U","V","W","M","Y","R"]};
+
+  var all=[];for(var k in P)all.push(P[k]);
+  var minX=Math.min.apply(null,all.map(function(p){return p[0];})),maxX=Math.max.apply(null,all.map(function(p){return p[0];}));
+  var minY=Math.min.apply(null,all.map(function(p){return p[1];})),maxY=Math.max.apply(null,all.map(function(p){return p[1];}));
+  var W=maxX-minX,Hh=maxY-minY;
+  document.getElementById("sizeOut").textContent=Math.round(W)+" × "+Math.round(Hh)+" mm";
+  document.getElementById("startOut").textContent=Math.round((297-W)/2-minX)+" mm vom linken und "+Math.round((210-Hh)/2-minY)+" mm vom oberen Blattrand";
+
+  function arcPath(V,a1,d,r){var p1=add(V,mul(dir(a1),r)),p2=add(V,mul(dir(a1+d),r));return "M"+p1[0]+","+p1[1]+" A"+r+","+r+" 0 0 "+(d>0?1:0)+" "+p2[0]+","+p2[1];}
+  function angleMark(g,a){
+    var V=P[a[1]],p1=P[a[2]],p2=P[a[3]];
+    var a1=Math.atan2(p1[1]-V[1],p1[0]-V[0])*180/Math.PI,a2=Math.atan2(p2[1]-V[1],p2[0]-V[0])*180/Math.PI,d=a2-a1;
+    while(d>180)d-=360;while(d<-180)d+=360;
+    var col="var(--accent)";
+    if(a[4]==="R"){el("path",{d:arcPath(V,a1,d,5),fill:"none",stroke:col,"stroke-width":.35},g);var m=add(V,mul(dir(a1+d/2),2.6));el("circle",{cx:m[0],cy:m[1],r:.6,fill:col},g);return;}
+    var r=a[4]==="30°"?11:9;
+    el("path",{d:arcPath(V,a1,d,r),fill:"none",stroke:col,"stroke-width":.35},g);
+    var tp=add(V,mul(dir(a1+d/2),r-4.2));
+    var t=el("text",{x:tp[0],y:tp[1]+1.1,"text-anchor":"middle",style:"font:600 3px var(--f-body);fill:"+col},g);t.textContent=a[4];
+  }
+  function dimMark(g,d){
+    var a=pt(d[1]),b=pt(d[2]),m=mul(add(a,b),.5),v=unit(sub(b,a)),n=mul(rot(v,90),d[4]*3.4);
+    var tp=add(m,n),ang=Math.atan2(v[1],v[0])*180/Math.PI;if(ang>90)ang-=180;if(ang<-90)ang+=180;
+    var t=el("text",{x:tp[0],y:tp[1]+1.1,"text-anchor":"middle",transform:"rotate("+ang+" "+tp[0]+" "+tp[1]+")",style:"font:600 3.4px var(--f-body);fill:var(--accent)"},g);t.textContent=d[3];
+  }
+  function draw(svg,task,final){
+    var pad=8;
+    svg.setAttribute("viewBox",(minX-pad)+" "+(minY-pad)+" "+(W+2*pad)+" "+(Hh+2*pad));
+    el("rect",{x:minX-pad,y:minY-pad,width:W+2*pad,height:Hh+2*pad,fill:"var(--paper)"},svg);
+    var g=el("g",{"stroke-linejoin":"round"},svg);
+    // Hilfslinien Aufgabe 4
+    if(task===4){
+      el("line",{x1:P.G[0]-6,y1:P.G[1],x2:P.Q[0]+6,y2:P.G[1],stroke:"var(--accent)","stroke-width":.3,"stroke-dasharray":"1.5 1.2"},g);
+      var e1=add(P.F,mul(unit(rot(fz,-90)),40));el("line",{x1:P.F[0],y1:P.F[1],x2:e1[0],y2:e1[1],stroke:"var(--accent)","stroke-width":.3,"stroke-dasharray":"1.5 1.2"},g);
+    }
+    FIG.forEach(function(f){
+      if(!final&&f.t>task)return;
+      var cur=!final&&f.t===task, pts=f.pts.map(pt);
+      el("polygon",{points:pts.map(function(p){return p.join(",");}).join(" "),fill:cur?"var(--cur-fill)":"none",stroke:cur?"var(--accent)":(final?"var(--ink)":"var(--done)"),"stroke-width":cur?.9:(final?.7:.45)},g);
+      var c=[0,0];pts.forEach(function(p){c=add(c,p);});c=mul(c,1/pts.length);
+      var t=el("text",{x:c[0],y:c[1]+2,"text-anchor":"middle",style:"font:700 "+(f.n>9?5:5.5)+"px var(--f-display);fill:"+(cur?"var(--accent-ink)":(final?"var(--ink)":"var(--done)"))},g);t.textContent=f.n;
+    });
+    // Diagonalen der Raute dünn
+    if(final||task>=4){var dc=(!final&&task===4)?"var(--accent)":(final?"var(--ink)":"var(--done)");
+      el("line",{x1:P.G[0],y1:P.G[1],x2:P.Q[0],y2:P.Q[1],stroke:dc,"stroke-width":.25},g);el("line",{x1:P.P[0],y1:P.P[1],x2:P.H[0],y2:P.H[1],stroke:dc,"stroke-width":.25},g);}
+    if(final||task>=6){var rr=sub(P.Y,P.R),a0=add(P.R,mul(unit(rr),-4)),a1=add(P.Y,mul(unit(rr),4));
+      el("line",{x1:a0[0],y1:a0[1],x2:a1[0],y2:a1[1],stroke:(!final&&task===6)?"var(--accent)":"var(--ink)","stroke-width":.4,"stroke-dasharray":"5 1.4 .8 1.4"},g);}
+    if(final){ANG.forEach(function(a){angleMark(g,a);});DIM.forEach(function(d){dimMark(g,d);});return;}
+    ANG.forEach(function(a){if(a[0]===task)angleMark(g,a);});
+    DIM.forEach(function(d){if(d[0]===task)dimMark(g,d);});
+    (LABELS[task]||[]).forEach(function(k){var p=P[k];var t=el("text",{x:p[0]+1.4,y:p[1]-1.4,style:"font:700 3.6px var(--f-body);fill:var(--warn)"},g);t.textContent=k;el("circle",{cx:p[0],cy:p[1],r:.8,fill:"var(--warn)"},g);});
+  }
+  draw(document.getElementById("hero"),0,true);
+  document.querySelectorAll("[data-task]").forEach(function(sec){draw(sec.querySelector("svg.task"),+sec.getAttribute("data-task"),false);});
+
+  // Winkelfächer (B3)
+  var fan=document.getElementById("fan");
+  if(fan){var o=[170,160];
+    [[30,"30°"],[45,"45°"],[60,"60°"],[90,"90°"],[120,"120°"],[135,"135°"],[150,"150°"]].forEach(function(a){
+      var d=dir(-a[0]),e=add(o,mul(d,a[0]===90?140:150));
+      el("line",{x1:o[0],y1:o[1],x2:e[0]+(a[0]>90?0:0),y2:e[1],stroke:"var(--ink)","stroke-width":a[0]===90?1.6:1},fan);
+      var tp=add(o,mul(d,a[0]>90?40:120));var t=el("text",{x:tp[0]+4,y:tp[1]-2,"class":"lblb"},fan);t.textContent=a[0]<=90?a[1]:"";
+    });
+    el("line",{x1:10,y1:160,x2:330,y2:160,stroke:"var(--ink)","stroke-width":1.6},fan);
+    el("circle",{cx:o[0],cy:o[1],r:3.5,fill:"var(--accent)"},fan);
+    var t2=el("text",{x:10,y:192,"class":"lbl"},fan);t2.textContent="Winkel immer von der Waagrechten aus";
+  }
+})();
+</script>
+
+<script>
+if (window.parent !== window) {
+  const reportHeight = () => {
+    window.parent.postMessage({ projectGuideHeight: document.body.getBoundingClientRect().height }, "*");
+  };
+  new ResizeObserver(reportHeight).observe(document.body);
+}
+</script>
+</body>
+</html>
