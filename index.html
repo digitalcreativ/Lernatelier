@@ -157,6 +157,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   padding: 18px 12px 15px; font: 300 17px/1 var(--f); color: var(--fg); white-space: nowrap;
 }
 .tabbar button:hover { color: var(--accent-ink); }
+.tabbar:empty { display: none; }
 .tabbar button[aria-selected="true"] { border-bottom-color: var(--accent); font-weight: 400; }
 
 .panel { padding-block: 32px 56px; display: flex; flex-direction: column; gap: 40px; }
@@ -187,6 +188,24 @@ h2.sec .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--s
 .btn.primary { background: var(--s); border-color: var(--s); color: var(--on-col); }
 .btn:hover { filter: brightness(1.06); }
 .btn.off { border: 1px dashed var(--line); color: var(--muted); cursor: default; }
+.btn[type="button"] { cursor: pointer; }
+.card:has(.project-guide:not([hidden])) { grid-column: 1 / -1; }
+.project-guide { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.project-guide iframe { display: block; width: 100%; height: 60vh; border: 0; }
+.project-ideas { background: var(--bg); padding: clamp(12px, 3vw, 24px); }
+.project-ideas > ol { display: grid; gap: 10px; margin: 0; padding-left: 1.6rem; }
+.project-ideas > ol > li { padding: 10px 14px; border: 1px solid var(--line); border-left: 4px solid var(--idea-accent); border-radius: 8px; background: var(--surface); }
+.project-ideas > ol > li::marker { font-weight: 700; }
+.project-ideas p { font-size: 1rem; }
+.project-ideas .idea-tools { margin-top: 4px; }
+.project-resources { margin-top: 1.25rem; }
+.project-resources h4 { margin: 0 0 .5rem; font-size: 1.1rem; }
+.project-resources ul { margin: 0; padding-left: 1.25rem; }
+.project-resources li + li { margin-top: .45rem; }
+.project-resources a { color: var(--c); font-weight: 600; }
+.project-poster { margin-bottom: 12px; }
+.project-poster summary { cursor: pointer; color: var(--c); font-weight: 600; }
+.project-poster img { display: block; width: 100%; height: auto; margin-top: 8px; border-radius: 8px; }
 
 /* Fachkarten (Überblick) */
 .fcard { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; min-width: 0; }
@@ -235,7 +254,7 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
 </style>
 
 <!--
-  ANPASSEN: Alle Inhalte (Fächer, Werkzeuge, Module, Links) stehen weiter unten
+  ANPASSEN: Alle Inhalte (Fächer, Werkzeuge, Projekte, Links) stehen weiter unten
   im Skript im Abschnitt "DATEN". Leere url ("") = Button erscheint als "folgt".
 -->
 
@@ -270,25 +289,39 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
       <div class="tabbar" id="tabbar" role="tablist"></div>
       <div class="panel" id="panel"></div>
     </div>
-    <footer><div class="inner">Lernatelier · Stand November 2026 · Module mit gestrichelter Linie sind in Vorbereitung.</div></footer>
+    <footer><div class="inner">Lernatelier · Stand November 2026 · Projekte mit gestrichelter Linie sind in Vorbereitung.</div></footer>
   </main>
 </div>
 
 <script>
 /* ===================== DATEN ===================== */
+const PIXELBILDER = { name: "Pixelbilder", info: "Pixelbild im Raster gestalten, als PNG speichern", url: "https://digitalcreativ.github.io/Pixelbild/index.html", eigen: true };
+const PISKEL = { name: "Piskel for Kids", info: "Pixelfiguren zeichnen und als GIF animieren", url: "https://www.piskelapp.com/kids/" };
+const ARCADE = { name: "MakeCode Arcade", info: "Pixelfiguren gestalten und eigene Spiele programmieren", url: "https://arcade.makecode.com/" };
+const CALLIOPE_MAKECODE = { name: "MakeCode für Calliope mini", info: "Mit Blöcken programmieren und im Simulator testen", url: "https://makecode.calliope.cc/" };
+const NANOPY = { name: "NanoPy-Editor", info: "Die Oxocard Galaxy programmieren und Beispiele ausprobieren", url: "https://editor.nanopy.io/" };
+const OPEN_ROBERTA = { name: "Open Roberta Lab", info: "Den Calliope mini mit NEPO-Blöcken programmieren", url: "https://lab.open-roberta.org/" };
+const SCRATCH = { name: "Scratch", info: "Figuren, Punkte und Spielregeln mit Blöcken programmieren", url: "https://scratch.mit.edu/projects/editor/" };
+const GDEVELOP = { name: "GDevelop", info: "2D-Spiele mit Ereignissen und Bedingungen entwickeln", url: "https://editor.gdevelop.io/" };
+const CLIPCHAMP = { name: "Clipchamp", info: "Kurzfilme, Trailer und Tutorials schneiden", url: "https://m365.cloud.microsoft/launch/clipchamp" };
+const EDITVIDEOONLINE = { name: "EditVideoOnline", info: "Videos im Browser schneiden und als MP4 exportieren", url: "https://www.editvideoonline.com/de" };
+const STOP_MOTION = { name: "Stop Motion Studio", info: "Figuren und Gegenstände Bild für Bild animieren", url: "https://www.stopmotionstudio.com/" };
+const PHOTOPEA = { name: "Photopea", info: "Bilder bearbeiten im Browser", url: "https://www.photopea.com/" };
+const PIXLR = { name: "Pixlr Editor", info: "Fotos im Browser bearbeiten, freistellen und kombinieren", url: "https://pixlr.com/de/editor/" };
+
 const FAECHER = [
   {
     id: "bg", kurz: "BG", name: "Bildnerisches Gestalten",
     lp: "Lehrplan 21: BG.1 Wahrnehmung und Kommunikation · BG.2 Prozesse und Produkte · BG.3 Kontexte und Orientierung",
     werkzeuge: [
       { name: "Zufallsbild-Generator", info: "Zufällige Zeichenvorlage mit Timer", url: "https://digitalcreativ.github.io/Zufallsgenerator/", eigen: true },
-      { name: "Pixelbilder", info: "Pixelbild im Raster gestalten, als PNG speichern", url: "https://digitalcreativ.github.io/Pixelbild/index.html", eigen: true },
-      { name: "Photopea", info: "Bilder bearbeiten im Browser", url: "https://www.photopea.com" },
+      PHOTOPEA,
+      PIXLR,
       { name: "Adobe Color", info: "Farbpaletten und Farbkreis", url: "https://color.adobe.com" },
       { name: "Google Arts & Culture", info: "Kunstwerke entdecken", url: "https://artsandculture.google.com" },
       { name: "Krita", info: "Digital malen (Download)", url: "https://krita.org" }
     ],
-    // Projekte: stufenunabhängig, gleicher Aufbau wie ein Modul, z. B.
+    // Stufenübergreifende Projekte haben den gleichen Aufbau wie die Projekte unter «stufen».
     // { titel: "...", lp: "BG.2", status: "aktiv", text: "...", links: [ { label: "Auftrag", url: "" } ] }
     projekte: [],
     stufen: [
@@ -352,7 +385,17 @@ const FAECHER = [
     id: "inf", kurz: "INF", name: "Wahlfach Informatik",
     lp: "Lehrplan 21: MI.2.1 Datenstrukturen · MI.2.2 Algorithmen · MI.2.3 Informatiksysteme",
     werkzeuge: [
-      { name: "Scratch", info: "Programmieren mit Blöcken", url: "https://scratch.mit.edu" },
+      PISKEL,
+      ARCADE,
+      CALLIOPE_MAKECODE,
+      NANOPY,
+      OPEN_ROBERTA,
+      EDITVIDEOONLINE,
+      PIXLR,
+      CLIPCHAMP,
+      STOP_MOTION,
+      SCRATCH,
+      GDEVELOP,
       { name: "Calliope mini", info: "Calliope programmieren mit MakeCode", url: "https://makecode.calliope.cc" },
       { name: "WebTigerPython", info: "Python im Browser", url: "https://webtigerpython.ethz.ch" },
       { name: "Blockly Games", info: "Knobeln und Programmieren üben", url: "https://blockly.games" },
@@ -361,7 +404,8 @@ const FAECHER = [
     projekte: [
       { titel: "Schlüsselanhänger mit Namen", lp: "MI.2", status: "aktiv", quer: "mit TTG",
         text: "In Tinkercad einen Stern mit Öse und den eigenen Namen konstruieren, als STL exportieren und 3D-drucken.",
-        links: [ { label: "Anleitung", url: "projekte/schluesselanhaenger.html" }, { label: "Tinkercad öffnen", url: "https://www.tinkercad.com" } ] }
+        anleitung: "projekte/schluesselanhaenger.html",
+        links: [ { label: "Tinkercad öffnen", url: "https://www.tinkercad.com" } ] }
     ],
     stufen: [
       { name: "2. Oberstufe", module: [
@@ -373,6 +417,120 @@ const FAECHER = [
           links: [ { label: "Auftrag", url: "" }, { label: "Calliope-Editor öffnen", url: "https://makecode.calliope.cc" } ] }
       ]},
       { name: "3. Oberstufe", module: [
+        { titel: "digital LAB", lp: "MI.1", status: "aktiv",
+          text: "Drei Missionen für deine digitale Identität: Gestalte ein Namensschild, einen Avatar und einen persönlichen Steckbrief.",
+          anleitung: "projekte/digital-lab.html", anleitungLabel: "Missionen",
+          links: [] },
+        { titel: "digital LAB · Pixel", lp: "MI.1", status: "aktiv", ideenId: "lab-pixel", ideenFarbe: "#9339d1",
+          ideenBild: "Digital Lab_ Pixel-Projektideen.png",
+          text: "Gestalte Figuren, Welten und Animationen aus kleinen Quadraten.",
+          ideen: [
+            ["Pixel-Character", "Entwickle eine eigene Spielfigur mit mehreren Posen.", "Piskel for Kids oder Pixilart"],
+            ["Pixel-World", "Gestalte eine kleine Stadt, eine Insel oder eine Fantasiewelt.", "Pixilart zum Zeichnen, Lospec für die Farbpalette"],
+            ["Animated Pixel", "Erstelle eine kurze Animation aus Einzelbildern (GIF oder Sprite-Animation).", "Piskel for Kids"],
+            ["Digital-Lab Sticker Pack", "Entwickle ein eigenes Set aus 8–12 Pixel-Icons.", "Pixilart oder Piskel for Kids für die Icons, Photopea für den Stickerbogen"],
+            ["Mini-Game-Design-Kit", "Gestalte eine Figur, einen Gegner, Gegenstände, einen Hintergrund und die Benutzeroberfläche für ein einfaches Spiel.", "MakeCode Arcade für den Spieltest, Piskel for Kids für eigene Grafiken"]
+          ],
+          ideenWerkzeuge: [
+            ["Piskel for Kids", "https://www.piskelapp.com/kids/", "Empfohlener Editor für Figuren, Posen und Animationen. Kostenlos, werbefrei und ohne Konto. Export als PNG, GIF oder Sprite-Sheet."],
+            ["Pixelbilder", "https://digitalcreativ.github.io/Pixelbild/index.html", "Eigenes Tool für einen einfachen Einstieg ins Zeichnen auf einem Raster."],
+            ["Pixilart", "https://www.pixilart.com/draw", "Zeichne Figuren, Landschaften und Icons im Browser. Speichere deine Zeichnung bei Bedarf auch als bearbeitbare .pixil-Datei."],
+            ["Lospec-Farbpaletten", "https://lospec.com/palette-list", "Suche dir eine kleine Farbpalette aus, die du für alle Grafiken deines Projekts verwenden kannst."],
+            ["MakeCode Arcade", "https://arcade.makecode.com/", "Gestalte Spielfiguren und teste sie direkt im Spiel. Wenn du Grafiken aus Piskel verwenden willst, beginne mit dem Import einer einzigen Figur."],
+            ["Grafikimport in MakeCode Arcade", "https://arcade.makecode.com/developer/images#importing-custom-art-and-palettes", "Hier findest du die Anleitung zum Konvertieren eigener Grafiken."],
+            ["Photopea", "https://www.photopea.com/", "Kombiniere einzelne Pixelgrafiken und stelle damit beispielsweise einen Stickerbogen zusammen."]
+          ],
+          ideenTipps: [
+            "Starte mit 16 × 16 oder 32 × 32 Pixeln. Verwende wenige Farben und klare Formen, die auch klein gut erkennbar sind.",
+            "Speichere regelmässig die bearbeitbare Projektdatei in deinem OneDrive-Projektordner. Lege dort auch dein fertiges PNG oder GIF ab.",
+            "Halte im OneNote-Arbeitsprotokoll fest, was gelungen ist und wo du weiter tüfteln musstest. Ergänze Screenshots deiner Zwischenschritte.",
+            "Du hast eine eigene Projektidee? Besprich sie mit deiner Lehrperson."
+          ],
+          links: [PIXELBILDER, PISKEL, ARCADE].map(({ name, url }) => ({ label: name, url })) },
+        { titel: "digital LAB · Kamera", lp: "MI.1", status: "aktiv", ideenId: "lab-kamera", ideenFarbe: "#0086c9",
+          ideenBild: "Digital-Lab Kamera-Projektideen.png",
+          text: "Erzähle mit Fotos, Filmen und Animationen deine eigene Geschichte.",
+          ideen: [
+            ["Kurzfilm", "Plane, drehe und schneide einen 1–3-minütigen Film.", "EditVideoOnline für den Schnitt"],
+            ["Stop-Motion", "Animiere eine Geschichte mit Figuren oder Gegenständen.", "Stop Motion Studio"],
+            ["Digital-Lab Trailer", "Produziere einen Werbetrailer für euer Wahlfach.", "EditVideoOnline für den Schnitt, Canva für animierte Titel"],
+            ["Foto-Challenge", "Nimm eine Fotoserie zu einem Thema auf und bearbeite sie digital.", "Pixlr Editor oder Photopea für die Bildbearbeitung, Canva fürs Layout"],
+            ["Tutorial", "Produziere ein Erklärvideo zu einem selbst gewählten Thema.", "OBS Studio für Bildschirmaufnahmen, EditVideoOnline für den Schnitt"]
+          ],
+          ideenWerkzeuge: [
+            [EDITVIDEOONLINE.name, EDITVIDEOONLINE.url, "Empfohlen für den Videoschnitt. Kombiniere Clips, ergänze Titel und Musik und exportiere als MP4. Eine Anmeldung ist nicht nötig. Laut Anbieter werden die Dateien auf deinem Gerät verarbeitet."],
+            [STOP_MOTION.name, STOP_MOTION.url, "Fotografiere Figuren oder Gegenstände Bild für Bild. Kläre vor dem Start, auf welchem Gerät dir die App zur Verfügung steht."],
+            [PHOTOPEA.name, PHOTOPEA.url, "Schneide Fotos zu, korrigiere Farben und erstelle Fotomontagen mit Ebenen."],
+            [PIXLR.name, PIXLR.url, "Bearbeite deine Fotos im Browser. Passe den Ausschnitt und die Farben an oder kombiniere mehrere Bilder mit Ebenen."],
+            ["Pixlr · Animation Maker", "https://pixlr.com/tools/animation-tool/", "Animiere Bilder oder Texte und exportiere das Ergebnis als MP4 oder GIF."],
+            ["Canva für Bildung", "https://www.canva.com/education/", "Gestalte Fotoserien, Trailer oder animierte Titel. Nutze deinen Schulzugang."],
+            ["Adobe Express", "https://www.adobe.com/express/create/video", "Alternative für Videoschnitt, Texte und Animationen. Melde dich mit einem freigegebenen Konto an."],
+            ["CapCut", "https://www.capcut.com/tools/online-video-editor", "Ergänze Untertitel, Übergänge und Effekte. Verwende CapCut, wenn es an deiner Schule erlaubt ist."],
+            [CLIPCHAMP.name, CLIPCHAMP.url, "Alternative für den Videoschnitt, falls Clipchamp mit deinem Schulkonto verfügbar ist."],
+            ["OBS Studio · Schnellstart", "https://obsproject.com/kb/quick-start-guide", "Nimm deinen Bildschirm und deine Erklärung auf. Prüfe, ob OBS auf deinem Schulgerät installiert ist."]
+          ],
+          ideenTipps: [
+            "Du kannst Werkzeuge kombinieren. Bearbeite zum Beispiel Fotos in Photopea und schneide sie anschliessend in EditVideoOnline zu einem Film.",
+            "Fotografiere oder filme andere Personen nur mit ihrem Einverständnis. Hole vor einer Veröffentlichung die nötige Erlaubnis ein.",
+            "Verwende eigene Aufnahmen und Musik, Bilder oder Clips, die du für dein Projekt verwenden darfst.",
+            "Du hast eine eigene Projektidee? Besprich sie mit deiner Lehrperson."
+          ],
+          links: [EDITVIDEOONLINE, STOP_MOTION, PHOTOPEA, PIXLR].map(({ name, url }) => ({ label: name, url })) },
+        { titel: "digital LAB · Game", lp: "MI.2", status: "aktiv", ideenId: "lab-game", ideenFarbe: "#e43290",
+          ideenBild: "Game-Ideen im Digital Lab.png",
+          text: "Entwickle ein eigenes Spiel und probiere aus, wie Regeln, Figuren und Ziele zusammenspielen.",
+          ideen: [
+            ["Jump ’n’ Run", "Baue ein kleines Level mit eigener Figur, Hindernissen und einem Ziel.", "Scratch oder MakeCode Arcade für den Einstieg, GDevelop für mehrere Levels"],
+            ["Escape Game", "Entwickle Räume, Hinweise und Rätsel.", "GDevelop für anklickbare Räume und Hinweise"],
+            ["Retro Arcade Game", "Lass dich von Arcade-Klassikern wie Pong, Snake oder Space Invaders zu einer eigenen Spielidee inspirieren.", "MakeCode Arcade"],
+            ["Quiz Battle", "Gestalte ein Lernquiz als Spiel.", "Scratch"],
+            ["Catch & Survive", "Entwirf ein Spiel, in dem man Gegenstände sammelt, Hindernissen ausweicht, Leben verlieren kann und einen Highscore jagt.", "Scratch oder MakeCode Arcade"]
+          ],
+          ideenWerkzeuge: [
+            [SCRATCH.name, SCRATCH.url, "Der einfache Einstieg. Zeichne Figuren und Hintergründe und programmiere Bewegungen, Punkte und Spielregeln mit Blöcken."],
+            ["Scratch-Ideen und Tutorials", "https://scratch.mit.edu/ideas", "Finde Anleitungen für dein erstes Spiel."],
+            [ARCADE.name, ARCADE.url, "Gestalte Pixelfiguren und Spielfelder und programmiere dein Spiel mit Blöcken."],
+            ["MakeCode-Tutorials", "https://arcade.makecode.com/tutorials", "Probiere für Catch & Survive das Tutorial «Collect the Clovers» aus."],
+            [GDEVELOP.name, GDEVELOP.url, "Entwickle anspruchsvollere 2D-Spiele mit Ereignissen, Bedingungen, Animationen und mehreren Levels. Verwende die Gratisversion und erstelle ein Konto nur mit Erlaubnis deiner Lehrperson."],
+            ["GDevelop-Beispiele und Vorlagen", "https://gdevelop.io/game-example", "Wähle den Filter «Free» für kostenlose Einstiegsvorlagen."]
+          ],
+          ideenTipps: [
+            "Baue zuerst eine spielbare Mini-Version mit einer Figur, einer Regel und einem klaren Ziel. Erweitere sie, sobald das Grundspiel funktioniert.",
+            "Lass jemanden dein Spiel ausprobieren. Beobachte, ob Steuerung und Ziel verständlich sind, und verbessere danach eine konkrete Stelle.",
+            "Du hast eine eigene Projektidee? Besprich sie mit deiner Lehrperson."
+          ],
+          links: [SCRATCH, ARCADE, GDEVELOP].map(({ name, url }) => ({ label: name, url })) },
+        { titel: "digital LAB · Schaltkreis", lp: "MI.2", status: "aktiv", ideenId: "lab-schaltkreis", ideenFarbe: "#d5a700",
+          ideenBild: "Digital Lab_ Schaltkreis-Projektideen.png",
+          ideenBildHinweis: "Das ursprüngliche Plakat zeigt weitere Anregungen. Die fünf aktuellen Projektideen stehen in der Liste.",
+          text: "Experimentiere mit Elektronik und programmiere, wie dein Projekt auf seine Umgebung reagiert.",
+          ideen: [
+            ["Smart Light Show", "Programmiere eine farbige Licht- und Animationsshow mit LEDs oder Display.", "Calliope mini oder Oxocard Galaxy"],
+            ["Reaction Game", "Entwickle ein Reaktionsspiel mit zufälligen Signalen, Zeitmessung und Highscore.", "Calliope mini oder Oxocard Galaxy"],
+            ["Bewegungsalarm", "Programmiere einen Alarm, der bei Bewegung oder Erschütterung reagiert.", "Calliope mini mit MakeCode oder Open Roberta Lab"],
+            ["Digitales Haustier", "Erschaffe ein virtuelles Wesen, das auf deine Aktionen reagiert und verschiedene Stimmungen zeigt.", "Oxocard Galaxy mit NanoPy"],
+            ["Smart Gadget", "Entwickle einen digitalen Alltagshelfer, etwa einen Countdown, Bewegungszähler oder Zufallsgenerator.", "Calliope mini oder Oxocard Galaxy"]
+          ],
+          ideenWerkzeuge: [
+            [CALLIOPE_MAKECODE.name, CALLIOPE_MAKECODE.url, "Programmiere mit Blöcken. Teste das Programm zuerst im Simulator und übertrage es dann auf deinen Calliope mini."],
+            ["Calliope mini · Erste Übungen", "https://calliope.cc/los-geht-s/erste-uebungen", "Probiere Beispiele für LEDs, Tasten und Sensoren aus und wähle im Editor deine Geräteversion."],
+            [NANOPY.name, NANOPY.url, "Programmiere die Oxocard Galaxy mit NanoPy. Starte mit einem vorhandenen Beispiel und passe es an."],
+            ["Oxocard Galaxy · Geräteinformationen", "https://www.oxocard.ch/galaxy/", "Nutze das Farbdisplay, die fünf Tasten und den Lautsprecher für Animationen und interaktive Programme."],
+            [OPEN_ROBERTA.name, OPEN_ROBERTA.url, "Eine Alternative für den Calliope mini. Wähle dein Board und setze das Programm mit NEPO-Blöcken zusammen."],
+            ["Calliope mini · Editor-Anleitungen", "https://docs.calliope.cc/tech/software/editors/", "Hier findest du die Dokumentation zu MakeCode und Open Roberta Lab."]
+          ],
+          ideenSchritte: [
+            ["Entdecken (Use)", "Wähle ein Gerät, öffne den passenden Editor und probiere ein fertiges Beispiel aus."],
+            ["Verändern (Modify)", "Passe Farben, Zahlen, Bilder, Tasten oder Abläufe an. Teste nach jeder Änderung."],
+            ["Selbst entwickeln (Create)", "Entwickle deine eigene Idee. Beginne mit einer kleinen Funktion, ergänze weitere und teste sie einzeln."]
+          ],
+          ideenTipps: [
+            "Wenn etwas nicht klappt, prüfe die letzte Änderung im Programm und teste Schritt für Schritt weiter.",
+            "Speichere dein Programm regelmässig im OneDrive-Projektordner. Lade nach Möglichkeit die bearbeitbare Projektdatei herunter.",
+            "Dokumentiere in OneNote, was du programmiert hast, was gelungen ist und wo es Schwierigkeiten gab. Ergänze Screenshots oder Fotos deines Geräts.",
+            "Du hast eine eigene Projektidee? Besprich sie mit deiner Lehrperson."
+          ],
+          links: [CALLIOPE_MAKECODE, NANOPY, OPEN_ROBERTA].map(({ name, url }) => ({ label: name, url })) },
         { titel: "Scratch: Avatar steuern", lp: "MI.2.2", status: "aktiv",
           text: "Eine Spielfigur mit den Pfeiltasten bewegen und beim Laufen mit Kostümwechseln animieren.",
           links: [ { label: "Auftrag", url: "https://scratch.mit.edu/projects/1427163241/" }, { label: "Im Editor öffnen", url: "https://scratch.mit.edu/projects/1427163241/editor" } ] },
@@ -389,6 +547,7 @@ const FAECHER = [
 
 // Werkzeuge, die in mehreren Fächern gebraucht werden
 const DIVERSE = { id: "diverse", name: "Diverse Fächer", werkzeuge: [
+  PIXELBILDER,
   { name: "Book Creator", info: "Digitale Bücher gestalten", url: "https://bookcreator.com/" }
 ]};
 
@@ -410,7 +569,11 @@ function h(tag, attrs, ...kids) {
   return el;
 }
 
-const VIEWS = ["uebersicht"].concat(FAECHER.map(f => f.id));
+const VORBEREITUNG = "projekte-in-vorbereitung";
+const VORBEREITUNG_TITEL = "Projekte in Vorbereitung";
+// Sobald ein Projekt bereit ist, erscheint es mit status: "aktiv" an seinem ursprünglichen Ort.
+const sichtbareModule = module => module.filter(m => m.status !== "geplant");
+const VIEWS = ["uebersicht", VORBEREITUNG].concat(FAECHER.map(f => f.id));
 const state = { tab: null, pendingScroll: null, showLater: false };
 const wide = () => window.matchMedia("(min-width: 900px)").matches;
 
@@ -425,7 +588,45 @@ function linkBtn(l, i) {
   return h("a", { class: "btn" + (i === 0 ? " primary" : ""), href: l.url, target: "_blank", rel: "noopener" }, l.label);
 }
 
+function projektRessourcen(m) {
+  return [
+    m.ideenWerkzeuge ? h("section", { class: "project-resources" },
+      h("h4", {}, "Werkzeuge"),
+      h("ul", {}, m.ideenWerkzeuge.map(([name, url, text]) => h("li", {},
+        h("a", { href: url, target: "_blank", rel: "noopener" }, name), " – " + text)))) : null,
+    m.ideenSchritte ? h("section", { class: "project-resources" },
+      h("h4", {}, "So startest du dein Projekt"),
+      h("ol", {}, m.ideenSchritte.map(([titel, text]) => h("li", {}, h("strong", {}, titel), " – " + text)))) : null,
+    m.ideenTipps ? h("section", { class: "project-resources" },
+      h("h4", {}, "Tipps für dein Projekt"),
+      h("ul", {}, m.ideenTipps.map(tipp => h("li", {}, tipp)))) : null
+  ];
+}
+
 function modulKarte(m) {
+  const guideId = m.ideenId ?? "anleitung-" + m.anleitung;
+  const guide = m.ideen ? h("div", {
+    id: guideId, class: "project-guide project-ideas", hidden: "", style: "--idea-accent: " + m.ideenFarbe
+  },
+    m.ideenBild ? h("details", { class: "project-poster" },
+      h("summary", {}, "Grafik ansehen"),
+      m.ideenBildHinweis ? h("p", {}, m.ideenBildHinweis) : null,
+      h("img", { src: "projekte/" + encodeURIComponent(m.ideenBild), loading: "lazy",
+        alt: "Plakat mit Projektideen für " + m.titel })) : null,
+    h("ol", {}, m.ideen.map(([titel, text, werkzeuge]) => h("li", {}, h("strong", {}, titel), h("p", {}, text),
+      werkzeuge ? h("p", { class: "idea-tools" }, h("strong", {}, "Empfohlen "), werkzeuge) : null))),
+    projektRessourcen(m))
+    : m.anleitung ? h("div", { id: guideId, class: "project-guide", hidden: "" }) : null;
+  const guideToggle = guide ? h("button", {
+    type: "button", class: "btn primary", "aria-controls": guideId, "aria-expanded": "false",
+    onclick: event => {
+      guide.hidden = !guide.hidden;
+      event.currentTarget.setAttribute("aria-expanded", String(!guide.hidden));
+      if (!guide.hidden && m.anleitung && !guide.firstChild) {
+        guide.append(h("iframe", { src: m.anleitung, title: "Anleitung: " + m.titel }));
+      }
+    }
+  }, m.ideen ? "Projektideen" : m.anleitungLabel ?? "Anleitung") : null;
   return h("article", { class: "card" + (m.status === "geplant" ? " geplant" : "") },
     h("div", { class: "chips" },
       h("span", { class: "chip" }, m.lp),
@@ -434,9 +635,19 @@ function modulKarte(m) {
     ),
     h("h3", {}, m.titel),
     h("p", {}, m.text),
-    m.links.length ? h("div", { class: "links" }, m.links.map(linkBtn)) : null
+    guide || m.links.length ? h("div", { class: "links" }, guideToggle,
+      m.links.map((link, index) => linkBtn(link, guide ? index + 1 : index))) : null,
+    guide
   );
 }
+
+window.addEventListener("message", event => {
+  const height = event.data?.projectGuideHeight;
+  if (!Number.isFinite(height) || height <= 0 || height > 30000) return;
+  for (const frame of document.querySelectorAll(".project-guide iframe")) {
+    if (frame.contentWindow === event.source) frame.style.height = Math.ceil(height) + "px";
+  }
+});
 
 function toolGrid(f) {
   return h("div", { class: "tools", "data-fach": f.id }, f.werkzeuge.map(w =>
@@ -490,6 +701,11 @@ function buildSide() {
     }
   });
   items.push(later);
+  items.push(h("details", { "data-fach": "later", open: currentView() === VORBEREITUNG ? "" : null },
+    h("summary", {}, h("span", { class: "chev", "aria-hidden": "true" }, "›"), VORBEREITUNG_TITEL),
+    h("a", { class: "item", href: "#" + VORBEREITUNG, "data-view": VORBEREITUNG, "data-tab": "liste",
+      onclick: go(VORBEREITUNG, { tab: "liste" }) }, "Übersicht öffnen")
+  ));
   tree.replaceChildren(...items);
 }
 
@@ -558,11 +774,20 @@ function drawHero() {
 }
 
 /* ---------- Hauptinhalt ---------- */
+function vorbereitungsGruppen(fach) {
+  return [...fach.stufen, { name: "Stufenübergreifend", module: fach.projekte }]
+    .map(gruppe => ({ name: gruppe.name, module: gruppe.module.filter(m => m.status === "geplant") }))
+    .filter(gruppe => gruppe.module.length);
+}
+
 function render() {
   const view = currentView();
   const fach = FAECHER.find(f => f.id === view);
-  const tabs = fach ? fach.stufen.map((s, i) => ["st" + i, s.name]).concat([["projekte", "Projekte"], ["werkzeuge", "Werkzeuge"]]) : [["faecher", "Fächer"], ["werkzeuge", "Alle Werkzeuge"]];
-  if (!tabs.some(t => t[0] === state.tab)) state.tab = tabs[0][0];
+  const istVorbereitung = view === VORBEREITUNG;
+  const tabs = istVorbereitung ? [] : fach
+    ? fach.stufen.map((s, i) => ["st" + i, s.name]).concat([["projekte", "Projekte"], ["werkzeuge", "Werkzeuge"]])
+    : [["faecher", "Fächer"], ["werkzeuge", "Alle Werkzeuge"]];
+  if (!tabs.some(t => t[0] === state.tab)) state.tab = tabs[0]?.[0] ?? "liste";
 
   // Kopfnavigation
   document.getElementById("topnav").replaceChildren(
@@ -572,11 +797,11 @@ function render() {
 
   // Banner
   const hero = document.getElementById("hero");
-  hero.setAttribute("data-fach", fach ? fach.id : "start");
-  document.getElementById("hero-title").textContent = fach ? fach.name : "Lernatelier Oberstufe";
+  hero.setAttribute("data-fach", fach ? fach.id : istVorbereitung ? "later" : "start");
+  document.getElementById("hero-title").textContent = fach ? fach.name : istVorbereitung ? VORBEREITUNG_TITEL : "Lernatelier Oberstufe";
   const crumbs = [h("a", { href: "#uebersicht" }, "Startseite")];
   if (fach) crumbs.push(h("span", { class: "sep", "aria-hidden": "true" }, "/"), h("span", {}, "Fächer"), h("span", { class: "sep", "aria-hidden": "true" }, "/"), h("span", {}, fach.kurz));
-  else crumbs.push(h("span", { class: "sep", "aria-hidden": "true" }, "/"), h("span", {}, "Übersicht"));
+  else crumbs.push(h("span", { class: "sep", "aria-hidden": "true" }, "/"), h("span", {}, istVorbereitung ? VORBEREITUNG_TITEL : "Übersicht"));
   document.getElementById("crumbs").replaceChildren(...crumbs);
 
   // Reiter
@@ -587,20 +812,35 @@ function render() {
   // Inhalt
   const panel = document.getElementById("panel");
   let out = [];
-  if (fach && /^st\d+$/.test(state.tab)) {
+  if (istVorbereitung) {
+    for (const f of FAECHER) {
+      const gruppen = vorbereitungsGruppen(f);
+      if (!gruppen.length) continue;
+      out.push(h("section", { "data-fach": f.id },
+        h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), f.name),
+        gruppen.map(gruppe => h("section", {},
+          h("h3", { class: "label" }, gruppe.name),
+          h("div", { class: "grid" }, gruppe.module.map(modulKarte))
+        ))
+      ));
+    }
+    if (!out.length) out.push(h("p", { class: "lp" }, "Zurzeit sind keine Projekte in Vorbereitung."));
+  } else if (fach && /^st\d+$/.test(state.tab)) {
     const s = fach.stufen[+state.tab.slice(2)];
+    const module = sichtbareModule(s.module);
     out.push(h("p", { class: "lp" }, fach.lp));
     out.push(h("section", { "data-fach": fach.id },
-      h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), s.name, h("span", { class: "count" }, s.module.length + " Module")),
-      h("div", { class: "grid" }, s.module.map(modulKarte))
+      h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), s.name, h("span", { class: "count" }, module.length + (module.length === 1 ? " Projekt" : " Projekte"))),
+      module.length ? h("div", { class: "grid" }, module.map(modulKarte)) : null
     ));
   } else if (fach && state.tab === "projekte") {
+    const projekte = sichtbareModule(fach.projekte);
     out.push(h("section", { "data-fach": fach.id },
       h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), "Projekte",
-        h("span", { class: "count" }, fach.projekte.length + (fach.projekte.length === 1 ? " Projekt" : " Projekte"))),
+        h("span", { class: "count" }, projekte.length + (projekte.length === 1 ? " Projekt" : " Projekte"))),
       h("p", { class: "lp" }, "Stufenübergreifend: für alle Klassen offen."),
-      fach.projekte.length
-        ? h("div", { class: "grid" }, fach.projekte.map(modulKarte))
+      projekte.length
+        ? h("div", { class: "grid" }, projekte.map(modulKarte))
         : h("p", { class: "lp" }, "Hier erscheinen bald Projekte.")
     ));
   } else if (fach) {
@@ -613,8 +853,10 @@ function render() {
         h("div", { class: "band" }),
         h("div", { class: "body" },
           h("h3", {}, f.name),
-          h("ul", {}, f.stufen.map(s => h("li", {}, h("span", {}, s.name), h("span", {}, s.module.length + " Module"))),
-            h("li", {}, h("span", {}, "Projekte"), h("span", {}, String(f.projekte.length)))),
+          h("ul", {}, f.stufen.map(s => {
+            const anzahl = sichtbareModule(s.module).length;
+            return h("li", {}, h("span", {}, s.name), h("span", {}, anzahl + (anzahl === 1 ? " Projekt" : " Projekte")));
+          }), h("li", {}, h("span", {}, "Projekte"), h("span", {}, String(sichtbareModule(f.projekte).length)))),
           h("span", { class: "go" }, "Zum Fach →")
         ))))
     ));

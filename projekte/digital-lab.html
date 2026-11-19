@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>digital LAB – Drei Missionen</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f5f7fb;
+    --surface: #fff;
+    --text: #161c2d;
+    --line: #d7deec;
+    --blue: #005b9f;
+    --pink: #a90054;
+    --purple: #6327af;
+    font: 100%/1.55 system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #171924;
+      --surface: #212535;
+      --text: #f1f4ff;
+      --line: #41485d;
+      --blue: #81ccff;
+      --pink: #ff9bc8;
+      --purple: #ceb0ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  :root.embedded { overflow: hidden; }
+  body { margin: 0; padding: clamp(12px, 4vw, 32px); background: var(--bg); color: var(--text); }
+  main { max-width: 55rem; margin-inline: auto; }
+  h1 { font-size: clamp(2rem, 6vw, 3rem); margin: 0; line-height: 1.1; }
+  h2 { margin: 0; font-size: clamp(1.2rem, 3vw, 1.5rem); line-height: 1.25; }
+  h3 { margin: 1rem 0 .3rem; font-size: 1rem; }
+  p { margin: .6rem 0; }
+  ul, ol { padding-inline-start: 1.4rem; margin-block: .35rem .8rem; }
+  li + li { margin-top: .25rem; }
+  .mission { --accent: var(--blue); margin-top: 1rem; padding: clamp(12px, 3vw, 24px); background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: .65rem; }
+  .identity { --accent: var(--pink); }
+  .profile { --accent: var(--purple); }
+  .mission h2 { color: var(--accent); }
+  .mission a { color: var(--accent); font-weight: 600; }
+  .worksheet { margin-top: .65rem; }
+  .worksheet summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+  .worksheet img { display: block; width: 100%; height: auto; margin-top: .5rem; border: 1px solid var(--line); border-radius: .4rem; }
+  .tester { margin-top: 1.1rem; padding: .85rem; background: var(--bg); border: 1px solid var(--line); border-radius: .5rem; }
+  .tester h3 { margin-top: 0; }
+  input { max-width: 100%; display: block; margin-top: .4rem; font: inherit; }
+  #preview:not([hidden]) { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; margin-top: .75rem; }
+  figure { margin: 0; }
+  figure img { display: block; border-radius: 50%; object-fit: contain; background: var(--surface); }
+  figcaption { font-size: .875rem; margin-top: .25rem; }
+  code { overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>digital LAB</h1>
+    <p>Gestalte dein Namensschild, entwickle deinen Avatar und zeige im Steckbrief, was dich analog und digital begeistert.</p>
+  </header>
+
+  <section class="mission">
+    <h2>Mission 01 · Talent Casting</h2>
+    <details class="worksheet">
+      <summary>Vorschau des Auftragsblatts</summary>
+      <img src="1_Namensschild.png" width="1493" height="1053" loading="lazy" alt="Auftragsblatt zu Mission 01 mit Beispiel für das gefaltete Namensschild">
+    </details>
+    <p><a href="1_Namensschild.pdf" download>Auftragsblatt Namensschild herunterladen (PDF)</a></p>
+    <p>Gestalte in Word ein Namensschild im Format <strong>A4 quer</strong>. Auf eine Hälfte kommt dein Vorname, gut lesbar aus der Distanz. Die andere Hälfte zeigt deine Persönlichkeit, etwa deine Hobbys, Stärken, Lernziele oder dein Motto.</p>
+    <h3>to do</h3>
+    <ul>
+      <li>Verwende mindestens zwei Farben und zwei verschiedene Schriftgrössen.</li>
+      <li>Füge mindestens eine Form und mindestens ein Symbol, Icon oder Bild ein.</li>
+      <li>Gestalte einen Hintergrund oder Rahmen.</li>
+      <li>Drucke das Blatt, falte es in der Mitte, stelle es auf und präsentiere dein Schild.</li>
+    </ul>
+    <p><strong>Talent-Bonus:</strong> Achte auf Kontraste, genügend Randabstand und eine stimmige Gesamtgestaltung. In Word helfen dir Textfelder, WordArt, Formen und Symbole.</p>
+  </section>
+
+  <section class="mission identity">
+    <h2>Mission 02 · Create Your Digital Identity</h2>
+    <details class="worksheet">
+      <summary>Vorschau des Auftragsblatts</summary>
+      <img src="2_Avatar.png" width="1492" height="1054" loading="lazy" alt="Auftragsblatt zu Mission 02 mit Beispielen für selbst gestaltete Avatare">
+    </details>
+    <p><a href="2_Avatar.pdf" download>Auftragsblatt Avatar herunterladen (PDF)</a></p>
+    <p>Entwirf in PowerPoint einen quadratischen <strong>2D-Avatar (1:1)</strong>, der dich im digital LAB repräsentiert.</p>
+    <h3>Das muss dein Avatar können</h3>
+    <ul>
+      <li>Baue ihn selbst aus mindestens fünf verschiedenen Formen und verwende maximal vier bis fünf Farben.</li>
+      <li>Integriere ein persönliches Merkmal wie Brille, Frisur, Kopfhörer oder Kappe.</li>
+      <li>Ergänze mindestens ein digital-LAB-Element, etwa Pixel, Code, Robotik, Game, KI oder Kamera.</li>
+      <li>Halte die Formen so klar, dass der Avatar auch als kleines Profilbild erkennbar bleibt.</li>
+    </ul>
+    <p>Skizziere deine Idee, baue den Avatar mit Formen, ordne die Ebenen und gruppiere die Teile. Speichere ihn als <code>Avatar_Vorname.png</code>.</p>
+    <div class="tester">
+      <h3>Avatar-Check</h3>
+      <p id="avatar-hint">Wähle deine PNG-Datei. Vergleiche die beiden Profilgrössen. Welches Detail erkennst du auch bei 32 Pixeln? Das Bild wird nur in deinem Browser angezeigt.</p>
+      <label for="avatar">Avatar-PNG auswählen</label>
+      <input id="avatar" type="file" accept="image/png,.png" aria-describedby="avatar-hint">
+      <p id="avatar-status" role="status"></p>
+      <div id="preview" hidden>
+        <figure><img alt="Avatar als kleines rundes Profilbild" width="32" height="32"><figcaption>32 × 32 px</figcaption></figure>
+        <figure><img alt="Avatar als grösseres rundes Profilbild" width="96" height="96"><figcaption>96 × 96 px</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="mission profile">
+    <h2>Mission 03 · Steckbrief</h2>
+    <details class="worksheet">
+      <summary>Vorschau des Auftragsblatts</summary>
+      <img src="3_Steckbrief.png" width="1491" height="1055" loading="lazy" alt="Auftragsblatt zu Mission 03 mit einem fertig gestalteten Beispiel-Steckbrief">
+    </details>
+    <p><a href="3_Steckbrief.pdf" download>Auftragsblatt Steckbrief herunterladen (PDF)</a></p>
+    <p>Gestalte mit deinem Schulkonto in Canva einen persönlichen Steckbrief auf <strong>einer A4-Seite im Querformat</strong>. Zeige, wer du im echten Leben und in der digitalen Welt bist.</p>
+    <h3>Das gehört in deinen Steckbrief</h3>
+    <ul>
+      <li>Dein Avatar aus Mission 02 oder ein neu gestalteter Avatar.</li>
+      <li>Deine Interessen im echten Leben, etwa Sport, Musik, Tiere oder Reisen.</li>
+      <li>Wer dir wichtig ist, etwa Familie, Freund:innen oder Haustiere. Du entscheidest, welche Details du teilst.</li>
+      <li>Ein digital-LAB-Element wie Code, Pixel, Robotik, Game, KI, Kamera, Schaltkreis, Daten oder Zukunft. Erkläre, warum du es gewählt hast und was du dazu lernen möchtest.</li>
+    </ul>
+    <p>Ordne Text, Bilder, Icons und Farben übersichtlich an. Lade deinen Steckbrief als <strong>PDF oder PNG</strong> herunter und reiche ihn gemäss Auftrag in Teams ein.</p>
+  </section>
+</main>
+<script>
+  const input = document.getElementById("avatar");
+  const preview = document.getElementById("preview");
+  const status = document.getElementById("avatar-status");
+  const images = preview.querySelectorAll("img");
+  let currentUrl;
+
+  input.addEventListener("change", async () => {
+    if (currentUrl) URL.revokeObjectURL(currentUrl);
+    currentUrl = undefined;
+    preview.hidden = true;
+    status.textContent = "";
+    const file = input.files[0];
+    if (!file) return;
+    if (file.type !== "image/png" && (file.type || !/\.png$/i.test(file.name))) {
+      status.textContent = "Bitte wähle eine PNG-Datei.";
+      return;
+    }
+
+    const url = URL.createObjectURL(file);
+    currentUrl = url;
+    try {
+      for (const image of images) image.src = url;
+      await Promise.all([...images].map(image => image.decode()));
+      if (currentUrl !== url) return;
+      const { naturalWidth, naturalHeight } = images[0];
+      status.textContent = naturalWidth === naturalHeight
+        ? "Dein Avatar ist quadratisch."
+        : "Dein Bild ist " + naturalWidth + " × " + naturalHeight + " Pixel gross. Prüfe das quadratische Format (1:1).";
+      preview.hidden = false;
+    } catch {
+      if (currentUrl !== url) return;
+      URL.revokeObjectURL(url);
+      currentUrl = undefined;
+      status.textContent = "Das Bild konnte nicht geöffnet werden. Speichere deinen Avatar erneut als PNG.";
+    }
+  });
+
+  if (window.parent !== window && "ResizeObserver" in window) {
+    document.documentElement.classList.add("embedded");
+    let lastHeight;
+    new ResizeObserver(() => {
+      const height = Math.ceil(document.body.getBoundingClientRect().height);
+      if (!height || height === lastHeight) return;
+      lastHeight = height;
+      window.parent.postMessage({ projectGuideHeight: height }, "*");
+    }).observe(document.body);
+  }
+</script>
+</body>
+</html>

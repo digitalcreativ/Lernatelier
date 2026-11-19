@@ -423,5 +423,13 @@ figcaption{font-size:13px;color:var(--muted)}
 
 </div>
 
+<script>
+if (window.parent !== window) {
+  const reportHeight = () => {
+    window.parent.postMessage({ projectGuideHeight: document.body.getBoundingClientRect().height }, "*");
+  };
+  new ResizeObserver(reportHeight).observe(document.body);
+}
+</script>
 </body>
 </html>
