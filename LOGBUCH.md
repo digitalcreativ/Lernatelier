@@ -8,6 +8,7 @@
   - **BraceletBook** (https://www.braceletbook.com/): Knüpfmuster für Freundschaftsbänder mit Videos und Tutorials; Ansehen ohne Anmeldung, Englisch.
   - **nadelspiel · Stricken & Häkeln** (https://www.nadelspiel.com/): deutsche Videokurse zu Grundtechniken; teils kostenlos, Muster teilweise kostenpflichtig, seit 2021 nicht mehr aktiv ergänzt.
   - nadelspiel-Button anschliessend umbenannt in **«nadelspiel · Stricken lernen»** und direkt auf die Anfängerseite verlinkt: https://www.nadelspiel.com/stricken/stricken-lernen-anfaenger/ (Link geprüft).
+  - Zusätzlicher Button **«nadelspiel · Amigurumi häkeln»**: https://www.nadelspiel.com/haekeln/amigurumi-haekeln-2/ (Link geprüft). Anleitungen und Videos zu gehäkelten Figuren; einige Vorlagen kostenlos als PDF, andere kostenpflichtig im Shop, einzelne nur im Club.
 
 ### Schriftzug mit Flexfolie · Beispielwort
 - In der Anleitung den Beispielnamen durch **«happy»** ersetzt: in allen Zeichnungen (Blockschrift als «HAPPY», Schreibschrift als «happy»), im Speichernamen und in Schritt 2. Beim Entgittern heissen die Beispiel-Innenteile jetzt «A und P». Zwei kleine Darstellungsfehler korrigiert (Beschriftung in Schritt 2 und 3). PDF neu erzeugt und Darstellung per Bildschirmfoto geprüft.
