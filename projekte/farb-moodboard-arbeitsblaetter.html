@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mein Farb-Moodboard – Arbeitsblätter und Bewertung</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 1rem; background: #fff8f3; color: #302132; font: 1rem/1.4 system-ui, sans-serif; }
+    main, nav { max-width: 48rem; margin: auto; }
+    nav { display: flex; flex-wrap: wrap; gap: .75rem 1rem; align-items: center; }
+    a { color: #8e245a; }
+    button { font: inherit; cursor: pointer; }
+    section { margin-top: 1rem; padding: clamp(.7rem, 3vw, 1.5rem); background: white; border: 1px solid #e2cbd8; border-radius: .65rem; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { margin-top: .25rem; }
+    h3 { font-size: 1rem; margin-bottom: .35rem; }
+    .mixes, .variants { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: .5rem; }
+    .mixes > div, .variants > div, .sample { border: 1px solid #7e7180; border-radius: .3rem; padding: .5rem; }
+    .mixes > div, .variants > div { min-height: 6.5rem; }
+    .mixes span { font-size: 1.4rem; white-space: nowrap; }
+    .variants .line { margin-top: 3rem; }
+    .sample { min-height: 5rem; }
+    .line { border-bottom: 1px solid #7e7180; min-height: 1.55rem; }
+    table { border-collapse: collapse; width: 100%; }
+    caption { text-align: left; padding-bottom: .5rem; }
+    th, td { border: 1px solid #7e7180; padding: .35rem; text-align: left; vertical-align: top; }
+    tbody th { font-weight: normal; }
+    td { white-space: nowrap; }
+    table ul { margin: .25rem 0; padding-inline-start: 1.15rem; }
+    @page { size: A4; margin: 14mm; }
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      nav { display: none; }
+      section { border: 0; margin: 0; padding: 0; }
+      section + section { break-before: page; }
+      tr { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<nav aria-label="Arbeitsblätter">
+  <a href="#mischen">Farben mischen</a>
+  <a href="#lieblingsfarbe">Meine Lieblingsfarbe</a>
+  <a href="#bewertung">Bewertung</a>
+  <button type="button" onclick="window.print()">Arbeitsblätter drucken</button>
+</nav>
+<main>
+  <section id="mischen">
+    <h1>Farben mischen</h1>
+    <p>Name ________________________</p>
+    <h3>Farben erforschen</h3>
+    <p>Mische jeweils zwei Farben. Male beide Ausgangsfarben und das Ergebnis auf. Notiere unter jeder Probe die verwendeten Farben. Probiere zum Beispiel Gelb und Blau, Rot und Gelb, Blau und Rot sowie Grün und Weiss.</p>
+    <div class="mixes">
+      <div><span>○ + ○ = ○</span><div class="line"></div><div class="line"></div></div>
+      <div><span>○ + ○ = ○</span><div class="line"></div><div class="line"></div></div>
+      <div><span>○ + ○ = ○</span><div class="line"></div><div class="line"></div></div>
+      <div><span>○ + ○ = ○</span><div class="line"></div><div class="line"></div></div>
+    </div>
+    <h3>Deine Lieblingsfarbe</h3>
+    <p>Mische deine Lieblingsfarbe möglichst genau. Male eine Farbprobe und notiere dein Mischrezept.</p>
+    <div class="sample"></div>
+    <div class="line">Mischrezept</div>
+    <h3>Hell und dunkel</h3>
+    <p>Male deine Ausgangsfarbe in das mittlere Feld. Mische eine hellere und eine dunklere Variante desselben Farbtons. Male sie daneben und schreibe auf, wie du jede Variante gemischt hast.</p>
+    <div class="variants">
+      <div>Hellere Variante<div class="line">Mischrezept</div></div>
+      <div>Lieblingsfarbe<div class="line">Mischrezept</div></div>
+      <div>Dunklere Variante<div class="line">Mischrezept</div></div>
+    </div>
+  </section>
+  <section id="lieblingsfarbe">
+    <h2>Meine Lieblingsfarbe</h2>
+    <p>Name ________________________ &nbsp; Datum ______________</p>
+    <h3>Deine Farbe</h3>
+    <p>Wie sieht deine Lieblingsfarbe aus? Warum gefällt sie dir?</p>
+    <div class="line"></div><div class="line"></div><div class="line"></div>
+    <h3>Erfinde einen Namen</h3>
+    <div class="line">Mein Farbname</div>
+    <h3>Deine Farbprobe</h3>
+    <p>Male oder klebe hier eine Farbprobe ein.</p>
+    <div class="sample"></div>
+    <h3>Auf Farbspurensuche</h3>
+    <p>Wo kommt deine Farbe vor? Denk an Natur, Gegenstände, Kleidung, Kunst, Orte oder Gefühle.</p>
+    <div class="line"></div><div class="line"></div><div class="line"></div>
+    <h3>Knack den Farbcode</h3>
+    <p>Finde den digitalen Farbton, der deiner Farbprobe möglichst genau entspricht.</p>
+    <p>HEX-Code # __________ &nbsp; RGB-Code ______ / ______ / ______</p>
+    <h3>Meine Farbe passt zu mir, weil …</h3>
+    <div class="line"></div><div class="line"></div>
+  </section>
+  <section id="bewertung">
+    <h2>Bewertungsraster · Mein Farb-Moodboard</h2>
+    <p>Name ________________________ &nbsp; Gewählte Farbe ________________________</p>
+    <table>
+      <caption>Pro Teilkriterium gibt es 1 Punkt für «erfüllt», ½ Punkt für «teilweise erfüllt» oder 0 Punkte für «fehlt».</caption>
+      <thead><tr><th scope="col">Kriterien</th><th scope="col">Ich</th><th scope="col">LP</th></tr></thead>
+      <tbody>
+        <tr>
+          <th scope="row"><strong>Inhalt der 16 Felder</strong><ul>
+            <li>1 Feld zeigt den Namen meiner Farbe.</li>
+            <li>2 Felder zeigen je ein Foto eines Gegenstands.</li>
+            <li>5 Felder sind Materialquadrate, etwa aus Filz oder Wolle.</li>
+            <li>8 Felder habe ich passend zu meiner Farbe frei gestaltet.</li>
+          </ul></th><td>___ / 4</td><td>___ / 4</td>
+        </tr>
+        <tr>
+          <th scope="row"><strong>Bildbearbeitung am PC</strong><ul>
+            <li>Ich habe die Bilder quadratisch gespeichert.</li>
+            <li>Ich habe die Gegenstände in Word sauber freigestellt.</li>
+            <li>Die Bilder sind in Word je 4 × 4 cm gross.</li>
+          </ul></th><td>___ / 3</td><td>___ / 3</td>
+        </tr>
+        <tr>
+          <th scope="row"><strong>Farbe und Text in Word</strong><ul>
+            <li>Ich habe das Raster passend eingefärbt.</li>
+            <li>Mein Text zeigt Farbvariationen, Farbcodes oder einen Funfact.</li>
+            <li>Ich habe den Text gut lesbar formatiert.</li>
+          </ul></th><td>___ / 3</td><td>___ / 3</td>
+        </tr>
+        <tr>
+          <th scope="row"><strong>Ausschneiden und Kleben</strong><ul>
+            <li>Ich habe alle 16 Quadrate exakt ausgeschnitten.</li>
+            <li>Die Quadrate sind bündig in die Rasterfelder geklebt.</li>
+            <li>Alles hält fest. Die sichtbaren Flächen sind frei von Leimspuren.</li>
+          </ul></th><td>___ / 3</td><td>___ / 3</td>
+        </tr>
+      </tbody>
+      <tfoot><tr><th scope="row">Gesamtpunktzahl</th><td>___ / 13</td><td>___ / 13</td></tr></tfoot>
+    </table>
+    <h3>Rückmeldung</h3>
+    <div class="line"></div><div class="line"></div><div class="line"></div>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mein Farb-Moodboard</title>
+  <style>
+    :root { color-scheme: light dark; font: 100%/1.55 system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    .embedded { overflow: hidden; }
+    body { margin: 0; padding: clamp(12px, 4vw, 32px); background: light-dark(#fff8f3, #221a22); color: light-dark(#302132, #f9ecf5); }
+    main { max-width: 50rem; margin: auto; }
+    h1 { font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.1; margin: .2em 0; }
+    h2 { margin: 0; font-size: 1.35rem; }
+    section { margin-top: 1rem; padding: clamp(12px, 3vw, 24px); border: 1px solid light-dark(#e2cbd8, #654e60); border-left: 5px solid var(--accent); border-radius: .65rem; background: light-dark(white, #302630); }
+    section:nth-of-type(3n+1) { --accent: #d778a4; }
+    section:nth-of-type(3n+2) { --accent: #619c89; }
+    section:nth-of-type(3n) { --accent: #a08ac8; }
+    ul, ol { padding-inline-start: 1.4rem; }
+    li + li { margin-top: .25rem; }
+    a { color: light-dark(#8e245a, #ffb1d5); font-weight: 600; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <p>Bildnerisches Gestalten · 1. Oberstufe</p>
+    <h1>Mein Farb-Moodboard</h1>
+    <p>Wie sieht deine Lieblingsfarbe aus, wenn du sie mischst, fotografierst und in verschiedenen Materialien findest? Gestalte ein Moodboard, das die Vielfalt deiner Farbe in 16 Quadraten zeigt.</p>
+    <p><a href="farb-moodboard-arbeitsblaetter.html" target="_blank" rel="noopener">Arbeitsblätter und Bewertungsraster öffnen</a></p>
+  </header>
+  <section>
+    <h2>1. Farben mischen</h2>
+    <p>Probiere vier Mischungen aus je zwei Farben aus. Male die Ergebnisse auf das Blatt «Farben mischen» und notiere, welche Farben du verwendet hast. Mische dann deine Lieblingsfarbe und halte dein Rezept fest. Ungefähre Mengen helfen dir, den Ton erneut zu mischen.</p>
+    <p>Teile deine Mischung in drei Portionen. Behalte eine Probe als Vergleich und mische eine hellere und eine dunklere Variante desselben Farbtons. Male alle drei Proben auf und beschrifte deine Rezepte.</p>
+  </section>
+  <section>
+    <h2>2. Deine Lieblingsfarbe erforschen</h2>
+    <p>Beschreibe deinen Farbton und erkläre, warum er dir gefällt. Erfinde einen eigenen Namen, etwa «Zimtwolke» oder «Mooslicht». Male oder klebe eine Farbprobe ein. Sammle Beispiele, wo deine Farbe vorkommt, und suche einen passenden digitalen Farbton. Notiere den HEX-Code und die drei RGB-Werte auf dem Arbeitsblatt «Meine Lieblingsfarbe».</p>
+  </section>
+  <section>
+    <h2>3. Fotos und Raster in Word vorbereiten</h2>
+    <ol>
+      <li>Fotografiere zwei Gegenstände in deiner Farbwelt. Schneide beide Fotos quadratisch zu und speichere sie als Bilddateien.</li>
+      <li>Füge die Fotos in Word ein. Stelle die Gegenstände frei, sodass der Hintergrund entfernt ist. Prüfe die Kanten und stelle beide Bilder auf je 4 × 4 cm ein.</li>
+      <li>Erstelle eine Raster-Tabelle mit vier Spalten und vier Zeilen. Stelle die Spaltenbreite und die genaue Zeilenhöhe auf je 4 cm ein. Färbe die Felder passend ein.</li>
+      <li>Gestalte ein Quadrat mit deinem Farbnamen. Ergänze dort gut lesbar Farbvariationen, einen Farbcode oder einen Funfact. Drucke das Raster und die digitalen Quadrate aus. Kontrolliere die Seitenlänge mit dem Lineal.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>4. Moodboard zusammensetzen</h2>
+    <ul>
+      <li><strong>1 Quadrat</strong> mit dem Namen deiner Farbe</li>
+      <li><strong>2 Quadrate</strong> mit je einem freigestellten Gegenstandsfoto</li>
+      <li><strong>5 Materialquadrate</strong>, etwa aus Filz, Wolle, Stoff oder Papier</li>
+      <li><strong>8 frei gestaltete Quadrate</strong>, etwa mit Farbmischungen, Mustern, frottierten Oberflächen oder Collagen</li>
+    </ul>
+    <p>Schneide alle 16 Quadrate auf je 4 × 4 cm zu. Lege sie probeweise ins Raster und prüfe, wie helle, dunkle und strukturierte Flächen zusammenwirken. Klebe sie anschliessend bündig und ohne sichtbare Leimspuren ein.</p>
+  </section>
+  <section>
+    <h2>Material und Abgabe</h2>
+    <p>Du brauchst Mischfarben, Pinsel, Mischpalette, Papier, eine Kamera, einen PC mit Word, einen Drucker, Materialreste, Lineal, Schere und Leim.</p>
+    <p>Gib dein Moodboard, die beiden ausgefüllten Arbeitsblätter und deine Selbsteinschätzung ab. Das Bewertungsraster umfasst 13 Punkte. Trage deine Einschätzung in die Spalte «Ich» ein. Die Spalte «LP» ist für die Lehrperson.</p>
+  </section>
+</main>
+<script>
+  if (window.parent !== window && 'ResizeObserver' in window) {
+    document.documentElement.classList.add('embedded');
+    new ResizeObserver(() => {
+      const height = Math.ceil(document.body.getBoundingClientRect().height);
+      window.parent.postMessage({ projectGuideHeight: height }, '*');
+    }).observe(document.body);
+  }
+</script>
+</body>
+</html>
