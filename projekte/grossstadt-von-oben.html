@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Grossstadt von oben</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: eine Spalte, 7 Etappen wie auf den Arbeitsblättern; jede Etappe = Checkliste + Zwischenziel links, Zeichnung rechts.
+   Zeichnungen: Vogelperspektive mit einem Fluchtpunkt, Tinte + Petrol + Leuchtgelb wie auf den Blättern */
+:root{
+  --bg:#f6f7f7; --surface:#ffffff; --fg:#1b2223; --muted:#5f6a6b; --line:#d9e0e0;
+  --accent:#14857c; --accent-ink:#0f6b64; --accent-tint:#dff1ee; --hi:#f4d84a;
+  --ok:#2c8657; --warn:#c0482a;
+  --ink:#232a2b; --roof:#ffffff; --side1:#e4ebea; --side2:#c9d6d4; --road:#eef1f1; --tree:#5aa37a; --treed:#3b7d58;
+  --teal:#8fd0c6; --yellow:#f6e27a; --paper:#ffffff; --board:#c8b48e; --thread:#1aa6a0;
+  --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#131819; --surface:#1c2324; --fg:#ecf1f1; --muted:#a2adae; --line:#334041;
+  --accent:#3cc0b4; --accent-ink:#6fd6cc; --accent-tint:#1d3634; --hi:#d9bd2c;
+  --ok:#5cc08d; --warn:#e8805f;
+  --ink:#dfe7e7; --roof:#2a3334; --side1:#38494a; --side2:#4a6061; --road:#232c2d; --tree:#4f9a70; --treed:#3a7a56;
+  --teal:#2f7f76; --yellow:#8c7a22; --paper:#252d2e; --board:#6e5f45; --thread:#3cc0b4; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#131819; --surface:#1c2324; --fg:#ecf1f1; --muted:#a2adae; --line:#334041;
+  --accent:#3cc0b4; --accent-ink:#6fd6cc; --accent-tint:#1d3634; --hi:#d9bd2c;
+  --ok:#5cc08d; --warn:#e8805f;
+  --ink:#dfe7e7; --roof:#2a3334; --side1:#38494a; --side2:#4a6061; --road:#232c2d; --tree:#4f9a70; --treed:#3a7a56;
+  --teal:#2f7f76; --yellow:#8c7a22; --paper:#252d2e; --board:#6e5f45; --thread:#3cc0b4; color-scheme:dark }
+
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:940px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(30px,5.4vw,44px)}
+h2{font-size:21px}
+p{margin:0}
+b{font-weight:600}
+.mark{background:linear-gradient(transparent 55%,var(--hi) 55%,var(--hi) 92%,transparent 92%);padding:0 2px}
+.hero{display:grid;grid-template-columns:.9fr 1.1fr;gap:24px;align-items:center}
+.hero > div{min-width:0}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:44ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;margin-bottom:8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:var(--surface)}
+.mission{margin-top:18px;background:var(--accent-tint);border-radius:10px;padding:14px 16px}
+.mission h3{font-size:15px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+.material{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.material ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.material h2{margin-bottom:10px}
+
+.stage{display:grid;grid-template-columns:1fr 1.05fr;gap:24px;align-items:start;border:1.5px solid var(--accent);border-radius:12px;background:var(--surface);padding:22px}
+.stage > div{min-width:0}
+.stage-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.big{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--accent-tint);color:var(--accent-ink);font:700 22px var(--f-display);flex:none}
+.big.y{background:var(--hi);color:#1b2223}
+.stage h2{font-size:20px}
+.stage p{max-width:60ch}
+.stage p + p{margin-top:8px}
+ul.check{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+ul.check li{display:flex;gap:10px;align-items:flex-start}
+ul.check input{width:17px;height:17px;margin-top:3px;accent-color:var(--accent);flex:none}
+.goal{margin-top:14px}
+.goal .lab{display:inline-block;font:700 13px var(--f-display);letter-spacing:.05em;text-transform:uppercase;background:var(--hi);color:#1b2223;padding:1px 8px;border-radius:3px;transform:rotate(-1deg)}
+.goal p{background:var(--accent-tint);border-radius:8px;padding:8px 12px;margin-top:6px;font-size:14px}
+.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.mini div{border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px;background:var(--bg)}
+.mini b{display:block;font-family:var(--f-display);font-size:14px;margin-bottom:2px}
+.videos{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.videos .lab{font:700 13px var(--f-display);letter-spacing:.05em;text-transform:uppercase;color:var(--accent-ink);margin-right:4px}
+.videos a{display:inline-flex;align-items:center;gap:6px;font:600 14px var(--f-body);color:var(--accent-ink);text-decoration:none;border:1.5px solid var(--accent);border-radius:999px;padding:4px 12px;background:var(--accent-tint)}
+.videos a:hover{background:var(--surface)}
+.videos a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.merke{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px}
+.merke .lab{font:700 16px var(--f-display);text-transform:uppercase;background:var(--accent-tint);color:var(--accent-ink);padding:2px 10px;border-radius:4px}
+.stop{border:2px solid var(--warn);border-radius:10px;padding:14px 18px;background:var(--surface);display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.stop b{font:700 17px var(--f-display);color:var(--warn);text-transform:uppercase}
+figure{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+figure svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--paper);border:1px solid var(--line)}
+figcaption{font-size:13px;color:var(--muted)}
+.lab-ctrl{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:14px}
+.lab-ctrl label{display:flex;align-items:center;gap:8px}
+.lab-ctrl input[type=range]{accent-color:var(--accent);width:140px}
+.lab-ctrl input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+.lab-ctrl button{font:600 13px var(--f-body);border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:6px;padding:5px 10px;cursor:pointer}
+#lab{cursor:crosshair;touch-action:none}
+#lab:focus-visible,.lab-ctrl button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hatches{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.hatches figure svg{border-radius:6px}
+.hatches figcaption{text-align:center;font-size:12px}
+
+.table-wrap{overflow-x:auto;border:1.5px solid var(--accent);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+th{font:700 12px var(--f-body);letter-spacing:.05em;text-transform:uppercase;background:var(--hi);color:#1b2223;text-align:center}
+th:first-child{text-align:left;background:var(--accent-tint);color:var(--accent-ink)}
+td.lv{text-align:center;color:var(--muted);font-size:13px}
+tr:nth-child(even) td{background:var(--bg)}
+
+/* SVG */
+.ink{stroke:var(--ink);fill:none}
+.ray{stroke:var(--ink);stroke-width:.6;opacity:.25;stroke-dasharray:3 4}
+.vl{stroke:var(--accent);stroke-width:1.2;stroke-dasharray:5 4;fill:none}
+.vp{fill:var(--accent);stroke:var(--paper);stroke-width:3}
+.lbl{fill:var(--muted);font:500 12px var(--f-body)}
+.lblb{fill:var(--fg);font:600 13px var(--f-body)}
+.arrow{stroke:var(--fg);stroke-width:1.6;fill:none}
+.bad{stroke:var(--warn);stroke-width:2;fill:none}
+.good{stroke:var(--ok);stroke-width:2;fill:none}
+
+@media (max-width:760px){
+  .hero,.stage,.material{grid-template-columns:1fr}
+  .stage,.card{padding:16px}
+  .mini{grid-template-columns:1fr 1fr}
+}
+@page{ size:A4; margin:10mm }
+@media print{
+  html{zoom:.8}
+  body{padding:0;font-size:14px;line-height:1.45}
+  .wrap{max-width:none;gap:12px}
+  .hero{grid-template-columns:.9fr 1.1fr;gap:18px}
+  .stage{grid-template-columns:1fr 1.05fr;gap:18px;padding:14px 16px}
+  .material{grid-template-columns:1fr 1fr;gap:18px}
+  .card{padding:14px 16px}
+  .mini{grid-template-columns:1fr 1fr}
+  .lab-ctrl{display:none}
+  html,body{background:#fff}
+  .stage,.card,.merke,.stop,.hero,.table-wrap{break-inside:avoid}
+  .beurteilung{break-inside:avoid;break-before:page}
+  .table-wrap{overflow:visible}
+  table{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--fg)"/></marker>
+    <pattern id="hPar" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="var(--ink)" stroke-width="1.2"/></pattern>
+    <pattern id="hX" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V6M0 0H6" stroke="var(--ink)" stroke-width="1.1"/></pattern>
+    <pattern id="hDot" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="var(--ink)"/><circle cx="5" cy="5" r=".8" fill="var(--ink)"/></pattern>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Bildnerisches Gestalten · Wahlfach 2./3. OS</div>
+      <h1><span class="mark">Grossstadt</span> von oben</h1>
+      <p class="lead">Du zeichnest eine Stadt aus der Vogelperspektive. Alle Gebäudekanten laufen auf einen einzigen Fluchtpunkt in der Bildmitte zu. Ein gespannter Faden hilft dir dabei.</p>
+      <div class="meta"><span class="chip">7 Etappen</span><span class="chip">Zentralperspektive</span><span class="chip">Bleistift · Fineliner</span></div>
+      <div class="mission">
+        <h3>Deine Mission</h3>
+        <p>Entdecke, wie mit einem einzigen Fluchtpunkt eine ganze Stadt räumlich wirken kann.</p>
+      </div>
+    </div>
+    <figure>
+      <svg id="hero" viewBox="0 0 440 300" role="img" aria-label="Gezeichnete Stadt von oben: Hochhäuser laufen auf den Fluchtpunkt in der Mitte zu"></svg>
+    </figure>
+  </header>
+
+  <section class="card material">
+    <div>
+      <h2>Material</h2>
+      <ul>
+        <li>Skizzenpapier und ein Reinblatt (Zeichenpapier)</li>
+        <li>Feste Unterlage (Karton oder Holzplatte)</li>
+        <li>Faden und eine Reisszwecke</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Werkzeug</h2>
+      <ul>
+        <li>Bleistift (HB) und Radiergummi</li>
+        <li>Fineliner (z. B. 0,1 / 0,3 / 0,5)</li>
+        <li>Lineal für die Strassen</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ETAPPE 1 -->
+  <section class="stage">
+    <div>
+      <div class="stage-head"><span class="big">1</span><h2>Perspektive entdecken</h2></div>
+      <div class="mini">
+        <div><b>Schau genau</b>Betrachte die Beispielbilder und Drohnenvideos. Was fällt dir an Linien und Gebäuden auf?</div>
+        <div><b>Tauscht euch aus</b>Wo liegt der Fluchtpunkt? Welche Linien laufen auf ihn zu? Woran erkennt ihr die Vogelperspektive?</div>
+        <div><b>Probiere den Faden aus</b>Skizzenpapier auf der Unterlage befestigen. Eine Schlaufe in den Faden knoten und mit der Reisszwecke in der Papiermitte fixieren.</div>
+        <div><b>Übungsskizze</b>Mit Bleistift strahlenförmige Linien entlang des gespannten Fadens ziehen. Einige sorgfältig mit Fineliner nachziehen.</div>
+      </div>
+      <div class="videos">
+        <span class="lab">Drohnenvideos</span>
+        <a href="https://www.youtube.com/watch?v=7M2TBYnMLkM&amp;t=51s" target="_blank" rel="noopener">▶ Zug von oben</a>
+        <a href="https://www.youtube.com/watch?v=hv9ycb1Ei4g&amp;t=13s" target="_blank" rel="noopener">▶ New York von oben</a>
+      </div>
+      <div class="goal"><span class="lab">Ziel-Check</span>
+        <ul class="check">
+          <li><input type="checkbox" id="z1"><label for="z1">Ich finde den Fluchtpunkt.</label></li>
+          <li><input type="checkbox" id="z2"><label for="z2">Ich erkenne Tiefenlinien.</label></li>
+          <li><input type="checkbox" id="z3"><label for="z3">Ich kann den Faden als Zeichenhilfe einsetzen.</label></li>
+        </ul>
+      </div>
+    </div>
+    <figure>
+      <svg id="thread" viewBox="0 0 340 240" role="img" aria-label="Papier auf einer Unterlage, Reisszwecke in der Mitte, gespannter Faden mit Bleistift"></svg>
+      <figcaption>Der Faden dreht sich um die Reisszwecke. Jede Linie entlang des Fadens zielt auf den Fluchtpunkt.</figcaption>
+    </figure>
+  </section>
+
+  <div class="merke"><span class="lab">Merke</span><span>Der Faden ist kein Lineal. Er gibt nach und dient dir als Orientierung.</span></div>
+
+  <!-- ETAPPE 2 -->
+  <section class="stage">
+    <div>
+      <div class="stage-head"><span class="big">2</span><h2>Stadt planen</h2></div>
+      <ul class="check">
+        <li><input type="checkbox" id="a1"><label for="a1">Ideen für Strassenführung und Gebäude sammeln</label></li>
+        <li><input type="checkbox" id="a2"><label for="a2">Kleine Vorentwürfe anfertigen</label></li>
+        <li><input type="checkbox" id="a3"><label for="a3">Hauptstrasse und Fluchtpunkt auf dem Reinblatt festlegen</label></li>
+        <li><input type="checkbox" id="a4"><label for="a4">Dächer als geometrische Formen verteilen</label></li>
+      </ul>
+      <p style="margin-top:10px;font-size:14px;color:var(--muted)">Dächer sind die Formen, die dir am nächsten sind. Rechtecke, Quadrate, Kreise, L-Formen oder Dreiecke: Je verschiedener, desto spannender.</p>
+      <div class="goal"><span class="lab">Mein Zwischenziel</span><p>Die Grundaufteilung meiner Stadt steht.</p></div>
+    </div>
+    <figure>
+      <svg id="plan" viewBox="0 0 340 240" role="img" aria-label="Plan: Strassenkreuz, Fluchtpunkt und Dächer als Umrisse"></svg>
+      <figcaption>Erst nur die Dächer: Sie werden nicht verkleinert.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ETAPPE 3 -->
+  <section class="stage">
+    <div>
+      <div class="stage-head"><span class="big y">3</span><h2>Gebäude konstruieren</h2></div>
+      <ul class="check">
+        <li><input type="checkbox" id="b1"><label for="b1">Ecken der Dächer mithilfe des Fadens mit dem Fluchtpunkt verbinden</label></li>
+        <li><input type="checkbox" id="b2"><label for="b2">Höhe der Gebäude bestimmen</label></li>
+        <li><input type="checkbox" id="b3"><label for="b3">Vorder- und Rückseiten richtig begrenzen</label></li>
+        <li><input type="checkbox" id="b4"><label for="b4">Erste Seitenstrassen ergänzen</label></li>
+      </ul>
+      <p style="margin-top:10px;font-size:14px;color:var(--muted)">Je höher ein Gebäude ist, desto weiter laufen seine Wände Richtung Fluchtpunkt. Der Boden des Gebäudes ist eine verkleinerte Kopie des Dachs.</p>
+      <div class="goal"><span class="lab">Mein Zwischenziel</span><p>Alle wichtigen Gebäude sind perspektivisch konstruiert.</p></div>
+    </div>
+    <figure>
+      <svg id="lab" tabindex="0" viewBox="0 0 340 240" role="img" aria-label="Fluchtpunkt-Labor: Klicke in die Zeichnung, um den Fluchtpunkt zu verschieben"></svg>
+      <div class="lab-ctrl">
+        <label for="hgt">Gebäudehöhe <input type="range" id="hgt" min="5" max="75" value="45"></label>
+        <label for="showVl"><input type="checkbox" id="showVl" checked> Fluchtlinien</label>
+        <button type="button" id="resetVp">Fluchtpunkt in die Mitte</button>
+      </div>
+      <figcaption><b>Fluchtpunkt-Labor:</b> Klicke in die Zeichnung (oder Pfeiltasten), um den Fluchtpunkt zu verschieben. Mit dem Regler änderst du die Höhe.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ETAPPE 4 -->
+  <section class="stage">
+    <div>
+      <div class="stage-head"><span class="big">4</span><h2>Perspektive kontrollieren</h2></div>
+      <ul class="check">
+        <li><input type="checkbox" id="c1"><label for="c1">Linien und Überschneidungen überprüfen</label></li>
+        <li><input type="checkbox" id="c2"><label for="c2">Fehler korrigieren</label></li>
+        <li><input type="checkbox" id="c3"><label for="c3">Weitere Häuser oder besondere Gebäude ergänzen</label></li>
+        <li><input type="checkbox" id="c4"><label for="c4">Gelungene Linien vorsichtig mit Fineliner nachziehen</label></li>
+      </ul>
+      <div class="goal"><span class="lab">Mein Zwischenziel</span><p>Die Konstruktion ist vollständig und perspektivisch nachvollziehbar.</p></div>
+    </div>
+    <figure>
+      <svg id="ctrl" viewBox="0 0 340 220" role="img" aria-label="Kontrolle: Eine Kante zielt am Fluchtpunkt vorbei und ist falsch"></svg>
+      <figcaption>Verlängere jede Wandkante mit dem Faden: Sie muss genau den Fluchtpunkt treffen.</figcaption>
+    </figure>
+  </section>
+
+  <div class="stop"><b>Stopp vor dem Fineliner!</b><span>Lass deine Konstruktion kontrollieren, bevor du Linien endgültig nachziehst.</span></div>
+
+  <!-- ETAPPE 5 -->
+  <section class="stage">
+    <div>
+      <div class="stage-head"><span class="big y">5</span><h2>Fassaden gestalten</h2></div>
+      <ul class="check">
+        <li><input type="checkbox" id="d1"><label for="d1">Fenster, Balkone und Türen entwickeln</label></li>
+        <li><input type="checkbox" id="d2"><label for="d2">Fassadenelemente und Linien ergänzen</label></li>
+        <li><input type="checkbox" id="d3"><label for="d3">Abstände zum Fluchtpunkt hin kleiner werden lassen</label></li>
+        <li><input type="checkbox" id="d4"><label for="d4">Unterschiedliche Gebäudestile verwenden</label></li>
+      </ul>
+      <div class="goal"><span class="lab">Mein Zwischenziel</span><p>Ein grosser Teil der Fassaden ist detailliert gestaltet.</p></div>
+    </div>
+    <figure>
+      <svg id="facade" viewBox="0 0 340 230" role="img" aria-label="Fassade: Stockwerke werden zum Fluchtpunkt hin schmaler, senkrechte Linien zielen auf den Fluchtpunkt"></svg>
+      <figcaption>Waagrechte Stockwerklinien bleiben parallel zur Dachkante. Senkrechte Linien zielen auf den Fluchtpunkt.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ETAPPE 6 -->
+  <section class="stage">
+    <div>
+      <div class="stage-head"><span class="big">6</span><h2>Tiefe und Kontraste</h2></div>
+      <ul class="check">
+        <li><input type="checkbox" id="e1"><label for="e1">Fassaden fertigstellen</label></li>
+        <li><input type="checkbox" id="e2"><label for="e2">Hell-Dunkel-Wirkung verstärken</label></li>
+        <li><input type="checkbox" id="e3"><label for="e3">Untere bzw. nahe Bereiche dunkler gestalten</label></li>
+        <li><input type="checkbox" id="e4"><label for="e4">Schraffuren, Muster und Schatten einsetzen</label></li>
+      </ul>
+      <div class="goal"><span class="lab">Mein Zwischenziel</span><p>Die Stadt erhält räumliche Tiefe und eine klare Schwarz-Weiss-Wirkung.</p></div>
+      <div class="goal"><span class="lab">Qualitäts-Check</span>
+        <ul class="check">
+          <li><input type="checkbox" id="q1"><label for="q1">Werden die Abstände zum Fluchtpunkt hin kleiner?</label></li>
+          <li><input type="checkbox" id="q2"><label for="q2">Sind nahe Bereiche dunkler als entfernte?</label></li>
+          <li><input type="checkbox" id="q3"><label for="q3">Sind verschiedene Schraffuren und Muster erkennbar?</label></li>
+        </ul>
+      </div>
+    </div>
+    <figure>
+      <div class="hatches">
+        <figure><svg viewBox="0 0 80 60" role="img" aria-label="Parallelschraffur"><rect width="80" height="60" fill="url(#hPar)"/></svg><figcaption>Parallel­schraffur</figcaption></figure>
+        <figure><svg viewBox="0 0 80 60" role="img" aria-label="Kreuzschraffur"><rect width="80" height="60" fill="url(#hX)"/></svg><figcaption>Kreuz­schraffur</figcaption></figure>
+        <figure><svg viewBox="0 0 80 60" role="img" aria-label="Punktmuster"><rect width="80" height="60" fill="url(#hDot)"/></svg><figcaption>Punkt­muster</figcaption></figure>
+        <figure><svg viewBox="0 0 80 60" role="img" aria-label="Schwarze Fläche"><rect width="80" height="60" fill="var(--ink)"/></svg><figcaption>Fläche (Schwarz)</figcaption></figure>
+      </div>
+      <svg id="depth" viewBox="0 0 340 200" role="img" aria-label="Gebäude: Wände werden zum Boden hin dunkler"></svg>
+      <figcaption>Oben am Dach hell, unten am Boden dunkel: So entsteht Tiefe.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ETAPPE 7 -->
+  <section class="stage">
+    <div>
+      <div class="stage-head"><span class="big y">7</span><h2>Deine Stadt ist bereit!</h2></div>
+      <ul class="check">
+        <li><input type="checkbox" id="f1"><label for="f1">Dächer und Strassen ausgestaltet</label></li>
+        <li><input type="checkbox" id="f2"><label for="f2">Autos, Menschen oder andere kleine Elemente ergänzt</label></li>
+        <li><input type="checkbox" id="f3"><label for="f3">Mindestens zwei besondere Details eingebaut</label></li>
+        <li><input type="checkbox" id="f4"><label for="f4">Eigene Fantasieelemente ergänzt</label></li>
+        <li><input type="checkbox" id="f5"><label for="f5">Überflüssige Bleistiftlinien entfernt</label></li>
+        <li><input type="checkbox" id="f6"><label for="f6">Zeichnung auf Sauberkeit und Vollständigkeit kontrolliert</label></li>
+      </ul>
+      <div class="goal"><span class="lab">Mein Zwischenziel</span><p>Die fertige Stadt wirkt lebendig, sorgfältig und räumlich.</p></div>
+    </div>
+    <figure>
+      <svg id="roof" viewBox="0 0 340 230" role="img" aria-label="Dachdetails: Solarpanels, Pool, Helikopterlandeplatz, Bäume und Autos"></svg>
+      <figcaption>Ideen für Dächer: Solarpanels, Dachgarten, Pool, Helikopterlandeplatz, Antennen.</figcaption>
+    </figure>
+  </section>
+
+  <section class="beurteilung">
+    <h2 style="margin-bottom:6px">Selbst- und Lehrpersonenbeurteilung</h2>
+    <p style="color:var(--muted);margin-bottom:14px;font-size:14px">Diese Kriterien gelten für die Schlussbeurteilung. Du schätzt dich zuerst selbst ein (ICH), dann beurteilt die Lehrperson (LP).</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Kriterium</th><th>Übertroffen</th><th>Erreicht</th><th>Teilweise erreicht</th><th>Nicht erreicht</th></tr></thead>
+        <tbody>
+          <tr><td>Perspektive und Fluchtpunkt</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td></tr>
+          <tr><td>Konstruktion der Gebäude</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td></tr>
+          <tr><td>Fassaden und perspektivische Abstände</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td></tr>
+          <tr><td>Räumliche Tiefe und Kontraste</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td></tr>
+          <tr><td>Details und Lebendigkeit</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td></tr>
+          <tr><td>Sorgfalt und Gesamteindruck</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td><td class="lv">○</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  function $(id){return document.getElementById(id);}
+  function txt(g,x,y,s,cls,anc){var t=el("text",{x:x,y:y,"class":cls||"lbl","text-anchor":anc||"start"},g);t.textContent=s;return t;}
+  function P(a){return a.map(function(p){return p[0].toFixed(1)+","+p[1].toFixed(1);}).join(" ");}
+  function lerp(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];}
+  function rect(x,y,w,h){return [[x,y],[x+w,y],[x+w,y+h],[x,y+h]];}
+  function circ(cx,cy,r,n){n=n||28;var a=[];for(var i=0;i<n;i++){var t=i/n*2*Math.PI;a.push([cx+r*Math.cos(t),cy+r*Math.sin(t)]);}return a;}
+
+  // Ein Gebäude aus der Vogelperspektive: Dach = pts, Boden = Dach Richtung Fluchtpunkt verkleinert
+  function building(g,b,vp,H,o){
+    o=o||{};
+    var pts=b.pts, h=Math.min(.92,b.h*H), round=pts.length>8;
+    var base=pts.map(function(p){return [vp[0]+(p[0]-vp[0])*(1-h),vp[1]+(p[1]-vp[1])*(1-h)];});
+    var faces=[];
+    for(var i=0;i<pts.length;i++){
+      var j=(i+1)%pts.length, m=lerp(pts[i],pts[j],.5);
+      faces.push({i:i,j:j,d:Math.hypot(m[0]-vp[0],m[1]-vp[1])});
+    }
+    faces.sort(function(a,b){return b.d-a.d;});
+    faces.forEach(function(f){
+      var a=pts[f.i],c=pts[f.j],dx=Math.abs(c[0]-a[0]),dy=Math.abs(c[1]-a[1]);
+      var fill=o.dark?"url(#gDark)":(dx>dy?"var(--side1)":"var(--side2)");
+      el("polygon",{points:P([a,c,base[f.j],base[f.i]]),fill:fill,stroke:round?"none":"var(--ink)","stroke-width":round?0:.8,"stroke-linejoin":"round"},g);
+      if(o.floors&&!round){
+        var t=0,s=.17;
+        for(var k=0;k<14&&t<.97;k++){t+=s;s*=.86;if(t>=.98)break;
+          el("line",{x1:lerp(a,base[f.i],t)[0],y1:lerp(a,base[f.i],t)[1],x2:lerp(c,base[f.j],t)[0],y2:lerp(c,base[f.j],t)[1],stroke:"var(--ink)","stroke-width":.5,opacity:.55},g);}
+      }
+    });
+    if(o.floors&&round){
+      var t2=0,s2=.17;
+      for(var k2=0;k2<12&&t2<.95;k2++){t2+=s2;s2*=.86;
+        el("polygon",{points:P(pts.map(function(p,i){return lerp(p,base[i],t2);})),fill:"none",stroke:"var(--ink)","stroke-width":.5,opacity:.5},g);}
+    }
+    el("polygon",{points:P(pts),fill:b.col?"var(--"+b.col+")":"var(--roof)",stroke:"var(--ink)","stroke-width":1.1,"stroke-linejoin":"round"},g);
+    if(o.detail&&!round&&b.det!==false){
+      var cx=0,cy=0;pts.forEach(function(p){cx+=p[0];cy+=p[1];});cx/=pts.length;cy/=pts.length;
+      var inner=pts.map(function(p){return lerp([cx,cy],p,.45);});
+      el("polygon",{points:P(inner),fill:"none",stroke:"var(--ink)","stroke-width":.8},g);
+      el("rect",{x:cx-4,y:cy-3,width:8,height:6,fill:"none",stroke:"var(--ink)","stroke-width":.7},g);
+    }
+    if(round&&o.detail){ var c0=pts.reduce(function(s,p){return [s[0]+p[0]/pts.length,s[1]+p[1]/pts.length];},[0,0]);
+      el("circle",{cx:c0[0],cy:c0[1],r:Math.hypot(pts[0][0]-c0[0],pts[0][1]-c0[1])*.45,fill:"none",stroke:"var(--ink)","stroke-width":.8},g);}
+    if(o.lines){ pts.forEach(function(p){ if(!round) el("line",{x1:p[0],y1:p[1],x2:vp[0],y2:vp[1],"class":"vl"},g); }); }
+    return base;
+  }
+  function rays(g,vp,w,h,n){for(var i=0;i<n;i++){var a=i/n*2*Math.PI;el("line",{x1:vp[0],y1:vp[1],x2:vp[0]+Math.cos(a)*600,y2:vp[1]+Math.sin(a)*600,"class":"ray"},g);}}
+  function tree(g,x,y,r){el("circle",{cx:x,cy:y,r:r,fill:"var(--tree)",stroke:"var(--treed)","stroke-width":1},g);el("circle",{cx:x-r*.3,cy:y-r*.3,r:r*.35,fill:"var(--treed)",opacity:.5},g);}
+  function car(g,x,y,vert,col){var w=vert?7:13,h=vert?13:7;el("rect",{x:x-w/2,y:y-h/2,width:w,height:h,rx:2,fill:col||"var(--roof)",stroke:"var(--ink)","stroke-width":.8},g);}
+  function roads(g,vp,W,H,bw){
+    el("rect",{x:0,y:vp[1]-bw,width:W,height:bw*2,fill:"var(--road)"},g);
+    el("rect",{x:vp[0]-bw,y:0,width:bw*2,height:H,fill:"var(--road)"},g);
+    [[0,vp[1]-bw,W,vp[1]-bw],[0,vp[1]+bw,W,vp[1]+bw],[vp[0]-bw,0,vp[0]-bw,H],[vp[0]+bw,0,vp[0]+bw,H]].forEach(function(l){el("line",{x1:l[0],y1:l[1],x2:l[2],y2:l[3],stroke:"var(--ink)","stroke-width":.9},g);});
+    el("line",{x1:0,y1:vp[1],x2:W,y2:vp[1],stroke:"var(--ink)","stroke-width":.7,"stroke-dasharray":"8 6",opacity:.6},g);
+    el("line",{x1:vp[0],y1:0,x2:vp[0],y2:H,stroke:"var(--ink)","stroke-width":.7,"stroke-dasharray":"8 6",opacity:.6},g);
+  }
+
+  // Gradient für dunkle Wände (Etappe 6)
+  var defs=document.querySelector("svg defs");
+  var gr=el("linearGradient",{id:"gDark",x1:"0",y1:"0",x2:"1",y2:"1"},defs);
+  el("stop",{offset:"0","stop-color":"var(--side1)"},gr); el("stop",{offset:"1","stop-color":"var(--ink)"},gr);
+
+  // HERO
+  var h=$("hero");
+  if(h){
+    var vp=[220,150]; el("rect",{width:440,height:300,fill:"var(--paper)"},h);
+    rays(h,vp,440,300,36); roads(h,vp,440,300,18);
+    for(var x=12;x<190;x+=26){ if(x<180) tree(h,x,126,5); tree(h,x+8,174,5);}
+    for(var x2=262;x2<440;x2+=26){ tree(h,x2,126,5); tree(h,x2+8,174,5);}
+    car(h,120,142,false,"var(--yellow)"); car(h,320,158,false); car(h,60,158,false,"var(--teal)"); car(h,211,60,true); car(h,229,250,true,"var(--yellow)");
+    el("circle",{cx:vp[0],cy:vp[1],r:5,"class":"vp"},h);
+    var B=[
+      {pts:rect(25,18,72,52),h:.48,col:"teal"},{pts:rect(112,22,64,64),h:.62},{pts:circ(58,94,16),h:.3},{pts:rect(118,94,62,20),h:.22,det:false},
+      {pts:rect(262,16,62,72),h:.6,col:"yellow"},{pts:rect(338,26,80,50),h:.44},{pts:rect(266,96,48,22),h:.25,det:false},{pts:circ(374,100,17),h:.38},
+      {pts:rect(22,186,82,40),h:.4},{pts:rect(118,184,60,64),h:.6,col:"teal"},{pts:rect(28,240,62,46),h:.52},
+      {pts:rect(262,184,58,56),h:.55},{pts:rect(334,186,80,38),h:.42,col:"yellow"},{pts:circ(290,266,20),h:.5},{pts:rect(336,240,74,48),h:.64}
+    ];
+    B.sort(function(a,b){return a.h-b.h;}).forEach(function(b){building(h,b,vp,1,{floors:true,detail:true});});
+  }
+
+  // ETAPPE 1: Faden
+  var t=$("thread");
+  if(t){
+    el("rect",{width:340,height:240,fill:"var(--board)"},t);
+    el("rect",{x:30,y:20,width:280,height:200,fill:"var(--paper)",stroke:"var(--line)"},t);
+    var c=[170,120];
+    for(var i=0;i<14;i++){var a=i/14*2*Math.PI+.2;var len=Math.min(120,70+((i*37)%50));
+      el("line",{x1:c[0]+Math.cos(a)*12,y1:c[1]+Math.sin(a)*12,x2:c[0]+Math.cos(a)*len,y2:c[1]+Math.sin(a)*len,stroke:"var(--ink)","stroke-width":i%3?.8:1.6,opacity:i%3?.4:.9},t);}
+    var end=[285,52];
+    el("path",{d:"M"+c[0]+","+c[1]+" L"+end[0]+","+end[1],stroke:"var(--thread)","stroke-width":2.4,fill:"none"},t);
+    el("path",{d:"M"+end[0]+","+end[1]+" q14 -6 22 4 q6 10 -8 16",stroke:"var(--thread)","stroke-width":2.4,fill:"none"},t);
+    el("ellipse",{cx:c[0],cy:c[1],rx:7,ry:4,fill:"none",stroke:"var(--thread)","stroke-width":2},t);
+    el("circle",{cx:c[0],cy:c[1]-3,r:7,fill:"var(--hi)",stroke:"var(--ink)","stroke-width":1},t);
+    // Bleistift
+    el("polygon",{points:"250,74 262,62 300,100 288,112",fill:"var(--hi)",stroke:"var(--ink)","stroke-width":1},t);
+    el("polygon",{points:"250,74 262,62 244,64",fill:"var(--board)",stroke:"var(--ink)","stroke-width":1},t);
+    txt(t,40,212,"Schlaufe + Reisszwecke = Fluchtpunkt","lbl");
+  }
+
+  // ETAPPE 2: Plan
+  var p=$("plan");
+  if(p){
+    var v=[170,120]; el("rect",{width:340,height:240,fill:"var(--paper)"},p);
+    roads(p,v,340,240,14);
+    var o={fill:"none",stroke:"var(--ink)","stroke-width":1.1,"stroke-dasharray":"0"};
+    [[20,16,60,46],[96,22,46,60],[200,18,52,40],[268,26,56,62],[22,150,70,34],[106,146,44,72],[198,148,62,50],[276,150,48,40]].forEach(function(r){var e=el("rect",{x:r[0],y:r[1],width:r[2],height:r[3]},p);for(var k in o)e.setAttribute(k,o[k]);});
+    el("circle",{cx:50,cy:88,r:13,fill:"none",stroke:"var(--ink)","stroke-width":1.1},p);
+    el("polygon",{points:"270,206 320,206 320,226",fill:"none",stroke:"var(--ink)","stroke-width":1.1},p);
+    el("polygon",{points:"226,210 262,210 262,224 240,224 240,232 226,232",fill:"none",stroke:"var(--ink)","stroke-width":1.1},p);
+    el("circle",{cx:v[0],cy:v[1],r:5,"class":"vp"},p);
+    txt(p,182,112,"Fluchtpunkt","lblb");
+  }
+
+  // ETAPPE 3: Labor
+  var L=$("lab"), vpL=[170,120], H=.45;
+  var LB=[{pts:rect(26,24,76,56),h:.7,col:"teal"},{pts:rect(222,30,84,62),h:.9},{pts:rect(44,150,70,64),h:.8},{pts:circ(262,176,30),h:.75,col:"yellow"}];
+  function drawLab(){
+    while(L.firstChild)L.removeChild(L.firstChild);
+    el("rect",{width:340,height:240,fill:"var(--paper)"},L);
+    var show=$("showVl").checked;
+    LB.slice().sort(function(a,b){return a.h-b.h;}).forEach(function(b){building(L,b,vpL,H,{lines:show,floors:true});});
+    el("circle",{cx:vpL[0],cy:vpL[1],r:6,"class":"vp"},L);
+  }
+  if(L){
+    drawLab();
+    $("hgt").addEventListener("input",function(e){H=e.target.value/100;drawLab();});
+    $("showVl").addEventListener("change",drawLab);
+    $("resetVp").addEventListener("click",function(){vpL=[170,120];drawLab();});
+    function setFromEvent(e){var pt=L.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;var q=pt.matrixTransform(L.getScreenCTM().inverse());vpL=[Math.max(0,Math.min(340,q.x)),Math.max(0,Math.min(240,q.y))];drawLab();}
+    var down=false;
+    L.addEventListener("pointerdown",function(e){down=true;setFromEvent(e);});
+    L.addEventListener("pointermove",function(e){if(down)setFromEvent(e);});
+    window.addEventListener("pointerup",function(){down=false;});
+    L.addEventListener("keydown",function(e){var d={ArrowLeft:[-10,0],ArrowRight:[10,0],ArrowUp:[0,-10],ArrowDown:[0,10]}[e.key];if(d){e.preventDefault();vpL=[vpL[0]+d[0],vpL[1]+d[1]];drawLab();}});
+  }
+
+  // ETAPPE 4: Kontrolle
+  var k=$("ctrl");
+  if(k){
+    var vk=[170,200]; el("rect",{width:340,height:220,fill:"var(--paper)"},k);
+    rays(k,vk,340,220,40);
+    el("polygon",{points:P(rect(70,20,200,70)),fill:"var(--roof)",stroke:"var(--ink)","stroke-width":1.2},k);
+    // korrekte Fluchtlinien
+    el("line",{x1:270,y1:90,x2:vk[0],y2:vk[1],"class":"vl"},k);
+    // falsche Kante links
+    el("line",{x1:70,y1:90,x2:150,y2:170,"class":"bad"},k);
+    el("line",{x1:150,y1:170,x2:160,y2:215,"class":"bad","stroke-dasharray":"3 3"},k);
+    el("line",{x1:70,y1:90,x2:vk[0],y2:vk[1],"class":"good","stroke-dasharray":"5 4"},k);
+    el("circle",{cx:vk[0],cy:vk[1],r:6,"class":"vp"},k);
+    txt(k,20,150,"falsch:","lblb"); txt(k,20,166,"zielt daneben","lbl");
+    txt(k,214,150,"richtig: trifft","lblb"); txt(k,214,166,"den Fluchtpunkt","lbl");
+  }
+
+  // ETAPPE 5: Fassade
+  var f=$("facade");
+  if(f){
+    var vf=[170,300]; el("rect",{width:340,height:230,fill:"var(--paper)"},f);
+    var a=[30,20],b=[310,20],hh=.62;
+    var a2=lerp(a,vf,hh),b2=lerp(b,vf,hh);
+    el("polygon",{points:P([a,b,b2,a2]),fill:"var(--side1)",stroke:"var(--ink)","stroke-width":1.2},f);
+    // Stockwerke werden zum Fluchtpunkt hin schmaler (max. 10, sonst endet die Schleife nie)
+    var ts=[0],tt=0,ss=.15; while(tt+ss<.99&&ts.length<11){tt+=ss;ts.push(tt);ss*=.84;}
+    ts.forEach(function(tv,i){ if(i===0) return; var l=lerp(a,a2,tv), r=lerp(b,b2,tv); el("line",{x1:l[0],y1:l[1],x2:r[0],y2:r[1],stroke:"var(--ink)","stroke-width":.8},f);});
+    // Fenster: in jedem Stockwerk Felder zwischen senkrechten Linien
+    var cols=9;
+    for(var i2=0;i2<ts.length-1;i2++){
+      var t0=ts[i2],t1=ts[i2+1];
+      for(var cI=0;cI<cols;cI++){
+        var u0=(cI+.25)/cols,u1=(cI+.75)/cols, m0=t0+(t1-t0)*.25, m1=t0+(t1-t0)*.75;
+        var q=[lerp(lerp(a,b,u0),lerp(a2,b2,u0),m0),lerp(lerp(a,b,u1),lerp(a2,b2,u1),m0),lerp(lerp(a,b,u1),lerp(a2,b2,u1),m1),lerp(lerp(a,b,u0),lerp(a2,b2,u0),m1)];
+        el("polygon",{points:P(q),fill:i2%3===1&&cI%4===1?"var(--yellow)":"var(--teal)",stroke:"var(--ink)","stroke-width":.6},f);
+      }
+    }
+    el("line",{x1:a2[0],y1:a2[1],x2:vf[0],y2:vf[1],"class":"vl"},f);
+    el("line",{x1:b2[0],y1:b2[1],x2:vf[0],y2:vf[1],"class":"vl"},f);
+    txt(f,316,32,"Dach","lbl","end");
+    el("path",{d:"M322 26 V"+(a2[1]-4),"class":"arrow","marker-end":"url(#ah)"},f);
+    txt(f,170,222,"↓ zum Fluchtpunkt: Stockwerke werden schmaler","lbl","middle");
+  }
+
+  // ETAPPE 6: Tiefe
+  var d=$("depth");
+  if(d){
+    var vd=[170,100]; el("rect",{width:340,height:200,fill:"var(--paper)"},d);
+    building(d,{pts:rect(20,14,110,60),h:.55},vd,1,{dark:true});
+    building(d,{pts:rect(214,120,110,66),h:.55},vd,1,{dark:true});
+    building(d,{pts:rect(220,12,90,52),h:.5},vd,1,{});
+    txt(d,320,92,"ohne Schatten: flach","lbl","end");
+    txt(d,20,104,"mit Schatten: tief","lbl");
+    el("circle",{cx:vd[0],cy:vd[1],r:5,"class":"vp"},d);
+  }
+
+  // ETAPPE 7: Dachdetails
+  var r=$("roof");
+  if(r){
+    var vr=[170,320]; el("rect",{width:340,height:230,fill:"var(--paper)"},r);
+    building(r,{pts:rect(20,16,300,150),h:.18},vr,1,{});
+    // Solarpanels
+    for(var sx=0;sx<4;sx++)for(var sy=0;sy<3;sy++){el("rect",{x:36+sx*24,y:30+sy*18,width:20,height:14,fill:"var(--teal)",stroke:"var(--ink)","stroke-width":.7},r);el("line",{x1:46+sx*24,y1:30+sy*18,x2:46+sx*24,y2:44+sy*18,stroke:"var(--ink)","stroke-width":.4},r);}
+    // Pool
+    el("rect",{x:150,y:30,width:56,height:34,rx:4,fill:"var(--teal)",stroke:"var(--ink)","stroke-width":1},r);
+    el("path",{d:"M156 44 q6 -4 12 0 t12 0 t12 0",fill:"none",stroke:"var(--paper)","stroke-width":1.2},r);
+    // Helipad
+    el("circle",{cx:270,cy:62,r:30,fill:"var(--yellow)",stroke:"var(--ink)","stroke-width":1.2},r);
+    txt(r,270,70,"H","lblb","middle").setAttribute("style","font:700 22px var(--f-display);fill:var(--ink)");
+    // Dachgarten
+    for(var tg=0;tg<6;tg++) tree(r,44+tg*20,110+(tg%2)*10,8);
+    el("rect",{x:160,y:96,width:60,height:40,fill:"none",stroke:"var(--ink)","stroke-width":.8,"stroke-dasharray":"3 2"},r);
+    el("circle",{cx:176,cy:110,r:6,fill:"var(--hi)",stroke:"var(--ink)","stroke-width":.8},r);
+    el("circle",{cx:200,cy:122,r:6,fill:"var(--hi)",stroke:"var(--ink)","stroke-width":.8},r);
+    // Antenne
+    el("line",{x1:296,y1:110,x2:310,y2:140,stroke:"var(--ink)","stroke-width":1.5},r);
+    el("circle",{cx:296,cy:110,r:3,fill:"var(--ink)"},r);
+    // Strasse mit Autos
+    el("rect",{x:0,y:206,width:340,height:24,fill:"var(--road)"},r);
+    el("line",{x1:0,y1:218,x2:340,y2:218,stroke:"var(--ink)","stroke-width":.7,"stroke-dasharray":"8 6"},r);
+    car(r,60,212,false,"var(--yellow)"); car(r,140,224,false); car(r,250,212,false,"var(--teal)");
+  }
+})();
+</script>
+
+<script>
+if (window.parent !== window) {
+  const reportHeight = () => {
+    window.parent.postMessage({ projectGuideHeight: document.body.getBoundingClientRect().height }, "*");
+  };
+  new ResizeObserver(reportHeight).observe(document.body);
+}
+</script>
+</body>
+</html>

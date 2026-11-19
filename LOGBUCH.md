@@ -2,9 +2,16 @@
 
 ## 19.11.2026
 
+### Bildnerisches Gestalten · Grossstadt von oben
+- **«Grossstadt von oben»** als aktives Projekt bei **BG → Wahlfach 2./3. Oberstufe** ergänzt (BG.2), vor den geplanten Projekten Linoldruck und Digitale Collage. Anleitung unter `projekte/grossstadt-von-oben.html`: 7 Etappen mit Checklisten und Zwischenzielen, Drohnenvideos (Zug, New York), interaktives Fluchtpunkt-Labor und Beurteilungsraster (ICH/LP).
+- **Fehler aus der Vorlage behoben:** Die Schleife für die Stockwerke in Etappe 5 endete nie. Dadurch brach das Zeichenprogramm ab, und die Zeichnungen in den Etappen 5, 6 und 7 fehlten. Schleife auf höchstens 10 Stockwerke begrenzt; jetzt ohne JavaScript-Fehler.
+- Druckregeln ergänzt und PDF erzeugt: `projekte/pdf/Grossstadt_von_oben.pdf` (4 Seiten A4). Button **«Anleitung als PDF»** auf der Projektkarte. Darstellung per Bildschirmfoto geprüft.
+- PDF-Übergang Seite 3/4 verbessert: Überschrift und Tabelle der Beurteilung bleiben zusammen und beginnen auf einer neuen Seite (Seite 4). Grauer Hintergrund im Druck entfernt. Alle vier PDF-Seiten als Bild gerendert und kontrolliert.
+
 ### BG-Werkzeuge: Farbtools
 - Vier Farbtools bei den **Werkzeugen von Bildnerisches Gestalten** ergänzt (Links geprüft): **Image Color Picker** (https://imagecolorpicker.com/de, HEX/RGB aus Fotos, ohne Anmeldung), **Coolors** (https://coolors.co/, Palettengenerator, gratis mit Werbung), **Color Hunt** (https://colorhunt.co/, fertige Paletten) und **Kontrast-Checker** von WebAIM (https://webaim.org/resources/contrastchecker/, Lesbarkeit prüfen).
 - **Image Color Picker** zusätzlich als Button auf der Karte **Mein Farb-Moodboard** (passt zu Schritt 5 «Knack den Farbcode»).
+- Den **Kontrast-Checker** anschliessend wieder entfernt.
 
 ### Bildnerisches Gestalten · Mein Farb-Moodboard zusammengeführt
 - Das bestehende Projekt **«Mein Farb-Moodboard»** (BG, 1. Oberstufe) und die neue, bebilderte Anleitung zu **einer** Anleitung im neuen Stil zusammengeführt. Dateipfad `projekte/farb-moodboard.html` und Projektkarte bleiben bestehen.
