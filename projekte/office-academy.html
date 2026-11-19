@@ -1,0 +1,69 @@
+<!doctype html><html lang="de-CH"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Office Academy</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f5f7fb;
+    --surface: #fff;
+    --text: #161c2d;
+    --line: #d7deec;
+    --blue: #005b9f;
+    --pink: #a90054;
+    --purple: #6327af;
+    font: 100%/1.55 system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #171924;
+      --surface: #212535;
+      --text: #f1f4ff;
+      --line: #41485d;
+      --blue: #81ccff;
+      --pink: #ff9bc8;
+      --purple: #ceb0ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  :root.embedded { overflow: hidden; }
+  body { margin: 0; padding: clamp(12px, 4vw, 32px); background: var(--bg); color: var(--text); }
+  main { max-width: 55rem; margin-inline: auto; }
+  h1 { font-size: clamp(2rem, 6vw, 3rem); margin: 0; line-height: 1.1; }
+  h2 { margin: 0; font-size: clamp(1.2rem, 3vw, 1.5rem); line-height: 1.25; }
+  h3 { margin: 1rem 0 .3rem; font-size: 1rem; }
+  p { margin: .6rem 0; }
+  ul, ol { padding-inline-start: 1.4rem; margin-block: .35rem .8rem; }
+  li + li { margin-top: .25rem; }
+  .mission { --accent: var(--blue); margin-top: 1rem; padding: clamp(12px, 3vw, 24px); background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: .65rem; }
+  .identity { --accent: var(--pink); }
+  .profile { --accent: var(--purple); }
+  .mission h2 { color: var(--accent); }
+  .mission a { color: var(--accent); font-weight: 600; }
+  .worksheet { margin-top: .65rem; }
+  .worksheet summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+  .worksheet img { display: block; width: 100%; height: auto; margin-top: .5rem; border: 1px solid var(--line); border-radius: .4rem; }
+  .tester { margin-top: 1.1rem; padding: .85rem; background: var(--bg); border: 1px solid var(--line); border-radius: .5rem; }
+  .tester h3 { margin-top: 0; }
+  input { max-width: 100%; display: block; margin-top: .4rem; font: inherit; }
+  #preview:not([hidden]) { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; margin-top: .75rem; }
+  figure { margin: 0; }
+  figure img { display: block; border-radius: 50%; object-fit: contain; background: var(--surface); }
+  figcaption { font-size: .875rem; margin-top: .25rem; }
+  code { overflow-wrap: anywhere; }
+</style>
+</head><body><main><header><h1>Office Academy</h1><p><strong>Tools. Team. Impact.</strong> · Wahlfach Informatik · 2. Oberstufe</p><p>Die digitale Welt braucht dich. Jeden Tag. Überall. Willkommen bei der Office Academy!</p></header>
+<section class="mission"><h2>Die Geschichte</h2><p>Informationen sind überall, Projekte werden komplexer und gute Ideen müssen klar präsentiert werden. Schulen, Unternehmen und Vereine brauchen Menschen, die digitale Werkzeuge sicher beherrschen und clever einsetzen.</p><p>In der Geschichte der Office Academy wurde ein weltweites System angegriffen: Daten gingen verloren, Tabellen wurden verfälscht und Präsentationen unbrauchbar. Um solche Herausforderungen zu lösen, wurde die Office Academy gegründet – ein Ausbildungsprogramm für junge Talente.</p><p><strong>Euer Auftrag:</strong> Lernt Word, Excel und PowerPoint zu beherrschen. Ordnet Informationen, löst Probleme und macht eure Ideen sichtbar.</p></section>
+<section class="mission identity"><h2>Warum Office Academy?</h2><ul><li><strong>Überall gefragt:</strong> Digitale Werkzeuge begleiten euch in der Schule, im Beruf und im Alltag.</li><li><strong>Effizienter arbeiten:</strong> Passende Funktionen sparen Zeit und helfen, Fehler zu vermeiden.</li><li><strong>Ideen umsetzen:</strong> Mit Word, Excel und PowerPoint könnt ihr Informationen gestalten, auswerten und überzeugend präsentieren.</li><li><strong>Zukunft gestalten:</strong> Ihr entscheidet, wie ihr eure digitalen Fähigkeiten sinnvoll einsetzt.</li></ul></section>
+<section class="mission profile"><h2>Fortschritt und Abschluss</h2><p>Jeder gelöste Auftrag bringt neue Fähigkeiten und Erfahrung. Ihr löst Herausforderungen und entwickelt euch zu Office-Profis.</p><p>Am Ende des Jahres wartet die Abschluss-Challenge <strong>«Project Final»</strong>. Wenn ihr alle Missionen gemeistert habt, erhaltet ihr das <strong>Office Academy Diplom</strong>.</p><p>«Tools verändern sich. Menschen, die sie meistern, verändern die Welt.»</p></section>
+<section class="mission"><h2>Einstiegsplakat</h2><details class="worksheet" open><summary>Office Academy · Überblick</summary><img src="office-academy/academy.jpg" alt="Office Academy: Einstiegsgeschichte, Gründe für Office-Kompetenzen, Lernfortschritt und Abschluss mit Diplom" loading="lazy"></details><p><a href="office-academy/academy.pdf" download>Einstiegsplakat herunterladen (PDF)</a></p></section>
+</main><script>
+  if (window.parent !== window && "ResizeObserver" in window) {
+    document.documentElement.classList.add("embedded");
+    let lastHeight;
+    new ResizeObserver(() => {
+      const height = Math.ceil(document.body.getBoundingClientRect().height);
+      if (!height || height === lastHeight) return;
+      lastHeight = height;
+      window.parent.postMessage({ projectGuideHeight: height }, "*");
+    }).observe(document.body);
+  }
+
+</script></body></html>

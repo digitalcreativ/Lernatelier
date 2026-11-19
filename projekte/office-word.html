@@ -1,0 +1,77 @@
+<!doctype html><html lang="de-CH"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Office Academy · Word</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f5f7fb;
+    --surface: #fff;
+    --text: #161c2d;
+    --line: #d7deec;
+    --blue: #005b9f;
+    --pink: #a90054;
+    --purple: #6327af;
+    font: 100%/1.55 system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #171924;
+      --surface: #212535;
+      --text: #f1f4ff;
+      --line: #41485d;
+      --blue: #81ccff;
+      --pink: #ff9bc8;
+      --purple: #ceb0ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  :root.embedded { overflow: hidden; }
+  body { margin: 0; padding: clamp(12px, 4vw, 32px); background: var(--bg); color: var(--text); }
+  main { max-width: 55rem; margin-inline: auto; }
+  h1 { font-size: clamp(2rem, 6vw, 3rem); margin: 0; line-height: 1.1; }
+  h2 { margin: 0; font-size: clamp(1.2rem, 3vw, 1.5rem); line-height: 1.25; }
+  h3 { margin: 1rem 0 .3rem; font-size: 1rem; }
+  p { margin: .6rem 0; }
+  ul, ol { padding-inline-start: 1.4rem; margin-block: .35rem .8rem; }
+  li + li { margin-top: .25rem; }
+  .mission { --accent: var(--blue); margin-top: 1rem; padding: clamp(12px, 3vw, 24px); background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: .65rem; }
+  .identity { --accent: var(--pink); }
+  .profile { --accent: var(--purple); }
+  .mission h2 { color: var(--accent); }
+  .mission a { color: var(--accent); font-weight: 600; }
+  .worksheet { margin-top: .65rem; }
+  .worksheet summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+  .worksheet img { display: block; width: 100%; height: auto; margin-top: .5rem; border: 1px solid var(--line); border-radius: .4rem; }
+  .tester { margin-top: 1.1rem; padding: .85rem; background: var(--bg); border: 1px solid var(--line); border-radius: .5rem; }
+  .tester h3 { margin-top: 0; }
+  input { max-width: 100%; display: block; margin-top: .4rem; font: inherit; }
+  #preview:not([hidden]) { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; margin-top: .75rem; }
+  figure { margin: 0; }
+  figure img { display: block; border-radius: 50%; object-fit: contain; background: var(--surface); }
+  figcaption { font-size: .875rem; margin-top: .25rem; }
+  code { overflow-wrap: anywhere; }
+</style>
+<style>.checklist{list-style:none;padding:0}.checklist label{display:flex;gap:.6rem;align-items:baseline;padding:.3rem 0}.checklist input{display:inline;flex-shrink:0}.chapter-nav{display:flex;flex-wrap:wrap;gap:.5rem;margin-block:1rem}.chapter-nav a,.download-button{display:inline-block;padding:.6rem .8rem;border:1px solid var(--blue);border-radius:.45rem;color:var(--blue);text-decoration:none}a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:4px}.progress{padding:.75rem;background:var(--surface);border:1px solid var(--line);border-radius:.5rem}progress{width:100%;accent-color:var(--blue)}section{scroll-margin-top:1rem}</style><style>.basics-check summary{cursor:pointer;font-weight:700;color:var(--accent)}.basics-check fieldset{margin:1rem 0;padding:1rem;border:1px solid var(--line);border-radius:.4rem}.basics-check legend{font-weight:600}.basics-check label{display:block;margin:.5rem 0}.basics-check input{display:inline;width:auto;margin:0}.basics-check button{font:inherit;padding:.65rem 1rem;background:var(--surface);color:var(--text);border:2px solid var(--accent);border-radius:.4rem;cursor:pointer}.basics-check button:focus-visible{outline:3px solid var(--blue);outline-offset:4px}</style></head><body><main>
+<header><h1>Office Academy · Word</h1><p><strong>Kapitel 01 · Fünf Challenges</strong> · Wahlfach Informatik · 2. Oberstufe</p><p>Lerne Word. Meistere die Grundlagen. Werde zum Office-Profi.</p></header>
+<section class="mission"><h2>Auftrag</h2><p>Nutze den Kompetenzplan, um deine Word-Fähigkeiten einzuschätzen und deine nächsten Lernschritte zu planen. In fünf Challenges baust du deine Fähigkeiten auf: von Text und Absätzen bis zu Verzeichnissen und Querverweisen.</p><p><a class="download-button" href="Office_Academy_Word_Kompetenzplan.pdf" target="_blank" rel="noopener">Kompetenzplan öffnen (PDF)</a></p><p><a href="Office_Academy_Word_Kompetenzplan.pdf" download>Kompetenzplan herunterladen</a></p><p>Der Kompetenzplan beschreibt Fähigkeiten unabhängig von bestimmten Übungen oder deren Nummerierung. Schätze ein, was du üben möchtest, mit Hilfe kannst oder bereits selbstständig beherrschst.</p></section>
+<nav class="chapter-nav" aria-label="Word-Challenges"><a href="#challenge-1">Challenge 1</a><a href="#challenge-2">Challenge 2</a><a href="#challenge-3">Challenge 3</a><a href="#challenge-4">Challenge 4</a><a href="#challenge-5">Challenge 5</a></nav>
+<div class="progress"><label for="word-progress">Fortschritt · Lernziele abhaken</label><progress id="word-progress" max="22" value="0"></progress><p id="word-status" role="status">0 von 22 Lernzielen abgehakt</p><p>Die Häkchen dienen deiner Übersicht und werden beim Neuladen zurückgesetzt.</p></div>
+<section class="mission" id="challenge-1"><h2>Challenge 1 · Text und Gestaltung</h2><p><a class="download-button" href="Lernziel%C3%BCbersicht_Challenge%201_druckfertig.pdf" target="_blank" rel="noopener">Lernzielübersicht Challenge 1 öffnen (PDF)</a></p><p><a href="Lernziel%C3%BCbersicht_Challenge%201_druckfertig.pdf" download>Lernzielübersicht herunterladen</a></p><p>Entdecke die Grundlagen und gestalte übersichtliche Dokumente.</p><ul class="checklist"><li><label><input type="checkbox">Grundlagen von Text und Absatz beherrschen</label></li><li><label><input type="checkbox">Zeichen, Formate und Absätze gezielt gestalten</label></li><li><label><input type="checkbox">Stil und Design passend einsetzen</label></li></ul><p><strong>Zum Prüfen:</strong> Ist dein Dokument gut lesbar und einheitlich gestaltet?</p><div class="tester"><h3>Test · Challenge 1</h3><p>Hier findest du den Test der Challenge 1</p><p><a class="download-button" href="Office_Academy_Challenge_1_Pruefung.docx" download>Test Challenge 1 herunterladen (Word)</a></p></div></section>
+<section class="mission identity" id="challenge-2"><h2>Challenge 2 · Inhalte und Seitenlayout</h2><p><a class="download-button" href="Office_Academy_Lernziele_Challenge_2.pdf" target="_blank" rel="noopener">Lernzielübersicht Challenge 2 öffnen (PDF)</a></p><p><a href="Office_Academy_Lernziele_Challenge_2.pdf" download>Lernzielübersicht herunterladen</a></p><p>Bearbeite Inhalte effizient und richte dein Dokument passend ein.</p><ul class="checklist"><li><label><input type="checkbox">Suchen und Ersetzen verwenden</label></li><li><label><input type="checkbox">Inhalte einfügen</label></li><li><label><input type="checkbox">Seitenlayout und Einstellungen anpassen</label></li></ul><p><strong>Zum Prüfen:</strong> Sind Inhalte vollständig und ist das Seitenlayout für die Aufgabe geeignet?</p><div class="tester"><h3>Test · Challenge 2</h3><p>Hier findest du den Test der Challenge 2</p><p><a class="download-button" href="Office_Academy_Challenge_2_Pruefung.docx" download>Test Challenge 2 herunterladen (Word)</a></p></div></section>
+<section class="mission profile" id="challenge-3"><h2>Challenge 3 · Tabellen</h2><p><a class="download-button" href="Office_Academy_Lernziele_Challenge_3.pdf" target="_blank" rel="noopener">Lernzielübersicht Challenge 3 öffnen (PDF)</a></p><p><a href="Office_Academy_Lernziele_Challenge_3.pdf" download>Lernzielübersicht herunterladen</a></p><p>Ordne Informationen in Tabellen und passe deren Aufbau und Darstellung an.</p><ul class="checklist"><li><label><input type="checkbox">Tabellenformatvorlagen einsetzen</label></li><li><label><input type="checkbox">Zellen verbinden und teilen</label></li><li><label><input type="checkbox">Zellen formatieren</label></li><li><label><input type="checkbox">Überschriftszeilen verwenden</label></li><li><label><input type="checkbox">Seitenumbrüche in Tabellen steuern</label></li><li><label><input type="checkbox">Tabelleninhalte sortieren</label></li><li><label><input type="checkbox">Tabellen in Text und Text in Tabellen umwandeln</label></li></ul><p><strong>Zum Prüfen:</strong> Ist die Tabelle übersichtlich und bleibt sie auch über mehrere Seiten gut lesbar?</p><div class="tester"><h3>Test · Challenge 3</h3><p>Hier findest du den Test der Challenge 3</p><p><a class="download-button" href="Office_Academy_Challenge_3_Pruefung.docx" download>Test Challenge 3 herunterladen (Word)</a></p></div></section>
+<section class="mission" id="challenge-4"><h2>Challenge 4 · Dokumente strukturieren</h2><p><a class="download-button" href="Office_Academy_Lernziele_Challenge_4.pdf" target="_blank" rel="noopener">Lernzielübersicht Challenge 4 öffnen (PDF)</a></p><p><a href="Office_Academy_Lernziele_Challenge_4.pdf" download>Lernzielübersicht herunterladen</a></p><p>Ergänze längere Texte mit hilfreichen Verweisen und Verzeichnissen.</p><ul class="checklist"><li><label><input type="checkbox">Fussnoten und Endnoten einsetzen</label></li><li><label><input type="checkbox">Ein Inhaltsverzeichnis erstellen</label></li><li><label><input type="checkbox">Indexeinträge festlegen</label></li><li><label><input type="checkbox">Einen Index erstellen</label></li></ul><p><strong>Zum Prüfen:</strong> Helfen Verzeichnis und Verweise dabei, Informationen schnell zu finden?</p><div class="tester"><h3>Test · Challenge 4</h3><p>Hier findest du den Test der Challenge 4</p><p><a class="download-button" href="Office_Academy_Challenge_4_Pruefung.docx" download>Test Challenge 4 herunterladen (Word)</a></p></div></section>
+<section class="mission identity" id="challenge-5"><h2>Challenge 5 · Verzeichnisse und Verweise</h2><p><a class="download-button" href="Office_Academy_Lernziele_Challenge_5.pdf" target="_blank" rel="noopener">Lernzielübersicht Challenge 5 öffnen (PDF)</a></p><p><a href="Office_Academy_Lernziele_Challenge_5.pdf" download>Lernzielübersicht herunterladen</a></p><p>Vertiefe deine Kenntnisse und verbinde die Teile deines Dokuments.</p><ul class="checklist"><li><label><input type="checkbox">Inhaltsverzeichnis und Abbildungsverzeichnis einsetzen</label></li><li><label><input type="checkbox">Index und Indexeinträge verwenden</label></li><li><label><input type="checkbox">Textmarken setzen</label></li><li><label><input type="checkbox">Querverweise einfügen</label></li><li><label><input type="checkbox">Verzeichnisse und Verweise vor der Abgabe prüfen</label></li></ul><p><strong>Zum Prüfen:</strong> Sind die Verweise korrekt und die Verzeichnisse aktuell?</p><div class="tester"><h3>Test · Challenge 5</h3><p>Hier findest du den Test der Challenge 5</p><p><a class="download-button" href="Office_Academy_Challenge_5_Pruefung.docx" download>Test Challenge 5 herunterladen (Word)</a></p></div></section>
+<section class="mission profile"><h2>Abschluss-Check</h2><p>Vergleiche deine Fähigkeiten mit dem Kompetenzplan. Zeige, welche Funktionen du bereits selbstständig anwenden kannst und wo du noch Unterstützung brauchst.</p><p><strong>Reflexion:</strong> Welche Word-Funktion hilft dir im Schulalltag besonders? Was möchtest du beim nächsten Dokument bewusst einsetzen?</p></section>
+<section class="mission"><h2>Word üben · Werkzeuge</h2><p><a class="download-button" href="https://www.easy4me.info/microsoft-office/modul-3/" target="_blank" rel="noopener">Easy4me · Word öffnen</a></p><p>Lernpfad, praktische Übungen und Quiz für Word.</p><p><a class="download-button" href="https://learningapps.org/" target="_blank" rel="noopener">LearningApps öffnen</a></p><p>Interaktive Lernspiele für Begriffe, Symbole und Funktionen. Die fünf Basics-Checks dieser Seite kannst du direkt im jeweiligen Challenge-Abschnitt bearbeiten.</p></section></main><script>const checks=[...document.querySelectorAll('.checklist input')];const progress=document.getElementById('word-progress');const status=document.getElementById('word-status');progress.max=checks.length;function update(){const count=checks.filter(c=>c.checked).length;progress.value=count;status.textContent=count+' von '+checks.length+' Lernzielen abgehakt';}checks.forEach(c=>c.addEventListener('change',update));update();
+
+  if (window.parent !== window && "ResizeObserver" in window) {
+    document.documentElement.classList.add("embedded");
+    let lastHeight;
+    new ResizeObserver(() => {
+      const height = Math.ceil(document.body.getBoundingClientRect().height);
+      if (!height || height === lastHeight) return;
+      lastHeight = height;
+      window.parent.postMessage({ projectGuideHeight: height }, "*");
+    }).observe(document.body);
+  }
+
+
+</script><script src="word-basics.js"></script></body></html>

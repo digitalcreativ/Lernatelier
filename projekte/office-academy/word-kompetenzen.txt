@@ -1,0 +1,21 @@
+﻿Office Academy · Word – Kompetenzplan
+
+Ich kann texte eingeben, markieren, kopieren und verschieben.
+Ich kann zeichen formatieren und Sonderzeichen verwenden.
+Ich kann absätze gestalten und Formatierungszeichen nutzen.
+Ich kann formatvorlagen für eine einheitliche Gestaltung einsetzen.
+Ich kann text suchen und ersetzen.
+Ich kann formen, Bilder und weitere Inhalte einfügen und formatieren.
+Ich kann seitenlayout, Ränder und Ausrichtung anpassen.
+Ich kann die Rechtschreibprüfung und hilfreiche Einstellungen nutzen.
+Ich kann tabellen erstellen und Tabellenformatvorlagen anwenden.
+Ich kann zellen verbinden, teilen und formatieren.
+Ich kann überschriftszeilen und Seitenumbrüche steuern.
+Ich kann tabelleninhalte sortieren.
+Ich kann tabellen in Text und Text in Tabellen umwandeln.
+Ich kann fussnoten und Endnoten einsetzen.
+Ich kann überschriften strukturieren und Inhaltsverzeichnisse erstellen.
+Ich kann indexeinträge festlegen und einen Index erstellen.
+Ich kann abbildungen beschriften und Abbildungsverzeichnisse erstellen.
+Ich kann textmarken setzen und Querverweise einfügen.
+Ich kann verzeichnisse und Verweise aktualisieren und prüfen.

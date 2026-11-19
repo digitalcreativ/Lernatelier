@@ -391,6 +391,7 @@ const FAECHER = [
     id: "inf", kurz: "INF", name: "Wahlfach Informatik",
     lp: "Lehrplan 21: MI.2.1 Datenstrukturen · MI.2.2 Algorithmen · MI.2.3 Informatiksysteme",
     werkzeuge: [
+      { name: "Easy4me · Word", info: "Word-Grundlagen mit Lernpfad, Übungen und Quiz trainieren", url: "https://www.easy4me.info/microsoft-office/modul-3/" },
       PISKEL,
       ARCADE,
       CALLIOPE_MAKECODE,
@@ -415,6 +416,18 @@ const FAECHER = [
     ],
     stufen: [
       { name: "2. Oberstufe", module: [
+        { titel: "Office Academy", lp: "Anwendungskompetenzen", status: "aktiv",
+          text: "Tools. Team. Impact. Lerne die Office Academy kennen: Mit Word, Excel und PowerPoint Informationen gestalten, Probleme lösen und Ideen präsentieren.",
+          anleitung: "projekte/office-academy.html", anleitungLabel: "Einstieg",
+          links: [] },
+        { titel: "Office Academy · Talent Casting", lp: "Anwendungskompetenzen", status: "aktiv",
+          text: "Gestalte in Word ein kreatives Namensschild: vorne dein Vorname, auf der anderen Seite deine Persönlichkeit. Planen, gestalten, drucken und präsentieren.",
+          anleitung: "projekte/talent-casting.html", anleitungLabel: "Auftrag",
+          links: [] },
+        { titel: "Office Academy · Word", lp: "Anwendungskompetenzen", status: "aktiv",
+          text: "Kapitel 01: Meistere Word in fünf Challenges – Textgestaltung, Seitenlayout, Tabellen, Verzeichnisse und Verweise. Mit neutralem Kompetenzplan und Lernziel-Checklisten.",
+          anleitung: "projekte/office-word.html", anleitungLabel: "5 Challenges",
+          links: [ { label: "Easy4me · Word", url: "https://www.easy4me.info/microsoft-office/modul-3/" } ] },
         { titel: "Eigenes Spiel mit Scratch", lp: "MI.2.2", status: "geplant",
           text: "Figuren, Steuerung, Punktezähler: ein Spiel planen und programmieren.",
           links: [ { label: "Auftrag", url: "" }, { label: "Scratch öffnen", url: "https://scratch.mit.edu/projects/editor/" } ] },
@@ -423,7 +436,7 @@ const FAECHER = [
           links: [ { label: "Auftrag", url: "" }, { label: "Calliope-Editor öffnen", url: "https://makecode.calliope.cc" } ] }
       ]},
       { name: "3. Oberstufe", module: [
-        { titel: "digital LAB", lp: "MI.1", status: "aktiv",
+        { titel: "digital LAB · Einstieg", lp: "MI.1", status: "aktiv",
           text: "Drei Missionen für deine digitale Identität: Gestalte ein Namensschild, einen Avatar und einen persönlichen Steckbrief.",
           anleitung: "projekte/digital-lab.html", anleitungLabel: "Missionen",
           links: [] },
@@ -553,6 +566,7 @@ const FAECHER = [
 
 // Werkzeuge, die in mehreren Fächern gebraucht werden
 const DIVERSE = { id: "diverse", name: "Diverse Fächer", werkzeuge: [
+  { name: "LearningApps", info: "Mit interaktiven Lernspielen und Quiz üben · für Bildungszwecke kostenlos", url: "https://learningapps.org/" },
   PIXELBILDER,
   { name: "Book Creator", info: "Digitale Bücher gestalten", url: "https://bookcreator.com/" },
   { name: "Canva", info: "Präsentationen, Plakate, Karten und Steckbriefe gestalten", url: "https://www.canva.com/" },
