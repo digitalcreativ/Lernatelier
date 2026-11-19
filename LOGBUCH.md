@@ -2,6 +2,10 @@
 
 ## 19.11.2026
 
+### Geometrisches Zeichnen · Präzisionsübungen
+- **«Präzisionsübungen»** (Dossier 1, Übungen II–VI) als aktives Projekt bei **GZ → Wahlfach 3. Oberstufe** nach «Einstieg ins GZ» ergänzt (MA.2). Anleitung unter `projekte/praezisionsuebungen.html` mit 18 eingebetteten Vorlagenbildern, Lernziel-Fortschritt, Bewertungscheck pro Übung und Bewertungsraster. Keine JavaScript-Fehler.
+- PDF erzeugt: `projekte/pdf/Praezisionsuebungen.pdf` (6 Seiten A4). Im PDF sind alle Vorlagen aufgeklappt; Sprungknöpfe, Fortschrittsbalken und die interaktiven Bewertungschecks sind ausgeblendet. Jede Übung beginnt auf einer neuen Seite, die letzte Seite enthält Bewertung und Abschluss-Check. Button **«Dossier als PDF»** auf der Projektkarte. Alle Seiten als Bild kontrolliert.
+
 ### Geometrisches Zeichnen · Einstieg ins GZ
 - **«Einstieg ins GZ»** als erstes aktives Projekt bei **GZ → Wahlfach 3. Oberstufe** ergänzt (MA.2). Anleitung unter `projekte/einstieg-gz.html`: Teil A Grundlagen (Beispiele, Materialliste, Arbeitsregeln, Video zur Zeichenplatte), Teil B Technik mit Reissschiene und Dreieck (B1–B4), Teil C Dossier mit Figurenkette aus 13 Figuren in 6 Aufgaben, Checkliste.
 - Zwei Beschriftungen korrigiert (B1 abgeschnitten, B2 überlappte die Dreieckskante). Keine JavaScript-Fehler.
