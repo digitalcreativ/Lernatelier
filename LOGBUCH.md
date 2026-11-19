@@ -2,6 +2,15 @@
 
 ## 19.11.2026
 
+### Fusszeile
+- Den Satz «Projekte mit gestrichelter Linie sind in Vorbereitung.» aus der Fusszeile entfernt. Es bleibt «Lernatelier · Stand November 2026».
+
+### Textiles Gestalten · Schmetterling falten
+- **«Schmetterling falten»** als aktives, stufenübergreifendes Projekt unter **Textiles Gestalten → Projekte** ergänzt (TTG.2). Die bestehende Anleitung wurde unverändert als `projekte/schmetterling.html` übernommen und nur um die Höhenmeldung für die eingebettete Ansicht ergänzt.
+- Inhalt: Material, Phasen A–C mit 13 Schritten (obere Flügel, untere Flügel, Zusammensetzen) sowie häufige Fehler.
+- Den Abschnitt **«Für alle Stufen»** (Varianten Zyklus 1–3) entfernt, da das Projekt nur im Zyklus 3 als Deko eingesetzt wird. Kennzeichnung im Kopfbereich auf «Deko · Zyklus 3» und Kurztext der Projektkarte angepasst.
+- **Origami Club** (https://en.origami-club.com/) bei den **TTG-Werkzeugen** und als Direktlink-Button auf der Karte **Schmetterling falten** ergänzt. Bild-für-Bild-Anleitungen, nach Themen sortiert (u. a. Decorate, Flowers, Xmas), kostenlos und ohne Anmeldung; Seite auf Englisch. Link geprüft.
+
 ### fobizz für die KI-Nutzung
 - **fobizz · KI für die Klasse** als erster Werkzeug-Button unter **Diverse Fächer** ergänzt. Link: https://go.fobizz.com/. Die Schülerinnen und Schüler melden sich dort mit dem Code der Lehrperson an. Erscheint auch in allen Fachansichten unter «Für diverse Fächer».
 - fobizz zusätzlich bei den vier digital-LAB-Projekten **Pixel, Kamera, Game und Schaltkreis** verlinkt: als Direktlink-Button auf der Projektkarte und in der Werkzeugliste mit einem kurzen Hinweis, wofür die KI im jeweiligen Projekt hilft. Der Eintrag ist als gemeinsame Konstante `FOBIZZ` hinterlegt, damit Name und Link überall gleich bleiben.

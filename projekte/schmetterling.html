@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Schmetterling falten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: eine Spalte, Phasen A–C, jeder Schritt = Text links + Zeichnung rechts (gestapelt auf dem Handy). Zeichnungen auf Schneidematte mit 1-cm-Raster */
+:root{
+  --bg:#f7f5f2; --surface:#ffffff; --fg:#22201d; --muted:#6c675f; --line:#e1dcd4;
+  --grid:#e9e4dc; --accent:#d2603c; --accent-ink:#a8461f;
+  --paper:#e8744e; --paper-dark:#c2522d; --paper-back:#f7c9ab;
+  --paper2:#4f9a94; --paper2-dark:#36746f;
+  --wire:#8b9099; --bead:#3d68b0; --ok:#2c8657; --warn:#b4502c;
+  --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#171513; --surface:#211e1b; --fg:#efebe5; --muted:#a8a197; --line:#37322c;
+  --grid:#2b2723; --accent:#ec8762; --accent-ink:#f0a080;
+  --paper:#e8805c; --paper-dark:#b4542f; --paper-back:#8a5a42;
+  --paper2:#5fb0a9; --paper2-dark:#3d7f79;
+  --wire:#9aa0a9; --bead:#6f9be0; --ok:#5cc08d; --warn:#e48a62; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#171513; --surface:#211e1b; --fg:#efebe5; --muted:#a8a197; --line:#37322c;
+  --grid:#2b2723; --accent:#ec8762; --accent-ink:#f0a080;
+  --paper:#e8805c; --paper-dark:#b4542f; --paper-back:#8a5a42;
+  --paper2:#5fb0a9; --paper2-dark:#3d7f79;
+  --wire:#9aa0a9; --bead:#6f9be0; --ok:#5cc08d; --warn:#e48a62; color-scheme:dark }
+
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,5vw,40px)}
+h2{font-size:21px}
+p{margin:0}
+b{font-weight:600}
+.hero{display:grid;grid-template-columns:1fr 1.1fr;gap:24px;align-items:center}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:44ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;margin-bottom:8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:var(--surface)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+.material{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.material ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.material h2{margin-bottom:10px}
+
+.phase{display:flex;align-items:baseline;gap:12px;margin-top:8px;border-bottom:2px solid var(--accent);padding-bottom:8px}
+.phase .tag{font:700 22px var(--f-display);color:var(--accent-ink)}
+.phase p{color:var(--muted);font-size:14px}
+
+.step{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.step > div{min-width:0}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;
+  background:var(--accent);color:#fff;font:700 15px var(--f-display);margin-bottom:10px}
+.step h2{margin-bottom:8px;font-size:19px}
+.step p + p{margin-top:8px}
+.tip{margin-top:12px;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px}
+figure{margin:0;display:flex;flex-direction:column;gap:8px}
+figure svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--bg)}
+figcaption{font-size:13px;color:var(--muted)}
+
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.lvl{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.lvl .stufe{font:700 13px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink)}
+.lvl ul{margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+.errors{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.err{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.err h3{font-size:16px}
+.err p{font-size:14px;color:var(--muted)}
+.err .fix{color:var(--ok);font-weight:600;font-size:14px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+
+/* SVG-Bausteine */
+.gl{stroke:var(--grid);fill:none}
+.front{fill:var(--paper)} .back{fill:var(--paper-back)}
+.p1{fill:var(--paper)} .p2{fill:var(--paper-dark)}
+.alt .p1{fill:var(--paper2)} .alt .p2{fill:var(--paper2-dark)}
+.edge{stroke:var(--paper-dark);stroke-width:1;fill:none}
+.valley{stroke:var(--fg);stroke-width:1.3;stroke-dasharray:6 4;fill:none;opacity:.7}
+.mount{stroke:var(--fg);stroke-width:1.3;stroke-dasharray:8 3 2 3;fill:none;opacity:.7}
+.ghost{fill:none;stroke:var(--muted);stroke-dasharray:3 3}
+.arrow{stroke:var(--fg);stroke-width:1.6;fill:none}
+.dim{stroke:var(--muted);stroke-width:1.2;fill:none}
+.cut{stroke:var(--warn);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.wire{stroke:var(--wire);stroke-width:2;fill:none;stroke-linecap:round}
+.bead{fill:var(--bead)}
+.lbl{fill:var(--muted);font:500 12px var(--f-body)}
+.lblb{fill:var(--fg);font:600 13px var(--f-body)}
+.okl{stroke:var(--ok);fill:none;stroke-width:2}
+
+@media (max-width:720px){
+  .hero,.step,.levels,.errors,.material{grid-template-columns:1fr}
+  .card{padding:16px}
+}
+@media print{ body{padding-block:0} .card{break-inside:avoid} }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="mat" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" class="gl"/></pattern>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--fg)"/></marker>
+    <marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Textiles und Technisches Gestalten · Papier</div>
+      <h1>Schmetterling falten</h1>
+      <p class="lead">Aus zwei Papieren entstehen mit der Ziehharmonika-Faltung zwei Flügelpaare. Ein dünner Draht hält sie in der Mitte zusammen und wird zu den Fühlern.</p>
+      <div class="meta"><span class="chip">ca. 30–45 Min.</span><span class="chip">Deko · Zyklus 3</span><span class="chip">Technik: Ziehharmonika-Falz</span></div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 420 240" role="img" aria-label="Zwei fertige Papierschmetterlinge">
+        <rect width="420" height="240" fill="url(#mat)"/>
+        <g class="bfly" data-mode="final" transform="translate(150,130)"></g>
+        <g class="bfly alt" data-mode="final" transform="translate(330,150) scale(.62) rotate(14)"></g>
+      </svg>
+    </figure>
+  </header>
+
+  <section class="card material">
+    <div>
+      <h2>Material</h2>
+      <ul>
+        <li>2 Papiere, je ca. <b>7 × 12 cm</b> (z. B. Origami-, Geschenk- oder Notenpapier)</li>
+        <li>Dünner Draht, ca. <b>20 cm</b> (Basteldraht, 0,3–0,5 mm)</li>
+        <li>2 kleine Perlen</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Werkzeug</h2>
+      <ul>
+        <li>Schere</li>
+        <li>Falzbein oder Fingernagel zum Nachstreichen</li>
+        <li>Evtl. Seitenschneider für den Draht</li>
+      </ul>
+      <div class="legend" style="margin-top:12px">
+        <span><svg width="34" height="8" aria-hidden="true"><line x1="0" y1="4" x2="34" y2="4" class="valley"/></svg> Faltlinie</span>
+        <span><svg width="34" height="12" aria-hidden="true"><path d="M2 10 Q17 -4 32 8" class="arrow" marker-end="url(#ah)"/></svg> Faltrichtung</span>
+        <span><svg width="34" height="8" aria-hidden="true"><line x1="0" y1="4" x2="34" y2="4" class="cut"/></svg> Schneiden</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHASE A -->
+  <div class="phase"><span class="tag">A</span><div><h2>Die oberen Flügel</h2><p>Erstes Papier · Schritte 1–8</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">1</span>
+      <h2>Mittellinie falten</h2>
+      <p>Das Papier quer und gerade vor euch auf den Tisch legen. Entlang der langen Seite einmal in der Mitte nach oben falten, gut nachstreichen und wieder öffnen.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Rechteckiges Papier mit Mittellinie">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <rect x="50" y="30" width="240" height="140" class="front"/>
+        <line x1="50" y1="100" x2="290" y2="100" class="valley"/>
+        <path d="M305 160 Q330 100 305 40" class="arrow" marker-end="url(#ah)"/>
+        <text x="170" y="190" text-anchor="middle" class="lbl">12 cm</text>
+        <text x="30" y="104" text-anchor="middle" class="lbl">7 cm</text>
+      </svg>
+      <figcaption>Der Knick in der Mitte ist die Hilfslinie für die nächsten Schritte.</figcaption>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">2</span>
+      <h2>Linke Ecken zur Mitte</h2>
+      <p>Die obere und die untere linke Ecke zur Mittellinie falten. Links entsteht eine Spitze.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Linke Ecken zur Mitte gefaltet">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <polygon points="50,30 120,30 50,100" class="ghost"/>
+        <polygon points="50,170 120,170 50,100" class="ghost"/>
+        <polygon points="120,30 290,30 290,170 120,170 50,100" class="front"/>
+        <polygon points="50,100 120,30 120,170" class="back"/>
+        <line x1="50" y1="100" x2="120" y2="100" class="edge"/>
+        <line x1="120" y1="100" x2="290" y2="100" class="valley"/>
+        <path d="M40 40 Q50 80 92 92" class="arrow" marker-end="url(#ah)"/>
+        <path d="M40 160 Q50 120 92 108" class="arrow" marker-end="url(#ah)"/>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">3</span>
+      <h2>Rechte Ecken zur Mitte</h2>
+      <p>Jetzt die beiden rechten Ecken genau gleich zur Mittellinie falten. Das Papier hat nun zwei Spitzen.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Sechseck mit zwei Spitzen">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <polygon points="290,30 220,30 290,100" class="ghost"/>
+        <polygon points="290,170 220,170 290,100" class="ghost"/>
+        <polygon points="50,100 120,30 220,30 290,100 220,170 120,170" class="front"/>
+        <polygon points="50,100 120,30 120,170" class="back"/>
+        <polygon points="290,100 220,30 220,170" class="back"/>
+        <line x1="50" y1="100" x2="120" y2="100" class="edge"/>
+        <line x1="220" y1="100" x2="290" y2="100" class="edge"/>
+        <path d="M300 40 Q290 80 248 92" class="arrow" marker-end="url(#ah)"/>
+        <path d="M300 160 Q290 120 248 108" class="arrow" marker-end="url(#ah)"/>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">4</span>
+      <h2>Wenden</h2>
+      <p>Das Papier umdrehen. Die gefalteten Ecken liegen jetzt unten auf dem Tisch.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Papier gewendet">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <polygon points="50,100 120,30 220,30 290,100 220,170 120,170" class="front"/>
+        <line x1="50" y1="100" x2="290" y2="100" class="valley" opacity=".35"/>
+        <path d="M140 20 A40 14 0 1 1 200 20" class="arrow" marker-end="url(#ah)" transform="translate(0,-2)"/>
+        <text x="170" y="196" text-anchor="middle" class="lblb">wenden</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">5</span>
+      <h2>Lange Ränder umfalten</h2>
+      <p>Den oberen und den unteren langen Rand je um ein paar Millimeter (ca. 5 mm) umfalten.</p>
+      <p class="tip">Wer die Ziehharmonika-Faltung kennt, sieht hier schon, wie es weitergeht.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Oberer und unterer Rand schmal umgefaltet">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <polygon points="50,100 120,30 220,30 290,100 220,170 120,170" class="front"/>
+        <polygon points="110,40 230,40 220,50 120,50" class="back"/>
+        <polygon points="110,160 230,160 220,150 120,150" class="back"/>
+        <path d="M170 14 Q186 24 176 38" class="arrow" marker-end="url(#ah)"/>
+        <path d="M170 186 Q186 176 176 162" class="arrow" marker-end="url(#ah)"/>
+        <path d="M244 30 V50" class="dim" marker-start="url(#ahm)" marker-end="url(#ahm)"/>
+        <text x="252" y="44" class="lbl">ca. 5 mm</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">6</span>
+      <h2>Ziehharmonika falten</h2>
+      <p>Weiter im Zickzack falten: einmal nach vorne, einmal nach hinten, immer gleich breit. Von oben und von unten bis zur Mitte.</p>
+      <p>Am Ende das Papier ein letztes Mal umdrehen und in der Mitte zusammenfalten. Es sieht jetzt wie eine kleine Ziehharmonika aus.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Schmaler gefalteter Streifen und Zickzack-Querschnitt">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <polygon points="50,100 120,30 220,30 290,100 220,170 120,170" class="ghost"/>
+        <polygon points="50,100 80,86 260,86 290,100 260,114 80,114" class="front"/>
+        <line x1="66" y1="93" x2="274" y2="93" class="edge"/>
+        <line x1="60" y1="100" x2="280" y2="100" class="edge"/>
+        <line x1="66" y1="107" x2="274" y2="107" class="edge"/>
+        <polyline points="150,180 156,140 162,180 168,140 174,180 180,140 186,180 192,140" fill="none" stroke="var(--paper-dark)" stroke-width="2"/>
+        <text x="204" y="166" class="lbl">Querschnitt</text>
+      </svg>
+      <figcaption>Gestrichelt: so gross war das Papier vorher.</figcaption>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">7</span>
+      <h2>In der Mitte zusammenklappen</h2>
+      <p>Den Streifen quer in der Mitte zusammenklappen. Nehmt euch Zeit, damit beide Seiten gleich lang sind.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Streifen in der Mitte zum V geklappt">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g class="bfly" data-mode="v" transform="translate(170,175)"></g>
+        <path d="M60 60 Q90 40 110 62" class="arrow" marker-end="url(#ah)"/>
+        <path d="M280 60 Q250 40 230 62" class="arrow" marker-end="url(#ah)"/>
+        <circle cx="170" cy="170" r="12" class="okl"/>
+        <text x="190" y="190" class="lbl">Mitte</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">8</span>
+      <h2>Auffächern</h2>
+      <p>Die beiden Seiten leicht auffächern. Dabei die Mitte gut festhalten, damit die Faltung nicht wieder aufgeht.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Obere Flügel aufgefächert">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g class="bfly" data-mode="upper" transform="translate(170,175)"></g>
+        <circle cx="170" cy="172" r="12" class="okl"/>
+        <text x="188" y="194" class="lbl">hier festhalten</text>
+      </svg>
+      <figcaption>Das ist das obere Flügelpaar.</figcaption>
+    </figure>
+  </section>
+
+  <!-- PHASE B -->
+  <div class="phase"><span class="tag">B</span><div><h2>Die unteren Flügel</h2><p>Zweites Papier · Schritte 9–10</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">9</span>
+      <h2>Ziehharmonika über die kurze Seite</h2>
+      <p>Das zweite Papier parallel zur kurzen Seite im Zickzack falten. Das Prinzip ist das gleiche wie beim ersten Papier, nur ohne die Ecken.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Rechteck mit senkrechten Faltlinien und Zickzack-Querschnitt">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <rect x="50" y="20" width="240" height="130" class="front"/>
+        <g id="folds9"></g>
+        <polyline id="zig9" fill="none" stroke="var(--paper-dark)" stroke-width="2"/>
+        <text x="170" y="196" text-anchor="middle" class="lbl">Querschnitt: abwechselnd vor und zurück</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">10</span>
+      <h2>Kürzen und zusammenklappen</h2>
+      <p>Ist alles gefaltet, die beiden Enden um 2–3 mm abschneiden. Dann den Streifen in der Mitte zusammenklappen und auffächern.</p>
+      <p>Jetzt sind beide Flügelpaare fertig.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Gefalteter Streifen mit Schnittlinien an den Enden, daneben das untere Flügelpaar">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <rect x="62" y="30" width="22" height="140" class="front"/>
+        <line x1="70" y1="30" x2="70" y2="170" class="edge"/>
+        <line x1="77" y1="30" x2="77" y2="170" class="edge"/>
+        <line x1="54" y1="37" x2="92" y2="37" class="cut"/>
+        <line x1="54" y1="163" x2="92" y2="163" class="cut"/>
+        <text x="98" y="41" class="lbl">2–3 mm</text>
+        <path d="M130 100 H160" class="arrow" marker-end="url(#ah)"/>
+        <g class="bfly" data-mode="lower" transform="translate(250,50) scale(.95)"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- PHASE C -->
+  <div class="phase"><span class="tag">C</span><div><h2>Zusammensetzen</h2><p>Draht und Perlen · Schritte 11–13</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">11</span>
+      <h2>Flügel auf den Draht legen</h2>
+      <p>Den Draht vor euch auf den Tisch legen und beide Flügelpaare darüber. Wie bei einem echten Schmetterling kommen die grösseren Flügel nach oben.</p>
+      <p>Die gefalteten Mitten liegen genau aneinander.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 220" role="img" aria-label="Oberes und unteres Flügelpaar auf dem Draht">
+        <rect width="340" height="220" fill="url(#mat)"/>
+        <g class="bfly" data-mode="wire" transform="translate(170,112) scale(.95)"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">12</span>
+      <h2>Mit Draht verbinden</h2>
+      <p>Den Draht mehrmals um die Mitte wickeln. Die beiden Enden nach oben führen und dort fest zusammendrehen.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 220" role="img" aria-label="Draht um die Mitte gewickelt, Enden nach oben">
+        <rect width="340" height="220" fill="url(#mat)"/>
+        <g class="bfly" data-mode="coil" transform="translate(170,125) scale(.95)"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">13</span>
+      <h2>Fühler mit Perlen</h2>
+      <p>An beide Drahtenden je eine Perle stecken. Die Fühler auf die gewünschte Länge zurückschneiden und das Drahtende zu einer kleinen Schlaufe biegen, damit die Perle hält.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 220" role="img" aria-label="Fertiger Schmetterling mit Perlen an den Fühlern">
+        <rect width="340" height="220" fill="url(#mat)"/>
+        <g class="bfly" data-mode="final" transform="translate(170,125) scale(.95)"></g>
+      </svg>
+      <figcaption>Fertig!</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:14px">Häufige Fehler</h2>
+    <div class="errors">
+      <div class="err">
+        <h3>Flügel ungleich lang</h3>
+        <p>Der Schmetterling sieht schief aus.</p>
+        <span class="fix">Lösung: Beim Zusammenklappen die Enden genau aufeinanderlegen.</span>
+      </div>
+      <div class="err">
+        <h3>Falten unterschiedlich breit</h3>
+        <p>Die Flügel fächern unregelmässig auf.</p>
+        <span class="fix">Lösung: Jede Falte gleich breit und scharf nachstreichen.</span>
+      </div>
+      <div class="err">
+        <h3>Faltung geht wieder auf</h3>
+        <p>Die Flügel öffnen sich ganz.</p>
+        <span class="fix">Lösung: Mitte festhalten und den Draht straff wickeln.</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent){ var e=document.createElementNS(NS,tag); for(var k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+  function parse(s){ return s.trim().split(/\s+/).map(function(p){ return p.split(",").map(Number); }); }
+  function mirror(pts){ return pts.map(function(p){ return [-p[0],p[1]]; }).reverse(); }
+  function sample(pts,n){
+    var seg=[],total=0,i;
+    for(i=0;i<pts.length-1;i++){ var d=Math.hypot(pts[i+1][0]-pts[i][0],pts[i+1][1]-pts[i][1]); seg.push(d); total+=d; }
+    var out=[];
+    for(var k=0;k<=n;k++){
+      var t=total*k/n, j=0;
+      while(j<seg.length-1 && t>seg[j]){ t-=seg[j]; j++; }
+      var f=seg[j]?Math.min(t/seg[j],1):0;
+      out.push([pts[j][0]+(pts[j+1][0]-pts[j][0])*f, pts[j][1]+(pts[j+1][1]-pts[j][1])*f]);
+    }
+    return out;
+  }
+  function fan(g,pts,n,dx,dy){
+    dx=dx||0; dy=dy||0;
+    var s=sample(pts,n);
+    for(var i=0;i<n;i++){
+      el("polygon",{points:[dx+","+dy, (s[i][0]+dx)+","+(s[i][1]+dy), (s[i+1][0]+dx)+","+(s[i+1][1]+dy)].join(" "), "class":(i%2?"p2":"p1")}, g);
+    }
+  }
+  var UL=parse("-130,-50 -118,-80 -90,-100 -40,-105"), UR=mirror(UL);
+  var LL=parse("-95,10 -100,40 -85,70 -55,85"), LR=mirror(LL);
+  var VL=parse("-104,-120 -90,-128"), VR=mirror(VL);
+  function antennae(g,beads,long){
+    var y=long?-80:-64;
+    el("path",{d:"M-1,-8 C-4,-30 -14,"+(y+14)+" -22,"+y,"class":"wire"},g);
+    el("path",{d:"M1,-8 C4,-30 14,"+(y+14)+" 22,"+y,"class":"wire"},g);
+    if(beads){ el("circle",{cx:-22,cy:y-3,r:5.5,"class":"bead"},g); el("circle",{cx:22,cy:y-3,r:5.5,"class":"bead"},g); }
+  }
+  function coil(g){ for(var y=-8;y<=10;y+=4) el("line",{x1:-5,y1:y,x2:5,y2:y+2,"class":"wire"},g); }
+  document.querySelectorAll(".bfly").forEach(function(g){
+    var m=g.getAttribute("data-mode");
+    if(m==="v"){ fan(g,VL,6); fan(g,VR,6); return; }
+    if(m==="upper"){ fan(g,UL,14); fan(g,UR,14); return; }
+    if(m==="lower"){ fan(g,LL,12); fan(g,LR,12); return; }
+    if(m==="wire"){
+      el("path",{d:"M0,-40 V92 Q2,104 24,100","class":"wire"},g);
+      fan(g,UL,14,0,-6); fan(g,UR,14,0,-6); fan(g,LL,12,0,6); fan(g,LR,12,0,6);
+      el("path",{d:"M-140,-6 H-110","class":"wire",style:"stroke:none"},g);
+      return;
+    }
+    fan(g,LL,12); fan(g,LR,12); fan(g,UL,14); fan(g,UR,14);
+    coil(g);
+    antennae(g, m==="final", m==="coil");
+  });
+  // Schritt 9: Faltlinien und Querschnitt
+  var f=document.getElementById("folds9");
+  if(f){ for(var x=70,i=0;x<290;x+=20,i++) el("line",{x1:x,y1:20,x2:x,y2:150,"class":(i%2?"mount":"valley")},f); }
+  var z=document.getElementById("zig9");
+  if(z){ var pts=[]; for(var x2=50,j=0;x2<=290;x2+=20,j++) pts.push(x2+","+(j%2?162:176)); z.setAttribute("points",pts.join(" ")); }
+})();
+</script>
+
+<script>
+if (window.parent !== window) {
+  const reportHeight = () => {
+    window.parent.postMessage({ projectGuideHeight: document.body.getBoundingClientRect().height }, "*");
+  };
+  new ResizeObserver(reportHeight).observe(document.body);
+}
+</script>
+</body>
+</html>
