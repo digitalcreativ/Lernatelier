@@ -368,19 +368,21 @@ const FAECHER = [
       { titel: "Schriftzug mit Flexfolie", lp: "TTG.2", status: "aktiv", quer: "mit Informatik",
         text: "Einen eigenen Schriftzug in Silhouette Studio gestalten, gespiegelt aus Flexfolie plotten, entgittern und auf ein Kleidungsstück aufbügeln.",
         anleitung: "projekte/flexfolie-schriftzug.html",
-        links: [ { label: "Silhouette Studio", url: "https://www.silhouetteamerica.com/software" } ] },
+        links: [ { label: "Anleitung als PDF", url: "projekte/pdf/Schriftzug_mit_Flexfolie.pdf", download: true },
+                 { label: "Silhouette Studio", url: "https://www.silhouetteamerica.com/software" } ] },
       { titel: "Schmetterling falten", lp: "TTG.2", status: "aktiv",
         text: "Aus zwei Papieren mit der Ziehharmonika-Faltung zwei Flügelpaare falten, mit Draht verbinden und Fühler mit Perlen gestalten. Als Deko für das Schulhaus oder zu Hause.",
         anleitung: "projekte/schmetterling.html",
-        links: [ { label: "Jo Nakashima · Origami", url: "https://jonakashima.com.br/" } ] },
+        links: [ { label: "Anleitung als PDF", url: "projekte/pdf/Schmetterling_falten.pdf", download: true },
+                 { label: "Jo Nakashima · Origami", url: "https://jonakashima.com.br/" } ] },
       { titel: "Wimpelkette nähen", lp: "TTG.2", status: "aktiv",
         text: "Zwei Stoffdreiecke pro Wimpel zuschneiden, zusammennähen, wenden, bügeln und absteppen. Am Schluss verbindet ein Schrägband die Wimpel zu einer Kette.",
         anleitung: "projekte/wimpelkette.html",
-        links: [] },
+        links: [ { label: "Anleitung als PDF", url: "projekte/pdf/Wimpelkette_naehen.pdf", download: true } ] },
       { titel: "Quasten und Pompoms", lp: "TTG.2", status: "aktiv",
         text: "Aus Wollresten eine Quaste mit der Kartonmethode und einen Pompom mit der Gabelmethode herstellen und mit Holzperlen zu einem Anhänger auffädeln. Mit Varianten aus Leder, Filz und Kordel.",
         anleitung: "projekte/quasten-pompoms.html",
-        links: [] }
+        links: [ { label: "Anleitung als PDF", url: "projekte/pdf/Quasten_und_Pompoms.pdf", download: true } ] }
     ],
     stufen: [
       { name: "1. Oberstufe", module: [
@@ -432,7 +434,8 @@ const FAECHER = [
       { titel: "Schlüsselanhänger mit Namen", lp: "MI.2", status: "aktiv", quer: "mit TTG",
         text: "In Tinkercad einen Stern mit Öse und den eigenen Namen konstruieren, als STL exportieren und 3D-drucken.",
         anleitung: "projekte/schluesselanhaenger.html",
-        links: [ { label: "Tinkercad öffnen", url: "https://www.tinkercad.com" } ] }
+        links: [ { label: "Anleitung als PDF", url: "projekte/pdf/Schluesselanhaenger_mit_Namen.pdf", download: true },
+                 { label: "Tinkercad öffnen", url: "https://www.tinkercad.com" } ] }
     ],
     stufen: [
       { name: "2. Oberstufe", module: [
@@ -633,6 +636,7 @@ function currentView() {
 /* ---------- Bausteine ---------- */
 function linkBtn(l, i) {
   if (!l.url) return h("span", { class: "btn off", title: "Wird noch ergänzt" }, l.label + " · folgt");
+  if (l.download) return h("a", { class: "btn" + (i === 0 ? " primary" : ""), href: l.url, download: "" }, l.label);
   return h("a", { class: "btn" + (i === 0 ? " primary" : ""), href: l.url, target: "_blank", rel: "noopener" }, l.label);
 }
 

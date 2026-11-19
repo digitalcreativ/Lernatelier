@@ -2,6 +2,12 @@
 
 ## 19.11.2026
 
+### TTG-Anleitungen als PDF
+- Bei den vier TTG-Projekten **Schriftzug mit Flexfolie, Schmetterling falten, Wimpelkette nähen** und **Quasten und Pompoms** einen Button **«Anleitung als PDF»** ergänzt. Er lädt das PDF direkt herunter.
+- Die PDFs liegen in `projekte/pdf/` und wurden mit Microsoft Edge aus den HTML-Anleitungen erzeugt (5–7 Seiten, A4). Dafür in den vier Anleitungen eine Druckregel ergänzt, damit Schritte nicht über einen Seitenumbruch laufen.
+- **Wichtig:** Wird eine Anleitung später geändert, muss das PDF neu erzeugt werden; es aktualisiert sich nicht automatisch.
+- Ebenso beim Informatik-Projekt **Schlüsselanhänger mit Namen**: Button «Anleitung als PDF» vor «Tinkercad öffnen», Datei `projekte/pdf/Schluesselanhaenger_mit_Namen.pdf`. Druckregel in der Anleitung ergänzt.
+
 ### Textiles Gestalten · Quasten und Pompoms
 - **«Quasten und Pompoms»** als aktives, stufenübergreifendes Projekt unter **Textiles Gestalten → Projekte** ergänzt (TTG.2). Die bestehende Anleitung wurde unverändert als `projekte/quasten-pompoms.html` übernommen und nur um die Höhenmeldung für die eingebettete Ansicht ergänzt.
 - Inhalt: Material und Werkzeug, Phasen A–C mit 12 Schritten (Quaste mit Kartonmethode, Pompom mit Gabelmethode, Anhänger auffädeln), zwei weitere Quasten-Varianten (Leder/Filz, Kordel) und häufige Fehler.
