@@ -441,7 +441,7 @@ const FAECHER = [
           anleitung: "projekte/digital-lab.html", anleitungLabel: "Missionen",
           links: [] },
         { titel: "digital LAB · Pixel", lp: "MI.1", status: "aktiv", ideenId: "lab-pixel", ideenFarbe: "#9339d1",
-          ideenBild: "Digital Lab_ Pixel-Projektideen.png",
+          ideenBild: "digital-lab/Digital Lab_ Pixel-Projektideen.png",
           text: "Gestalte Figuren, Welten und Animationen aus kleinen Quadraten.",
           ideen: [
             ["Pixel-Character", "Entwickle eine eigene Spielfigur mit mehreren Posen.", "Piskel for Kids oder Pixilart"],
@@ -467,7 +467,7 @@ const FAECHER = [
           ],
           links: [PIXELBILDER, PISKEL, ARCADE].map(({ name, url }) => ({ label: name, url })) },
         { titel: "digital LAB · Kamera", lp: "MI.1", status: "aktiv", ideenId: "lab-kamera", ideenFarbe: "#0086c9",
-          ideenBild: "Digital-Lab Kamera-Projektideen.png",
+          ideenBild: "digital-lab/Digital-Lab Kamera-Projektideen.png",
           text: "Erzähle mit Fotos, Filmen und Animationen deine eigene Geschichte.",
           ideen: [
             ["Kurzfilm", "Plane, drehe und schneide einen 1–3-minütigen Film.", "EditVideoOnline für den Schnitt"],
@@ -496,7 +496,7 @@ const FAECHER = [
           ],
           links: [EDITVIDEOONLINE, STOP_MOTION, PHOTOPEA, PIXLR].map(({ name, url }) => ({ label: name, url })) },
         { titel: "digital LAB · Game", lp: "MI.2", status: "aktiv", ideenId: "lab-game", ideenFarbe: "#e43290",
-          ideenBild: "Game-Ideen im Digital Lab.png",
+          ideenBild: "digital-lab/Game-Ideen im Digital Lab.png",
           text: "Entwickle ein eigenes Spiel und probiere aus, wie Regeln, Figuren und Ziele zusammenspielen.",
           ideen: [
             ["Jump ’n’ Run", "Baue ein kleines Level mit eigener Figur, Hindernissen und einem Ziel.", "Scratch oder MakeCode Arcade für den Einstieg, GDevelop für mehrere Levels"],
@@ -520,7 +520,7 @@ const FAECHER = [
           ],
           links: [SCRATCH, ARCADE, GDEVELOP].map(({ name, url }) => ({ label: name, url })) },
         { titel: "digital LAB · Schaltkreis", lp: "MI.2", status: "aktiv", ideenId: "lab-schaltkreis", ideenFarbe: "#d5a700",
-          ideenBild: "Digital Lab_ Schaltkreis-Projektideen.png",
+          ideenBild: "digital-lab/Digital Lab_ Schaltkreis-Projektideen.png",
           ideenBildHinweis: "Das ursprüngliche Plakat zeigt weitere Anregungen. Die fünf aktuellen Projektideen stehen in der Liste.",
           text: "Experimentiere mit Elektronik und programmiere, wie dein Projekt auf seine Umgebung reagiert.",
           ideen: [
@@ -634,7 +634,7 @@ function modulKarte(m) {
     m.ideenBild ? h("details", { class: "project-poster" },
       h("summary", {}, "Grafik ansehen"),
       m.ideenBildHinweis ? h("p", {}, m.ideenBildHinweis) : null,
-      h("img", { src: "projekte/" + encodeURIComponent(m.ideenBild), loading: "lazy",
+      h("img", { src: "projekte/" + m.ideenBild.split("/").map(encodeURIComponent).join("/"), loading: "lazy",
         alt: "Plakat mit Projektideen für " + m.titel })) : null,
     h("ol", {}, m.ideen.map(([titel, text, werkzeuge]) => h("li", {}, h("strong", {}, titel), h("p", {}, text),
       werkzeuge ? h("p", { class: "idea-tools" }, h("strong", {}, "Empfohlen "), werkzeuge) : null))),

@@ -94,3 +94,6 @@
 
 ### Offen
 - Lehrplan-Bezüge der neuen Einträge prüfen (ein andermal).
+
+### Projektordner geordnet
+- Materialien in digital-lab, office-academy/word und kartenwerkstatt gebündelt. Ältere Pläne und zusätzliche Originalmaterialien im Archiv erhalten; keine Materialien gelöscht. Bild-, Skript- und Downloadlinks angepasst. HTML-Projektadressen unverändert. Lokale Umstrukturierung; erneuter GitHub-Upload erforderlich.
