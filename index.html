@@ -80,6 +80,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 [data-fach="gz"]    { --c: var(--col-gz);  --s: var(--soft-gz); }
 [data-fach="diverse"] { --c: var(--accent-ink); --s: var(--accent); }
 [data-fach="later"] { --c: var(--col-later); --s: var(--soft-later); }
+[data-fach="lehrpersonen"] { --c: var(--accent-ink); --s: var(--accent); }
 
 /* Kopfleiste */
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 50; background: var(--surface); }
@@ -667,14 +668,20 @@ const FAECHER = [
 const DIVERSE = { id: "diverse", name: "Diverse Fächer", werkzeuge: [
   FOBIZZ,
   { name: "LearningApps", info: "Mit interaktiven Lernspielen und Quiz üben · für Bildungszwecke kostenlos", url: "https://learningapps.org/" },
-  { name: "Wordwall", info: "Quiz, Zuordnungen und Lernspiele für die ganze Klasse · auch als Arbeitsblatt druckbar", url: "https://wordwall.net/de" },
-  { name: "Kahoot!", info: "Quiz-Spiel für die ganze Klasse · Lehrperson startet, Klasse spielt mit Game-PIN", url: "https://kahoot.com/schools/" },
+  { name: "Kahoot! mitspielen", info: "Game-PIN der Lehrperson eingeben und beim Quiz mitspielen · ohne Anmeldung", url: "https://play.kahoot.it/" },
   PIXELBILDER,
   { name: "Book Creator", info: "Digitale Bücher gestalten", url: "https://bookcreator.com/" },
   { name: "Canva", info: "Präsentationen, Plakate, Karten und Steckbriefe gestalten", url: "https://www.canva.com/" },
   { name: "Genially", info: "Interaktive Präsentationen, Quiz und Escape Rooms · kostenloser Einstieg; unter 16 via Lehrperson", url: "https://genially.com/" },
   { name: "Microsoft Sway", info: "Multimediale Präsentationen und Projektberichte · Microsoft-Konto erforderlich", url: "https://sway.cloud.microsoft/" },
   { name: "Google Earth", info: "Städte und Landschaften von oben erkunden · im Browser", url: "https://earth.google.com/web/" }
+]};
+
+// Werkzeuge für Lehrpersonen: eigene Seite, erscheint nicht bei den Werkzeugen der Schülerinnen und Schüler
+const LEHRPERSONEN = { id: "lehrpersonen", name: "Tools für Lehrpersonen", werkzeuge: [
+  { name: "Wortwolken", info: "Aus Text eine gestaltete Wortwolke erstellen, Form und Farben wählen · Download als PNG, JPG oder SVG · kostenlos, ohne Anmeldung", url: "https://www.wortwolken.com/" },
+  { name: "Kahoot! erstellen", info: "Eigene Quiz für die ganze Klasse erstellen und starten · Kahoot-Konto nötig, Gratisplan für Lehrpersonen", url: "https://create.kahoot.it/" },
+  { name: "Wordwall", info: "Quiz, Zuordnungen und Lernspiele erstellen · Klasse spielt über Link, auch als Arbeitsblatt druckbar", url: "https://wordwall.net/de" }
 ]};
 
 // Fächer, die später dazukommen: { kurz: "..", name: "...", stufe: "..." }
@@ -697,7 +704,8 @@ const VORBEREITUNG = "projekte-in-vorbereitung";
 const VORBEREITUNG_TITEL = "Projekte in Vorbereitung";
 // Sobald ein Projekt bereit ist, erscheint es mit status: "aktiv" an seinem ursprünglichen Ort.
 const sichtbareModule = module => module.filter(m => m.status !== "geplant");
-const VIEWS = ["uebersicht", VORBEREITUNG].concat(FAECHER.map(f => f.id));
+const LP_VIEW = "lehrpersonen";
+const VIEWS = ["uebersicht", VORBEREITUNG, LP_VIEW].concat(FAECHER.map(f => f.id));
 const state = { tab: null, pendingScroll: null, showLater: false };
 const wide = () => window.matchMedia("(min-width: 900px)").matches;
 
@@ -826,6 +834,11 @@ function buildSide() {
     }
   });
   if (SPAETER.length) items.push(later);
+  items.push(h("details", { "data-fach": "lehrpersonen", open: currentView() === LP_VIEW ? "" : null },
+    h("summary", {}, h("span", { class: "chev", "aria-hidden": "true" }, "›"), "Für Lehrpersonen"),
+    h("a", { class: "item", href: "#" + LP_VIEW, "data-view": LP_VIEW, "data-tab": "liste",
+      onclick: go(LP_VIEW, { tab: "liste" }) }, "Tools für Lehrpersonen")
+  ));
   items.push(h("details", { "data-fach": "later", open: currentView() === VORBEREITUNG ? "" : null },
     h("summary", {}, h("span", { class: "chev", "aria-hidden": "true" }, "›"), VORBEREITUNG_TITEL),
     h("a", { class: "item", href: "#" + VORBEREITUNG, "data-view": VORBEREITUNG, "data-tab": "liste",
@@ -909,7 +922,8 @@ function render() {
   const view = currentView();
   const fach = FAECHER.find(f => f.id === view);
   const istVorbereitung = view === VORBEREITUNG;
-  const tabs = istVorbereitung ? [] : fach
+  const istLP = view === LP_VIEW;
+  const tabs = istVorbereitung || istLP ? [] : fach
     ? fach.stufen.map((s, i) => ["st" + i, s.name]).concat(fach.ohneProjekte ? [] : [["projekte", "Projekte"]], [["werkzeuge", "Werkzeuge"]])
     : [["faecher", "Fächer"], ["werkzeuge", "Alle Werkzeuge"]];
   if (!tabs.some(t => t[0] === state.tab)) state.tab = tabs[0]?.[0] ?? "liste";
@@ -922,11 +936,11 @@ function render() {
 
   // Banner
   const hero = document.getElementById("hero");
-  hero.setAttribute("data-fach", fach ? fach.id : istVorbereitung ? "later" : "start");
-  document.getElementById("hero-title").textContent = fach ? fach.name : istVorbereitung ? VORBEREITUNG_TITEL : "Lernatelier Zyklus 3";
+  hero.setAttribute("data-fach", fach ? fach.id : istVorbereitung ? "later" : istLP ? "lehrpersonen" : "start");
+  document.getElementById("hero-title").textContent = fach ? fach.name : istVorbereitung ? VORBEREITUNG_TITEL : istLP ? LEHRPERSONEN.name : "Lernatelier Zyklus 3";
   const crumbs = [h("a", { href: "#uebersicht" }, "Startseite")];
   if (fach) crumbs.push(h("span", { class: "sep", "aria-hidden": "true" }, "/"), h("span", {}, "Fächer"), h("span", { class: "sep", "aria-hidden": "true" }, "/"), h("span", {}, fach.kurz));
-  else crumbs.push(h("span", { class: "sep", "aria-hidden": "true" }, "/"), h("span", {}, istVorbereitung ? VORBEREITUNG_TITEL : "Übersicht"));
+  else crumbs.push(h("span", { class: "sep", "aria-hidden": "true" }, "/"), h("span", {}, istVorbereitung ? VORBEREITUNG_TITEL : istLP ? LEHRPERSONEN.name : "Übersicht"));
   document.getElementById("crumbs").replaceChildren(...crumbs);
 
   // Reiter
@@ -937,7 +951,12 @@ function render() {
   // Inhalt
   const panel = document.getElementById("panel");
   let out = [];
-  if (istVorbereitung) {
+  if (istLP) {
+    out.push(h("section", { "data-fach": "lehrpersonen" },
+      h("p", { class: "lp" }, "Werkzeuge zum Vorbereiten und Gestalten des Unterrichts. Sie erscheinen nicht bei den Werkzeugen der Schülerinnen und Schüler."),
+      toolGrid(LEHRPERSONEN)
+    ));
+  } else if (istVorbereitung) {
     for (const f of FAECHER) {
       const gruppen = vorbereitungsGruppen(f);
       if (!gruppen.length) continue;

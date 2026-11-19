@@ -2,6 +2,13 @@
 
 ## 19.11.2026
 
+### Neue Seite: Tools für Lehrpersonen
+- Eigene Seite **«Tools für Lehrpersonen»** mit Banner und Eintrag **«Für Lehrpersonen»** in der Seitenleiste (Adresse `#lehrpersonen`). Die Werkzeuge dort erscheinen nicht bei den Werkzeugen der Schülerinnen und Schüler und nicht unter «Alle Werkzeuge».
+- Inhalt: **Wortwolken** (https://www.wortwolken.com/, kostenlos, ohne Anmeldung, Download als PNG/JPG/SVG), **Kahoot! erstellen** (https://create.kahoot.it/, Kahoot-Konto nötig) und **Wordwall** (https://wordwall.net/de). Links geprüft.
+- **Kahoot!** und **Wordwall** aus «Diverse Fächer» entfernt; Kahoot ist jetzt mit create.kahoot.it verlinkt. LearningApps bleibt bei den Schülerinnen und Schülern.
+- Für die Klasse zusätzlich **«Kahoot! mitspielen»** bei «Diverse Fächer» ergänzt (https://play.kahoot.it/): Game-PIN eingeben und mitspielen. Erstellen bleibt auf der Lehrpersonen-Seite.
+- Keine JavaScript-Fehler; Darstellung per Bildschirmfoto geprüft.
+
 ### GZ-Basics-Checks, Wordwall und Kahoot
 - In allen drei GZ-Anleitungen ist ein aufklappbarer **«GZ-Basics-Check · 5 Fragen»** ergänzt, aufgebaut wie die Word-Basics-Checks: Auswahlfragen mit Auswertung und Erklärung sowie eine kleine Übung «Jetzt direkt am Zeichenbrett ausprobieren». Gemeinsames Skript `projekte/gz-basics.js`; nichts wird gespeichert, im PDF ausgeblendet.
   - **Einstieg ins GZ** (nach Teil B): Linienarten, Reissschiene und Dreieck, Winkel.
