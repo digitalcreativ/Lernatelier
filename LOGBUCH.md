@@ -2,6 +2,12 @@
 
 ## 19.11.2026
 
+### Neues Fach: Medien und Informatik
+- **Medien und Informatik (M+I)** als eigenes Fach eröffnet, gleich aufgebaut wie die anderen Fächer: Reiter **1. Oberstufe, 2. Oberstufe, Projekte, Werkzeuge**, eigener Eintrag in Kopfnavigation («M+I») und Seitenleiste, eigene Fachkarte auf der Startseite. Lehrplanzeile: «MI.1 Medien · MI.2 Informatik». Eigene Fachfarbe Senf (hell und dunkel).
+- Noch ohne Projekte und ohne fachspezifische Werkzeuge. Im Reiter «Werkzeuge» steht vorerst «Hier erscheinen bald Werkzeuge.», darunter wie überall die Werkzeuge für diverse Fächer.
+- Erste Werkzeuge für M+I ergänzt (Links geprüft): **TypingClub** (https://www.typingclub.com/, deutscher Kurs «Tippdschungel», ohne Anmeldung), **TIPP10** (https://www.tipp10.com/de/, online mit kostenloser Registrierung oder als Software), **Scratch** (gemeinsamer Eintrag wie beim Wahlfach Informatik) und **Informatik-Biber** (https://www.informatik-biber.ch/, Knobelaufgaben mit Lösungserklärungen). Ob TypingClub und TIPP10 die Schweizer Tastatur unterstützen, war nicht ersichtlich; vor dem Einsatz testen.
+- M+I aus «Weitere Fächer / Kommen später dazu» entfernt; dort bleibt nur noch Geometrisches Zeichnen. Darstellung per Bildschirmfoto geprüft (Startseite und Fachseite).
+
 ### Office Academy · Word: Selbsttests
 - Die fünf Tests der Word-Challenges dienen dem selbstständigen Üben und heissen jetzt **«Selbsttest · Challenge 1–5»**. Begleittext: «Hier findest du den Selbsttest zur Challenge X. Damit kannst du selbstständig üben und prüfen, ob du die Lernziele erreicht hast.» Download-Buttons entsprechend umbenannt.
 - Beim Herunterladen erhalten die Dateien den Namen `Office_Academy_Challenge_X_Selbsttest.docx`. Die Originaldateien `…_Pruefung.docx` im Ordner bleiben unverändert.

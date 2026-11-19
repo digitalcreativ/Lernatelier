@@ -30,6 +30,7 @@
   --col-bg: #94544e;   --soft-bg: #e2c1be;   /* Bildnerisches Gestalten: Altrosa */
   --col-ttg: #5b6149;  --soft-ttg: #8b917a;  /* Textiles Gestalten: Salbei */
   --col-inf: #41607f;  --soft-inf: #bccbdc;  /* Informatik: Hellblau */
+  --col-mi: #7a6431;   --soft-mi: #e3d6b4;   /* Medien und Informatik: Senf */
   --col-later: #74776a; --soft-later: #dcddd4;
   --f: "Open Sans", "Segoe UI", system-ui, sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
@@ -44,6 +45,7 @@
     --col-bg: #e2c1be; --soft-bg: #d9b4b0;
     --col-ttg: #bcc1aa; --soft-ttg: #a9af97;
     --col-inf: #bccbdc; --soft-inf: #b3c4d7;
+    --col-mi: #e3d6b4; --soft-mi: #d6c79f;
     --col-later: #9a9d8f; --soft-later: #9a9d8f;
     color-scheme: dark;
   }
@@ -56,6 +58,7 @@
   --col-bg: #e2c1be; --soft-bg: #d9b4b0;
   --col-ttg: #bcc1aa; --soft-ttg: #a9af97;
   --col-inf: #bccbdc; --soft-inf: #b3c4d7;
+  --col-mi: #e3d6b4; --soft-mi: #d6c79f;
   --col-later: #9a9d8f; --soft-later: #9a9d8f;
   color-scheme: dark;
 }
@@ -70,6 +73,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 [data-fach="bg"]    { --c: var(--col-bg);  --s: var(--soft-bg); }
 [data-fach="ttg"]   { --c: var(--col-ttg); --s: var(--soft-ttg); }
 [data-fach="inf"]   { --c: var(--col-inf); --s: var(--soft-inf); }
+[data-fach="mi"]    { --c: var(--col-mi);  --s: var(--soft-mi); }
 [data-fach="diverse"] { --c: var(--accent-ink); --s: var(--accent); }
 [data-fach="later"] { --c: var(--col-later); --s: var(--soft-later); }
 
@@ -592,6 +596,22 @@ const FAECHER = [
           links: [] }
       ]}
     ]
+  },
+  {
+    id: "mi", kurz: "M+I", name: "Medien und Informatik",
+    lp: "Lehrplan 21: MI.1 Medien · MI.2 Informatik",
+    werkzeuge: [
+      { name: "TypingClub", info: "Zehnfinger-Schreiben spielerisch lernen · deutscher Kurs «Tippdschungel», ohne Anmeldung", url: "https://www.typingclub.com/" },
+      { name: "TIPP10", info: "Zehnfinger-Schreibtrainer online oder als Software · online mit kostenloser Registrierung", url: "https://www.tipp10.com/de/" },
+      SCRATCH,
+      { name: "Informatik-Biber", info: "Knobelaufgaben zur Informatik mit Lösungserklärungen · Schweizer Wettbewerb", url: "https://www.informatik-biber.ch/" }
+    ],
+    // Stufenübergreifende Projekte, gleicher Aufbau wie bei den anderen Fächern
+    projekte: [],
+    stufen: [
+      { name: "1. Oberstufe", module: [] },
+      { name: "2. Oberstufe", module: [] }
+    ]
   }
 ];
 
@@ -607,8 +627,7 @@ const DIVERSE = { id: "diverse", name: "Diverse Fächer", werkzeuge: [
 ]};
 
 const SPAETER = [
-  { kurz: "GZ", name: "Geometrisches Zeichnen", stufe: "Wahlfach 3. Oberstufe" },
-  { kurz: "M+I", name: "Medien und Informatik", stufe: "1. und 2. Oberstufe" }
+  { kurz: "GZ", name: "Geometrisches Zeichnen", stufe: "Wahlfach 3. Oberstufe" }
 ];
 /* ================== ENDE DATEN =================== */
 
@@ -908,7 +927,8 @@ function render() {
         : h("p", { class: "lp" }, "Hier erscheinen bald Projekte.")
     ));
   } else if (fach) {
-    out.push(h("section", {}, h("p", { class: "label" }, "Werkzeuge für " + fach.name), toolGrid(fach)));
+    out.push(h("section", {}, h("p", { class: "label" }, "Werkzeuge für " + fach.name),
+      fach.werkzeuge.length ? toolGrid(fach) : h("p", { class: "lp" }, "Hier erscheinen bald Werkzeuge.")));
     out.push(h("section", { "data-fach": DIVERSE.id }, h("p", { class: "label" }, "Für diverse Fächer"), toolGrid(DIVERSE)));
   } else if (state.tab === "faecher") {
     out.push(h("section", {},
