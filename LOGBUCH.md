@@ -6,6 +6,8 @@
 - **«Einstieg ins GZ»** als erstes aktives Projekt bei **GZ → Wahlfach 3. Oberstufe** ergänzt (MA.2). Anleitung unter `projekte/einstieg-gz.html`: Teil A Grundlagen (Beispiele, Materialliste, Arbeitsregeln, Video zur Zeichenplatte), Teil B Technik mit Reissschiene und Dreieck (B1–B4), Teil C Dossier mit Figurenkette aus 13 Figuren in 6 Aufgaben, Checkliste.
 - Zwei Beschriftungen korrigiert (B1 abgeschnitten, B2 überlappte die Dreieckskante). Keine JavaScript-Fehler.
 - Druckregeln ergänzt und PDF erzeugt: `projekte/pdf/Einstieg_GZ.pdf` (4 Seiten A4). Button **«Anleitung als PDF»** auf der Projektkarte. Alle PDF-Seiten als Bild gerendert und kontrolliert.
+- Überschrift von Teil C geändert: **«Aufgabe: Figurenkette»** (Untertitel «13 Figuren in 6 Schritten») statt «Dossier: Reissschiene und Dreieck», da es nur eine Aufgabe aus dem Dossier ist. PDF neu erzeugt.
+- Auf der Projektkarte zusätzlich **«Video Zeichenplatte»** (YouTube, bisher nur in der Anleitung verlinkt) und **«GeoGebra Geometrie»** (zum Nachkonstruieren und Kontrollieren der Winkel) ergänzt.
 
 ### Bildnerisches Gestalten · Grossstadt von oben
 - **«Grossstadt von oben»** als aktives Projekt bei **BG → Wahlfach 2./3. Oberstufe** ergänzt (BG.2), vor den geplanten Projekten Linoldruck und Digitale Collage. Anleitung unter `projekte/grossstadt-von-oben.html`: 7 Etappen mit Checklisten und Zwischenzielen, Drohnenvideos (Zug, New York), interaktives Fluchtpunkt-Labor und Beurteilungsraster (ICH/LP).
