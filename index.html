@@ -889,6 +889,14 @@ function render() {
       h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), s.name, h("span", { class: "count" }, module.length + (module.length === 1 ? " Projekt" : " Projekte"))),
       module.length ? h("div", { class: "grid" }, module.map(modulKarte)) : null
     ));
+    // Stufenübergreifende Projekte zusätzlich auf jeder Stufenseite
+    const uebergreifend = sichtbareModule(fach.projekte);
+    if (uebergreifend.length) out.push(h("section", { "data-fach": fach.id },
+      h("h2", { class: "sec" }, h("span", { class: "dot", "aria-hidden": "true" }), "Stufenübergreifende Projekte",
+        h("span", { class: "count" }, uebergreifend.length + (uebergreifend.length === 1 ? " Projekt" : " Projekte"))),
+      h("p", { class: "lp" }, "Für alle Klassen offen."),
+      h("div", { class: "grid" }, uebergreifend.map(modulKarte))
+    ));
   } else if (fach && state.tab === "projekte") {
     const projekte = sichtbareModule(fach.projekte);
     out.push(h("section", { "data-fach": fach.id },

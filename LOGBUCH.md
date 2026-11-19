@@ -2,6 +2,14 @@
 
 ## 19.11.2026
 
+### Office Academy · Word: Selbsttests
+- Die fünf Tests der Word-Challenges dienen dem selbstständigen Üben und heissen jetzt **«Selbsttest · Challenge 1–5»**. Begleittext: «Hier findest du den Selbsttest zur Challenge X. Damit kannst du selbstständig üben und prüfen, ob du die Lernziele erreicht hast.» Download-Buttons entsprechend umbenannt.
+- Beim Herunterladen erhalten die Dateien den Namen `Office_Academy_Challenge_X_Selbsttest.docx`. Die Originaldateien `…_Pruefung.docx` im Ordner bleiben unverändert.
+- Hinweis: Sollen einzelne Tests später benotet werden, diese von der öffentlichen Seite entfernen und erst zum Prüfungstermin über Teams freigeben.
+
+### Stufenübergreifende Projekte auf jeder Stufenseite
+- Auf jeder Stufenseite aller Fächer erscheint unter den Projekten der Stufe zusätzlich der Abschnitt **«Stufenübergreifende Projekte»** mit Anzahl und denselben Karten wie im Reiter «Projekte». Fächer ohne stufenübergreifende Projekte zeigen den Abschnitt nicht. Der Reiter «Projekte» bleibt bestehen. Darstellung bei TTG per Bildschirmfoto geprüft.
+
 ### TTG-Werkzeuge für textile Techniken
 - Drei Werkzeug-Buttons bei **Textiles Gestalten** ergänzt (Links geprüft):
   - **Stitch Fiddle** (https://www.stitchfiddle.com/): Muster im Raster entwerfen für Stricken, Häkeln, Kreuzstich, Bügelperlen und Pixel-Makramee. Bezahlte Zusatzfunktionen vorhanden.
