@@ -2,6 +2,15 @@
 
 ## 19.11.2026
 
+### fobizz für die KI-Nutzung
+- **fobizz · KI für die Klasse** als erster Werkzeug-Button unter **Diverse Fächer** ergänzt. Link: https://go.fobizz.com/. Die Schülerinnen und Schüler melden sich dort mit dem Code der Lehrperson an. Erscheint auch in allen Fachansichten unter «Für diverse Fächer».
+- fobizz zusätzlich bei den vier digital-LAB-Projekten **Pixel, Kamera, Game und Schaltkreis** verlinkt: als Direktlink-Button auf der Projektkarte und in der Werkzeugliste mit einem kurzen Hinweis, wofür die KI im jeweiligen Projekt hilft. Der Eintrag ist als gemeinsame Konstante `FOBIZZ` hinterlegt, damit Name und Link überall gleich bleiben.
+
+### Textiles Gestalten · Schriftzug mit Flexfolie
+- **«Schriftzug mit Flexfolie»** als aktives, stufenübergreifendes Projekt unter **Textiles Gestalten → Projekte** ergänzt (TTG.2, «mit Informatik»). Die Anleitung liegt unter `projekte/flexfolie-schriftzug.html` und folgt dem Aufbau des Schlüsselanhängers: Material, zehn Schritte mit Zeichnungen, häufige Fehler.
+- Ablauf: Projekt in Silhouette Studio anlegen → Schriftzug schreiben (20–25 cm, Linien ≥ 2 mm) → verschweissen → spiegeln → Folie einlegen → schneiden mit Testschnitt → entgittern → Position festlegen → aufpressen → Pflege.
+- Temperatur- und Zeitangaben sind Richtwerte; die Angaben auf der Folienpackung gehen vor. Lokale Umsetzung, keine Browserprüfung oder Online-Veröffentlichung.
+
 ### Bildnerisches Gestalten · Kartenwerkstatt
 - **«Kartenwerkstatt – Handlettering & Stempeldruck»** als aktives, stufenübergreifendes Projekt unter **Bildnerisches Gestalten → Projekte** ergänzt. Projektkarte und eingebettete Anleitung folgen dem bestehenden Aufbau von digital LAB.
 - Auftrag: **1–2 eigene Stempel**, **1–2 A6-Karten**, passende Handlettering-Symbole und **mindestens drei Stempeldrucke pro Karte**. Materialliste und Hinweise zum sicheren Schnitzen ergänzt.

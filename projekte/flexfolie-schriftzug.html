@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Schriftzug mit Flexfolie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=Archivo+Black&family=Pacifico&display=swap">
+<style>
+/* Layout wie Schlüsselanhänger: jeder Schritt = Text links + Zeichnung rechts (gestapelt auf dem Handy) */
+:root{
+  --bg:#f5f6f2; --surface:#ffffff; --fg:#1f2219; --muted:#666b5c; --line:#dcdfd3;
+  --grid:#e5e8de; --accent:#6f7a55; --accent-dark:#4c5539;
+  --fabric:#3f4a63; --fabric-dark:#2c3446; --foil:#f3efe4; --carrier:rgba(150,185,205,.35); --carrier-line:#8fb0c3;
+  --paper:#efe4c8; --ok:#2c8657; --warn:#b4502c; --metal:#a3a9b3;
+  --f-display:"Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Inter", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#141612; --surface:#1d201a; --fg:#eceee6; --muted:#a3a896; --line:#343829;
+  --grid:#262a20; --accent:#9aa67a; --accent-dark:#6b7650;
+  --fabric:#4a5674; --fabric-dark:#333c52; --foil:#f3efe4; --carrier:rgba(150,185,205,.25); --carrier-line:#6d8da0;
+  --paper:#8a7f63; --ok:#5cc08d; --warn:#e48a62; --metal:#7d838d; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#141612; --surface:#1d201a; --fg:#eceee6; --muted:#a3a896; --line:#343829;
+  --grid:#262a20; --accent:#9aa67a; --accent-dark:#6b7650;
+  --fabric:#4a5674; --fabric-dark:#333c52; --foil:#f3efe4; --carrier:rgba(150,185,205,.25); --carrier-line:#6d8da0;
+  --paper:#8a7f63; --ok:#5cc08d; --warn:#e48a62; --metal:#7d838d; color-scheme:dark }
+
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,5vw,40px)}
+h2{font-size:21px}
+p{margin:0}
+.hero{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;align-items:center}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:42ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-dark);font-weight:600;margin-bottom:8px}
+:root:not([data-theme="light"]) .eyebrow{color:var(--accent)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:var(--surface)}
+
+.step{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+.step.wide{grid-template-columns:1fr}
+.step > div{min-width:0}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;
+  background:var(--accent);color:#fff;font:700 15px var(--f-display);margin-bottom:10px}
+.step h2{margin-bottom:10px}
+ol.do,ul.mat{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+ol.do li::marker{color:var(--muted);font-variant-numeric:tabular-nums}
+b{font-weight:600}
+.tip{margin-top:12px;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px}
+.warn{border-left-color:var(--warn)}
+figure{margin:0;display:flex;flex-direction:column;gap:8px}
+figure svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--bg)}
+figcaption{font-size:13px;color:var(--muted)}
+.panel{border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:12px 14px;font-size:14px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
+.panel .k{color:var(--muted)}
+.panel .v{font-weight:600;font-variant-numeric:tabular-nums}
+.panel .head{grid-column:1/-1;font:600 12px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:2px}
+.panel .head:not(:first-child){margin-top:8px}
+
+.errors{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.err{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.err h3{font-size:16px}
+.err p{font-size:14px;color:var(--muted)}
+.err .fix{color:var(--ok);font-weight:600;font-size:14px}
+
+/* SVG-Bausteine */
+.solid{fill:var(--accent)} .side{fill:var(--accent-dark)}
+.gl{stroke:var(--grid);fill:none}
+.dim{stroke:var(--muted);stroke-width:1.2;fill:none}
+.dash{stroke:var(--muted);stroke-width:1.2;fill:none;stroke-dasharray:4 4}
+.lbl{fill:var(--muted);font:500 12px var(--f-body)}
+.lblb{fill:var(--fg);font:600 13px var(--f-body)}
+.vt{font-family:"Archivo Black","Arial Black",Impact,sans-serif}
+.sc{font-family:"Pacifico","Brush Script MT",cursive}
+.fab{fill:var(--fabric)} .fabd{fill:var(--fabric-dark)} .foil{fill:var(--foil)}
+.carrier{fill:var(--carrier);stroke:var(--carrier-line)}
+.metal{fill:var(--metal)}
+.okl{stroke:var(--ok);fill:none;stroke-width:2} .warnl{stroke:var(--warn);fill:none;stroke-width:2}
+.bed{fill:var(--surface);stroke:var(--line)}
+
+@media (max-width:720px){
+  .hero,.step,.errors{grid-template-columns:1fr}
+  .step{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- Gemeinsame Formen -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" class="gl"/></pattern>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker>
+    <path id="hoodie" d="M185 55 L150 70 L112 172 L140 182 L170 112 L170 212 L330 212 L330 112 L360 182 L388 172 L350 70 L315 55 Q250 82 185 55 Z"/>
+    <path id="shirt" d="M130 30 Q170 50 210 30 L260 45 L295 85 L265 105 L245 90 L245 205 L95 205 L95 90 L75 105 L45 85 L80 45 Z"/>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Silhouette Studio · Schneideplotter · Flexfolie</div>
+      <h1>Schriftzug mit Flexfolie</h1>
+      <p class="lead">Ein eigener Schriftzug für Hoodie, T-Shirt oder Tasche. Am Computer gestalten, gespiegelt aus Flexfolie plotten, entgittern und mit Wärme auf den Stoff übertragen.</p>
+      <div class="meta"><span class="chip">ca. 2 Lektionen</span><span class="chip">ca. 22 × 5 cm</span><span class="chip">Baumwolle oder Polyester</span></div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 500 230" role="img" aria-label="Hoodie mit aufgebügeltem Schriftzug CLAUDIA auf der Brust">
+        <rect width="500" height="230" fill="url(#grid)"/>
+        <path d="M196 60 Q190 14 250 10 Q310 14 304 60 Z" class="fabd"/>
+        <use href="#hoodie" class="fab"/>
+        <ellipse cx="250" cy="62" rx="34" ry="11" class="fabd"/>
+        <path d="M238 70 L234 102 M262 70 L266 102" stroke="var(--foil)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M205 170 L295 170 L308 210 L192 210 Z" fill="none" stroke="var(--fabric-dark)" stroke-width="2"/>
+        <rect x="170" y="206" width="160" height="8" class="fabd"/>
+        <text x="250" y="140" text-anchor="middle" class="vt foil" font-size="22" textLength="124" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+        <text x="392" y="98" class="lblb">Flexfolie</text>
+        <path d="M400 104 L322 128" class="dim" marker-end="url(#arr)"/>
+      </svg>
+    </figure>
+  </header>
+
+  <!-- Material -->
+  <section class="step">
+    <div>
+      <h2>Material</h2>
+      <ul class="mat">
+        <li>Kleidungsstück aus <b>Baumwolle, Polyester</b> oder Mischgewebe, frisch gewaschen, <b>ohne Weichspüler</b></li>
+        <li><b>Flexfolie</b> (glatt, matt oder glänzend) in einer Kontrastfarbe</li>
+        <li>Computer mit <b>Silhouette Studio</b> und Schneideplotter (z. B. Silhouette Cameo)</li>
+        <li>Schneidematte, <b>Entgitterhaken</b>, Schere</li>
+        <li><b>Transferpresse</b> oder Bügeleisen, <b>Backpapier</b> oder Teflonfolie</li>
+      </ul>
+    </div>
+    <figure>
+      <div class="panel">
+        <div class="head">Gut zu wissen</div>
+        <span class="k">Flexfolie</span><span class="v">glatte Folie mit Kleber auf einem Träger</span>
+        <span class="k">Träger</span><span class="v">durchsichtig, glänzend, klebt leicht</span>
+        <span class="k">Klebeseite</span><span class="v">matt, wird geschnitten</span>
+      </div>
+      <figcaption>Die Angaben auf der Folienpackung gehen immer vor: Temperatur, Zeit und warm oder kalt abziehen.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 1 -->
+  <section class="step">
+    <div>
+      <span class="num">1</span>
+      <h2>Projekt anlegen</h2>
+      <ol class="do">
+        <li><b>Silhouette Studio</b> öffnen und eine neue Datei anlegen.</li>
+        <li>Rechts oben auf <b>Seite</b> klicken.</li>
+        <li>Schneidematte und Mediengrösse auf <b>12 × 12 Zoll (30,5 × 30,5 cm)</b> stellen.</li>
+        <li>Datei sofort speichern, z. B. «Schriftzug Claudia».</li>
+      </ol>
+    </div>
+    <figure>
+      <div class="panel">
+        <div class="head">Fenster «Seite einrichten»</div>
+        <span class="k">Maschine</span><span class="v">Cameo</span>
+        <span class="k">Schneidematte</span><span class="v">12 × 12 Zoll</span>
+        <span class="k">Mediengrösse</span><span class="v">30,5 × 30,5 cm</span>
+        <span class="k">Einheit</span><span class="v">cm</span>
+      </div>
+      <figcaption>Die Arbeitsfläche am Bildschirm entspricht jetzt genau der Matte im Plotter.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2 -->
+  <section class="step">
+    <div>
+      <span class="num">2</span>
+      <h2>Den Schriftzug schreiben</h2>
+      <ol class="do">
+        <li>Mit dem <b>Textwerkzeug</b> (T) auf die Arbeitsfläche klicken und den Namen oder das Wort tippen.</li>
+        <li>Eine <b>kräftige Schrift</b> wählen, z. B. Arial Black oder Impact.</li>
+        <li>Mit <b>Shift</b> an einer Ecke ziehen, bis der Schriftzug <b>20–25 cm breit</b> ist.</li>
+        <li>Unten am Rand mit dem Lineal kontrollieren.</li>
+      </ol>
+      <p class="tip warn">Jede Linie muss mindestens <b>2 mm dick</b> sein. Feinere Teile reissen beim Entgittern oder lösen sich in der Wäsche.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 180" role="img" aria-label="Schriftzug CLAUDIA mit Massangaben: 20 bis 25 Zentimeter breit, etwa 5 Zentimeter hoch">
+        <rect width="340" height="180" fill="url(#grid)"/>
+        <rect x="64" y="72" width="212" height="40" class="dash"/>
+        <text x="170" y="108" text-anchor="middle" class="vt solid" font-size="44" textLength="200" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+        <path d="M64 134 H276" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
+        <text x="170" y="154" text-anchor="middle" class="lblb">20–25 cm</text>
+        <path d="M296 72 V112" class="dim" marker-start="url(#arr)" marker-end="url(#arr)"/>
+        <text x="304" y="96" class="lbl">≈ 5 cm</text>
+        <text x="64" y="52" class="lbl">kräftige Schrift, Linien ≥ 2 mm</text>
+      </svg>
+      <figcaption>Für die Brust eines Hoodies passen 20–25 cm. Für Kindergrössen oder einen Ärmel entsprechend kleiner.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3 -->
+  <section class="step">
+    <div>
+      <span class="num">3</span>
+      <h2>Buchstaben verschweissen</h2>
+      <ol class="do">
+        <li>Bei <b>Schreibschrift</b> oder Buchstaben, die sich berühren: den Text markieren.</li>
+        <li>Rechtsklick → <b>Schweissen</b>.</li>
+        <li>Jetzt ist der ganze Schriftzug <b>eine Kontur</b>. Die Linien im Inneren sind weg.</li>
+      </ol>
+      <p class="tip">Ohne Schweissen schneidet der Plotter auch die Linien, wo sich Buchstaben überlappen. Dann zerfällt das Wort in Stücke.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 180" role="img" aria-label="Vorher: Schreibschrift mit sich überschneidenden Linien. Nachher: verschweisst, nur eine Aussenkontur">
+        <rect width="340" height="180" fill="url(#grid)"/>
+        <text x="85" y="100" text-anchor="middle" class="sc" font-size="36" textLength="120" lengthAdjust="spacingAndGlyphs" fill="none" stroke="var(--accent-dark)" stroke-width="1.3">Claudia</text>
+        <text x="85" y="150" text-anchor="middle" class="lbl">Linien überschneiden sich</text>
+        <path d="M152 88 H186" class="dim" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="169" y="74" text-anchor="middle" class="lbl">Schweissen</text>
+        <text x="255" y="100" text-anchor="middle" class="sc" font-size="36" textLength="120" lengthAdjust="spacingAndGlyphs" fill="none" stroke="var(--accent-dark)" stroke-width="3">Claudia</text>
+        <text x="255" y="100" text-anchor="middle" class="sc" font-size="36" textLength="120" lengthAdjust="spacingAndGlyphs" fill="var(--bg)">Claudia</text>
+        <text x="255" y="150" text-anchor="middle" class="lbl">eine Kontur</text>
+      </svg>
+      <figcaption>Die Linie zeigt, wo das Messer schneidet.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="step wide">
+    <div>
+      <span class="num">4</span>
+      <h2>Spiegeln</h2>
+      <p style="max-width:65ch;margin-bottom:10px">Das ist der wichtigste Schritt. Der Plotter schneidet die Folie von der Klebeseite her. Erst beim Aufbügeln wird die Folie gewendet, dann ist der Schriftzug wieder lesbar.</p>
+      <ol class="do" style="max-width:65ch">
+        <li>Den Schriftzug markieren.</li>
+        <li>Rechtsklick → <b>Spiegeln → Horizontal spiegeln</b>.</li>
+        <li>Kontrolle: Am Bildschirm muss das Wort jetzt <b>spiegelverkehrt</b> erscheinen.</li>
+      </ol>
+    </div>
+    <figure>
+      <div style="overflow-x:auto">
+        <svg viewBox="0 0 560 210" role="img" aria-label="Links: spiegelverkehrter Schriftzug auf der Schneidematte. Rechts: nach dem Wenden lesbar auf dem Stoff" style="min-width:460px">
+          <rect width="560" height="210" fill="url(#grid)"/>
+          <rect x="20" y="40" width="220" height="120" rx="6" class="bed"/>
+          <rect x="20" y="40" width="220" height="120" rx="6" fill="url(#grid)"/>
+          <g transform="translate(130,0) scale(-1,1)">
+            <text x="0" y="114" text-anchor="middle" class="vt solid" font-size="34" textLength="170" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+          </g>
+          <text x="130" y="186" text-anchor="middle" class="lblb">Bildschirm und Matte: gespiegelt</text>
+          <path d="M252 96 Q280 50 308 96" class="dim" stroke-width="2" marker-end="url(#arr)"/>
+          <text x="280" y="42" text-anchor="middle" class="lbl">Folie wenden</text>
+          <rect x="320" y="40" width="220" height="120" rx="8" class="fab"/>
+          <text x="430" y="114" text-anchor="middle" class="vt foil" font-size="34" textLength="170" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+          <rect x="336" y="74" width="188" height="54" rx="3" class="carrier"/>
+          <text x="430" y="186" text-anchor="middle" class="lblb">Auf dem Stoff: lesbar</text>
+        </svg>
+      </div>
+      <figcaption>Wer das Spiegeln vergisst, hat den Schriftzug später spiegelverkehrt auf dem Kleidungsstück. Darum vor dem Schneiden immer kontrollieren.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="step">
+    <div>
+      <span class="num">5</span>
+      <h2>Folie einlegen</h2>
+      <ol class="do">
+        <li>Ein Stück Flexfolie zuschneiden, etwas grösser als der Schriftzug.</li>
+        <li>Die Folie mit der <b>glänzenden Seite nach unten</b> auf die Matte legen. Die <b>matte Seite</b> schaut nach oben.</li>
+        <li>Im Programm den Schriftzug auf die gleiche Stelle der Matte schieben.</li>
+        <li>Die Matte am Plotter anlegen und <b>Laden</b> drücken.</li>
+      </ol>
+      <p class="tip">Das Messer schneidet nur durch die farbige Folie. Der durchsichtige Träger bleibt ganz und hält alle Buchstaben zusammen.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 190" role="img" aria-label="Querschnitt: Messer schneidet durch die Flexfolie oben, der glänzende Träger darunter bleibt ganz">
+        <rect width="340" height="190" fill="url(#grid)"/>
+        <path d="M110 40 H130 V96 L120 124 L110 96 Z" class="metal"/>
+        <text x="96" y="34" class="lbl">Messer</text>
+        <rect x="20" y="112" width="200" height="12" class="solid"/>
+        <rect x="119" y="112" width="2" height="12" fill="var(--bg)"/>
+        <rect x="20" y="124" width="200" height="10" class="carrier"/>
+        <rect x="20" y="134" width="200" height="14" fill="var(--line)"/>
+        <path d="M226 118 H240" class="dim"/><text x="244" y="114" class="lblb">Flexfolie</text><text x="244" y="128" class="lbl">matt, oben</text>
+        <path d="M226 129 H240" class="dim" transform="translate(0,14)"/><text x="244" y="148" class="lblb">Träger</text><text x="244" y="162" class="lbl">glänzend, unten</text>
+        <text x="20" y="166" class="lbl">Schneidematte</text>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="step">
+    <div>
+      <span class="num">6</span>
+      <h2>Schneiden</h2>
+      <ol class="do">
+        <li>Oben rechts auf <b>Senden</b> klicken.</li>
+        <li>Material wählen: <b>Flexfolie glatt</b> (in Silhouette Studio «Heat Transfer, Smooth»).</li>
+        <li>Zuerst einen <b>Testschnitt</b> machen und prüfen: Lässt sich die Folie sauber lösen, ohne dass der Träger zerschnitten ist?</li>
+        <li>Dann <b>Senden</b>. Nach dem Schneiden die Matte <b>entladen</b>.</li>
+      </ol>
+    </div>
+    <figure>
+      <div class="panel">
+        <div class="head">Fenster «Senden»</div>
+        <span class="k">Material</span><span class="v">Flexfolie, glatt</span>
+        <span class="k">Aktion</span><span class="v">Schneiden</span>
+        <span class="k">Klinge, Kraft, Tempo</span><span class="v">Vorschlag übernehmen</span>
+        <span class="k">Testschnitt</span><span class="v">immer zuerst</span>
+      </div>
+      <figcaption>Schneidet der Testschnitt nicht ganz durch: Kraft um 1 erhöhen. Ist der Träger durchgeschnitten: Kraft verringern.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 7 -->
+  <section class="step">
+    <div>
+      <span class="num">7</span>
+      <h2>Entgittern</h2>
+      <ol class="do">
+        <li>Die Folie von der Matte lösen und grob um den Schriftzug herum ausschneiden.</li>
+        <li>An einer Ecke die <b>Restfolie</b> langsam und flach abziehen.</li>
+        <li>Die Innenteile, z. B. in <b>A</b> und <b>D</b>, mit dem <b>Entgitterhaken</b> herausheben.</li>
+        <li>Am Schluss bleiben nur die Buchstaben auf dem Träger.</li>
+      </ol>
+      <p class="tip">Kommt ein Buchstabe mit? Zurücklegen, mit dem Finger andrücken und von der anderen Seite her abziehen.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 190" role="img" aria-label="Spiegelverkehrte Buchstaben auf dem Träger, rechts wird die Restfolie abgezogen, links ein Entgitterhaken">
+        <rect width="340" height="190" fill="url(#grid)"/>
+        <rect x="30" y="40" width="280" height="110" rx="3" class="carrier"/>
+        <g transform="translate(160,0) scale(-1,1)">
+          <text x="0" y="112" text-anchor="middle" class="vt solid" font-size="36" textLength="200" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+        </g>
+        <path d="M262 40 H310 V150 H292 Q312 96 262 40 Z" class="solid"/>
+        <path d="M262 40 Q312 96 292 150 L300 150 Q326 92 274 34 Z" class="side"/>
+        <text x="222" y="28" class="lbl">Restfolie abziehen</text>
+        <path d="M46 168 L82 120" stroke="var(--fg)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M82 120 q4 -6 -2 -8" stroke="var(--fg)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <text x="58" y="182" class="lbl">Entgitterhaken</text>
+      </svg>
+      <figcaption>Die Buchstaben sind noch spiegelverkehrt. Das ist richtig so.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 8 -->
+  <section class="step">
+    <div>
+      <span class="num">8</span>
+      <h2>Position festlegen</h2>
+      <ol class="do">
+        <li>Das Kleidungsstück glatt hinlegen und <b>3 Sekunden vorpressen</b>. So sind Falten und Feuchtigkeit weg.</li>
+        <li>Längs in der Mitte falten und kurz andrücken. Die Falz zeigt die <b>Mitte</b>.</li>
+        <li>Den Schriftzug mit dem <b>Träger nach oben</b> auflegen. Jetzt ist er lesbar.</li>
+        <li>Abstand zum Halsausschnitt: ca. <b>8 cm</b> (vier Finger breit).</li>
+      </ol>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 220" role="img" aria-label="T-Shirt von vorne mit Mittellinie und Schriftzug etwa acht Zentimeter unter dem Halsausschnitt">
+        <rect width="340" height="220" fill="url(#grid)"/>
+        <use href="#shirt" class="fab"/>
+        <path d="M130 30 Q170 62 210 30" fill="none" stroke="var(--fabric-dark)" stroke-width="4"/>
+        <line x1="170" y1="48" x2="170" y2="205" stroke="var(--foil)" stroke-opacity=".5" stroke-dasharray="4 4"/>
+        <text x="170" y="100" text-anchor="middle" class="vt foil" font-size="20" textLength="110" lengthAdjust="spacingAndGlyphs">CLAUDIA</text>
+        <path d="M232 46 V84" stroke="var(--foil)" stroke-width="1.2" marker-start="url(#arr)" marker-end="url(#arr)"/>
+        <text x="300" y="20" class="lblb" text-anchor="end">≈ 8 cm</text>
+        <path d="M282 26 L238 60" class="dim"/>
+        <text x="170" y="218" text-anchor="middle" class="lbl">Falz = Mitte</text>
+      </svg>
+      <figcaption>Gerade ausrichten: Die Mitte des Schriftzugs liegt auf der Falz.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 9 -->
+  <section class="step">
+    <div>
+      <span class="num">9</span>
+      <h2>Aufpressen</h2>
+      <ol class="do">
+        <li><b>Backpapier</b> oder Teflonfolie über den Schriftzug legen.</li>
+        <li><b>Presse:</b> schliessen und die angegebene Zeit warten.<br><b>Bügeleisen:</b> kräftig drücken, <b>nicht schieben</b>. Jede Stelle einzeln pressen.</li>
+        <li>Den Träger <b>warm oder kalt</b> abziehen, so wie es auf der Folie steht. Langsam und flach.</li>
+        <li>Hebt sich ein Buchstabe: Träger zurücklegen und nochmals pressen.</li>
+        <li>Zum Schluss mit Backpapier ohne Träger <b>5 Sekunden nachpressen</b>.</li>
+      </ol>
+      <p class="tip warn">Vorsicht heiss! Presse und Bügeleisen nur nach Absprache mit der Lehrperson benutzen.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Seitenansicht: Bügeleisen drückt auf Backpapier, Träger, Flexfolie und Stoff">
+        <rect width="340" height="200" fill="url(#grid)"/>
+        <path d="M70 46 Q72 34 92 34 H170 Q190 34 190 46" fill="none" stroke="var(--fg)" stroke-width="6" stroke-linecap="round"/>
+        <path d="M40 90 Q48 58 90 58 H220 Q228 58 228 70 V90 Z" class="metal"/>
+        <path d="M140 14 V28 M110 14 V28 M170 14 V28" class="dim" marker-end="url(#arr)"/>
+        <rect x="30" y="92" width="210" height="5" fill="var(--paper)"/>
+        <rect x="70" y="97" width="140" height="4" class="carrier"/>
+        <rect x="80" y="101" width="120" height="4" class="solid"/>
+        <rect x="30" y="105" width="210" height="9" class="fab"/>
+        <rect x="20" y="114" width="230" height="12" fill="var(--line)"/>
+        <g class="lbl">
+          <text x="252" y="88">Backpapier</text>
+          <text x="252" y="102">Träger</text>
+          <text x="252" y="116">Flexfolie</text>
+          <text x="252" y="130">Stoff</text>
+        </g>
+        <text x="200" y="22" class="lblb">drücken</text>
+        <text x="30" y="160" class="lblb">nicht hin und her schieben</text>
+        <path d="M60 172 H200" class="warnl" marker-start="url(#arr)" marker-end="url(#arr)"/>
+        <line x1="120" y1="164" x2="140" y2="180" class="warnl"/><line x1="140" y1="164" x2="120" y2="180" class="warnl"/>
+      </svg>
+      <div class="panel">
+        <div class="head">Transferpresse</div>
+        <span class="k">Temperatur</span><span class="v">150–160 °C</span>
+        <span class="k">Zeit</span><span class="v">10–15 Sekunden</span>
+        <span class="k">Druck</span><span class="v">mittel</span>
+        <div class="head">Bügeleisen</div>
+        <span class="k">Stufe</span><span class="v">Baumwolle (•••), ohne Dampf</span>
+        <span class="k">Zeit</span><span class="v">ca. 20 Sekunden pro Stelle</span>
+        <span class="k">Unterlage</span><span class="v">hart, z. B. Tisch mit Tuch</span>
+      </div>
+    </figure>
+  </section>
+
+  <!-- 10 -->
+  <section class="step">
+    <div>
+      <span class="num">10</span>
+      <h2>Pflege</h2>
+      <ol class="do">
+        <li>Mindestens <b>24 Stunden</b> warten, bevor das Kleidungsstück gewaschen wird.</li>
+        <li><b>Auf links</b> drehen und bei höchstens <b>40 °C</b> waschen.</li>
+        <li>Nicht direkt über den Schriftzug bügeln. Wenn nötig: auf links oder mit Backpapier.</li>
+      </ol>
+    </div>
+    <figure>
+      <div class="panel">
+        <div class="head">Pflegesymbole</div>
+        <span class="k">Waschen</span><span class="v">40 °C, auf links</span>
+        <span class="k">Tumbler</span><span class="v">besser nicht</span>
+        <span class="k">Bügeln</span><span class="v">nur von links</span>
+        <span class="k">Weichspüler</span><span class="v">nein</span>
+      </div>
+    </figure>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:14px">Häufige Fehler</h2>
+    <div class="errors">
+      <div class="err">
+        <svg viewBox="0 0 160 70" aria-hidden="true"><rect x="10" y="8" width="140" height="54" rx="6" class="fab"/><g transform="translate(80,0) scale(-1,1)"><text x="0" y="46" text-anchor="middle" class="vt foil" font-size="22" textLength="100" lengthAdjust="spacingAndGlyphs">CLAUDIA</text></g><circle cx="138" cy="18" r="8" fill="var(--warn)"/><path d="M134 14 L142 22 M142 14 L134 22" stroke="#fff" stroke-width="2"/></svg>
+        <h3>Nicht gespiegelt</h3>
+        <p>Der Schriftzug steht spiegelverkehrt auf dem Kleidungsstück.</p>
+        <span class="fix">Lösung: vor dem Schneiden horizontal spiegeln.</span>
+      </div>
+      <div class="err">
+        <svg viewBox="0 0 160 70" aria-hidden="true"><path d="M68 4 H80 V30 L74 52 L68 30 Z" class="metal"/><rect x="20" y="34" width="120" height="8" class="carrier"/><rect x="20" y="42" width="120" height="8" class="solid"/><rect x="73" y="34" width="2" height="18" fill="var(--warn)"/><rect x="20" y="50" width="120" height="8" fill="var(--line)"/></svg>
+        <h3>Folie verkehrt eingelegt</h3>
+        <p>Das Messer zerschneidet den Träger, die Buchstaben fallen auseinander.</p>
+        <span class="fix">Lösung: glänzende Seite nach unten.</span>
+      </div>
+      <div class="err">
+        <svg viewBox="0 0 160 70" aria-hidden="true"><text x="80" y="46" text-anchor="middle" font-family="Georgia,serif" font-weight="300" font-size="30" fill="none" stroke="var(--accent)" stroke-width="1">claudia</text><path d="M108 18 L118 30" class="warnl"/><text x="122" y="16" class="lbl">zu dünn</text></svg>
+        <h3>Zu feine Linien</h3>
+        <p>Dünne Teile reissen beim Entgittern oder lösen sich in der Wäsche.</p>
+        <span class="fix">Lösung: kräftige Schrift, Linien ≥ 2 mm.</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+if (window.parent !== window) {
+  const reportHeight = () => {
+    window.parent.postMessage({ projectGuideHeight: document.body.getBoundingClientRect().height }, "*");
+  };
+  new ResizeObserver(reportHeight).observe(document.body);
+}
+</script>
+</body>
+</html>

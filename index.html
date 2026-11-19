@@ -295,6 +295,7 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
 
 <script>
 /* ===================== DATEN ===================== */
+const FOBIZZ = { name: "fobizz · KI für die Klasse", info: "KI-Werkzeuge sicher nutzen · Anmeldung mit dem Code der Lehrperson", url: "https://go.fobizz.com/" };
 const PIXELBILDER = { name: "Pixelbilder", info: "Pixelbild im Raster gestalten, als PNG speichern", url: "https://digitalcreativ.github.io/Pixelbild/index.html", eigen: true };
 const PISKEL = { name: "Piskel for Kids", info: "Pixelfiguren zeichnen und als GIF animieren", url: "https://www.piskelapp.com/kids/" };
 const ARCADE = { name: "MakeCode Arcade", info: "Pixelfiguren gestalten und eigene Spiele programmieren", url: "https://arcade.makecode.com/" };
@@ -361,7 +362,12 @@ const FAECHER = [
       { name: "Inkscape", info: "Vektorgrafik für Plotter und Laser", url: "https://inkscape.org" },
       { name: "Ink/Stitch", info: "Stickdateien aus Inkscape", url: "https://inkstitch.org" }
     ],
-    projekte: [],
+    projekte: [
+      { titel: "Schriftzug mit Flexfolie", lp: "TTG.2", status: "aktiv", quer: "mit Informatik",
+        text: "Einen eigenen Schriftzug in Silhouette Studio gestalten, gespiegelt aus Flexfolie plotten, entgittern und auf ein Kleidungsstück aufbügeln.",
+        anleitung: "projekte/flexfolie-schriftzug.html",
+        links: [ { label: "Silhouette Studio", url: "https://www.silhouetteamerica.com/software" } ] }
+    ],
     stufen: [
       { name: "1. Oberstufe", module: [
         { titel: "Nähmaschinen-Ausweis", lp: "TTG.2", status: "geplant",
@@ -457,7 +463,8 @@ const FAECHER = [
             ["Lospec-Farbpaletten", "https://lospec.com/palette-list", "Suche dir eine kleine Farbpalette aus, die du für alle Grafiken deines Projekts verwenden kannst."],
             ["MakeCode Arcade", "https://arcade.makecode.com/", "Gestalte Spielfiguren und teste sie direkt im Spiel. Wenn du Grafiken aus Piskel verwenden willst, beginne mit dem Import einer einzigen Figur."],
             ["Grafikimport in MakeCode Arcade", "https://arcade.makecode.com/developer/images#importing-custom-art-and-palettes", "Hier findest du die Anleitung zum Konvertieren eigener Grafiken."],
-            ["Photopea", "https://www.photopea.com/", "Kombiniere einzelne Pixelgrafiken und stelle damit beispielsweise einen Stickerbogen zusammen."]
+            ["Photopea", "https://www.photopea.com/", "Kombiniere einzelne Pixelgrafiken und stelle damit beispielsweise einen Stickerbogen zusammen."],
+            [FOBIZZ.name, FOBIZZ.url, "Melde dich mit dem Code deiner Lehrperson an. Lass dir von der KI Ideen für Figuren, Welten oder Farbpaletten vorschlagen. Zeichnen tust du selbst."]
           ],
           ideenTipps: [
             "Starte mit 16 × 16 oder 32 × 32 Pixeln. Verwende wenige Farben und klare Formen, die auch klein gut erkennbar sind.",
@@ -465,7 +472,7 @@ const FAECHER = [
             "Halte im OneNote-Arbeitsprotokoll fest, was gelungen ist und wo du weiter tüfteln musstest. Ergänze Screenshots deiner Zwischenschritte.",
             "Du hast eine eigene Projektidee? Besprich sie mit deiner Lehrperson."
           ],
-          links: [PIXELBILDER, PISKEL, ARCADE].map(({ name, url }) => ({ label: name, url })) },
+          links: [PIXELBILDER, PISKEL, ARCADE, FOBIZZ].map(({ name, url }) => ({ label: name, url })) },
         { titel: "digital LAB · Kamera", lp: "MI.1", status: "aktiv", ideenId: "lab-kamera", ideenFarbe: "#0086c9",
           ideenBild: "digital-lab/Digital-Lab Kamera-Projektideen.png",
           text: "Erzähle mit Fotos, Filmen und Animationen deine eigene Geschichte.",
@@ -486,7 +493,8 @@ const FAECHER = [
             ["Adobe Express", "https://www.adobe.com/express/create/video", "Alternative für Videoschnitt, Texte und Animationen. Melde dich mit einem freigegebenen Konto an."],
             ["CapCut", "https://www.capcut.com/tools/online-video-editor", "Ergänze Untertitel, Übergänge und Effekte. Verwende CapCut, wenn es an deiner Schule erlaubt ist."],
             [CLIPCHAMP.name, CLIPCHAMP.url, "Alternative für den Videoschnitt, falls Clipchamp mit deinem Schulkonto verfügbar ist."],
-            ["OBS Studio · Schnellstart", "https://obsproject.com/kb/quick-start-guide", "Nimm deinen Bildschirm und deine Erklärung auf. Prüfe, ob OBS auf deinem Schulgerät installiert ist."]
+            ["OBS Studio · Schnellstart", "https://obsproject.com/kb/quick-start-guide", "Nimm deinen Bildschirm und deine Erklärung auf. Prüfe, ob OBS auf deinem Schulgerät installiert ist."],
+            [FOBIZZ.name, FOBIZZ.url, "Melde dich mit dem Code deiner Lehrperson an. Die KI hilft dir beim Storyboard, bei Drehbuch-Ideen oder beim Text für dein Tutorial."]
           ],
           ideenTipps: [
             "Du kannst Werkzeuge kombinieren. Bearbeite zum Beispiel Fotos in Photopea und schneide sie anschliessend in EditVideoOnline zu einem Film.",
@@ -494,7 +502,7 @@ const FAECHER = [
             "Verwende eigene Aufnahmen und Musik, Bilder oder Clips, die du für dein Projekt verwenden darfst.",
             "Du hast eine eigene Projektidee? Besprich sie mit deiner Lehrperson."
           ],
-          links: [EDITVIDEOONLINE, STOP_MOTION, PHOTOPEA, PIXLR].map(({ name, url }) => ({ label: name, url })) },
+          links: [EDITVIDEOONLINE, STOP_MOTION, PHOTOPEA, PIXLR, FOBIZZ].map(({ name, url }) => ({ label: name, url })) },
         { titel: "digital LAB · Game", lp: "MI.2", status: "aktiv", ideenId: "lab-game", ideenFarbe: "#e43290",
           ideenBild: "digital-lab/Game-Ideen im Digital Lab.png",
           text: "Entwickle ein eigenes Spiel und probiere aus, wie Regeln, Figuren und Ziele zusammenspielen.",
@@ -511,14 +519,15 @@ const FAECHER = [
             [ARCADE.name, ARCADE.url, "Gestalte Pixelfiguren und Spielfelder und programmiere dein Spiel mit Blöcken."],
             ["MakeCode-Tutorials", "https://arcade.makecode.com/tutorials", "Probiere für Catch & Survive das Tutorial «Collect the Clovers» aus."],
             [GDEVELOP.name, GDEVELOP.url, "Entwickle anspruchsvollere 2D-Spiele mit Ereignissen, Bedingungen, Animationen und mehreren Levels. Verwende die Gratisversion und erstelle ein Konto nur mit Erlaubnis deiner Lehrperson."],
-            ["GDevelop-Beispiele und Vorlagen", "https://gdevelop.io/game-example", "Wähle den Filter «Free» für kostenlose Einstiegsvorlagen."]
+            ["GDevelop-Beispiele und Vorlagen", "https://gdevelop.io/game-example", "Wähle den Filter «Free» für kostenlose Einstiegsvorlagen."],
+            [FOBIZZ.name, FOBIZZ.url, "Melde dich mit dem Code deiner Lehrperson an. Lass dir Spielideen, Rätsel oder Quizfragen vorschlagen oder frag nach, wenn dein Spiel nicht tut, was es soll."]
           ],
           ideenTipps: [
             "Baue zuerst eine spielbare Mini-Version mit einer Figur, einer Regel und einem klaren Ziel. Erweitere sie, sobald das Grundspiel funktioniert.",
             "Lass jemanden dein Spiel ausprobieren. Beobachte, ob Steuerung und Ziel verständlich sind, und verbessere danach eine konkrete Stelle.",
             "Du hast eine eigene Projektidee? Besprich sie mit deiner Lehrperson."
           ],
-          links: [SCRATCH, ARCADE, GDEVELOP].map(({ name, url }) => ({ label: name, url })) },
+          links: [SCRATCH, ARCADE, GDEVELOP, FOBIZZ].map(({ name, url }) => ({ label: name, url })) },
         { titel: "digital LAB · Schaltkreis", lp: "MI.2", status: "aktiv", ideenId: "lab-schaltkreis", ideenFarbe: "#d5a700",
           ideenBild: "digital-lab/Digital Lab_ Schaltkreis-Projektideen.png",
           ideenBildHinweis: "Das ursprüngliche Plakat zeigt weitere Anregungen. Die fünf aktuellen Projektideen stehen in der Liste.",
@@ -536,7 +545,8 @@ const FAECHER = [
             [NANOPY.name, NANOPY.url, "Programmiere die Oxocard Galaxy mit NanoPy. Starte mit einem vorhandenen Beispiel und passe es an."],
             ["Oxocard Galaxy · Geräteinformationen", "https://www.oxocard.ch/galaxy/", "Nutze das Farbdisplay, die fünf Tasten und den Lautsprecher für Animationen und interaktive Programme."],
             [OPEN_ROBERTA.name, OPEN_ROBERTA.url, "Eine Alternative für den Calliope mini. Wähle dein Board und setze das Programm mit NEPO-Blöcken zusammen."],
-            ["Calliope mini · Editor-Anleitungen", "https://docs.calliope.cc/tech/software/editors/", "Hier findest du die Dokumentation zu MakeCode und Open Roberta Lab."]
+            ["Calliope mini · Editor-Anleitungen", "https://docs.calliope.cc/tech/software/editors/", "Hier findest du die Dokumentation zu MakeCode und Open Roberta Lab."],
+            [FOBIZZ.name, FOBIZZ.url, "Melde dich mit dem Code deiner Lehrperson an. Lass dir dein Programm erklären oder frag nach Ideen, wenn du bei der Fehlersuche nicht weiterkommst."]
           ],
           ideenSchritte: [
             ["Entdecken (Use)", "Wähle ein Gerät, öffne den passenden Editor und probiere ein fertiges Beispiel aus."],
@@ -549,7 +559,7 @@ const FAECHER = [
             "Dokumentiere in OneNote, was du programmiert hast, was gelungen ist und wo es Schwierigkeiten gab. Ergänze Screenshots oder Fotos deines Geräts.",
             "Du hast eine eigene Projektidee? Besprich sie mit deiner Lehrperson."
           ],
-          links: [CALLIOPE_MAKECODE, NANOPY, OPEN_ROBERTA].map(({ name, url }) => ({ label: name, url })) },
+          links: [CALLIOPE_MAKECODE, NANOPY, OPEN_ROBERTA, FOBIZZ].map(({ name, url }) => ({ label: name, url })) },
         { titel: "Scratch: Avatar steuern", lp: "MI.2.2", status: "aktiv",
           text: "Eine Spielfigur mit den Pfeiltasten bewegen und beim Laufen mit Kostümwechseln animieren.",
           links: [ { label: "Auftrag", url: "https://scratch.mit.edu/projects/1427163241/" }, { label: "Im Editor öffnen", url: "https://scratch.mit.edu/projects/1427163241/editor" } ] },
@@ -566,6 +576,7 @@ const FAECHER = [
 
 // Werkzeuge, die in mehreren Fächern gebraucht werden
 const DIVERSE = { id: "diverse", name: "Diverse Fächer", werkzeuge: [
+  FOBIZZ,
   { name: "LearningApps", info: "Mit interaktiven Lernspielen und Quiz üben · für Bildungszwecke kostenlos", url: "https://learningapps.org/" },
   PIXELBILDER,
   { name: "Book Creator", info: "Digitale Bücher gestalten", url: "https://bookcreator.com/" },
