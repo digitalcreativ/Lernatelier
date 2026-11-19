@@ -2,6 +2,10 @@
 
 ## 19.11.2026
 
+### BG-Werkzeuge: Farbtools
+- Vier Farbtools bei den **Werkzeugen von Bildnerisches Gestalten** ergänzt (Links geprüft): **Image Color Picker** (https://imagecolorpicker.com/de, HEX/RGB aus Fotos, ohne Anmeldung), **Coolors** (https://coolors.co/, Palettengenerator, gratis mit Werbung), **Color Hunt** (https://colorhunt.co/, fertige Paletten) und **Kontrast-Checker** von WebAIM (https://webaim.org/resources/contrastchecker/, Lesbarkeit prüfen).
+- **Image Color Picker** zusätzlich als Button auf der Karte **Mein Farb-Moodboard** (passt zu Schritt 5 «Knack den Farbcode»).
+
 ### Bildnerisches Gestalten · Mein Farb-Moodboard zusammengeführt
 - Das bestehende Projekt **«Mein Farb-Moodboard»** (BG, 1. Oberstufe) und die neue, bebilderte Anleitung zu **einer** Anleitung im neuen Stil zusammengeführt. Dateipfad `projekte/farb-moodboard.html` und Projektkarte bleiben bestehen.
 - Aufbau: Farbwähler mit Live-Moodboard → Was ist ein Moodboard? → Material/Werkzeug → **A Farben verstehen und mischen** (1 Farbkreis, 2 Farben mischen, 3 Lieblingsfarbe hell/dunkel, 4 Komplementärkontrast, 5 Lieblingsfarbe erforschen) → **B Planen** (6) → **C Am PC gestalten** (7 Fotos, 8 Freistellen, 9 Raster anlegen/einfärben/beschriften) → **D Ausschneiden und Kleben** (10 Material, 11 Ausdrucken, 12 Probeweise legen und kleben) → Abgabe → interaktive Checkliste (13 Punkte).
