@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Wimpelkette nähen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: eine Spalte, Phasen A–D, jeder Schritt = Text links + Zeichnung rechts (gestapelt auf dem Handy). Zeichnungen auf Schneidematte mit 1-cm-Raster */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --fg:#1d2128; --muted:#636a75; --line:#dde1e7;
+  --grid:#e5e8ee; --accent:#2f6aa3; --accent-ink:#245a8d;
+  --fab1:#e4b021; --fab1-dark:#b8890f; --fab1-back:#f3d77a;
+  --fab2:#d9472b; --fab3:#2f8f86; --fab4:#6a5bb5;
+  --tape:#2b3f5c; --chalk:#3a3f47; --card:#c9b48f; --pin:#9aa0a9; --pinhead:#d23b3b;
+  --stitch:#7a1f12; --ok:#2c8657; --warn:#b4502c; --iron:#8a929e;
+  --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14171c; --surface:#1d2128; --fg:#eceff4; --muted:#a2a9b5; --line:#323843;
+  --grid:#262b33; --accent:#6aa6e0; --accent-ink:#8cbcea;
+  --fab1:#e0b02f; --fab1-dark:#a67c10; --fab1-back:#8d7330;
+  --fab2:#e0573a; --fab3:#3fa79d; --fab4:#8576cf;
+  --tape:#9fb4d4; --chalk:#d6dae0; --card:#8f7e60; --pin:#a7adb6; --pinhead:#ef6a6a;
+  --stitch:#ffd2c4; --ok:#5cc08d; --warn:#e48a62; --iron:#a0a8b4; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#14171c; --surface:#1d2128; --fg:#eceff4; --muted:#a2a9b5; --line:#323843;
+  --grid:#262b33; --accent:#6aa6e0; --accent-ink:#8cbcea;
+  --fab1:#e0b02f; --fab1-dark:#a67c10; --fab1-back:#8d7330;
+  --fab2:#e0573a; --fab3:#3fa79d; --fab4:#8576cf;
+  --tape:#9fb4d4; --chalk:#d6dae0; --card:#8f7e60; --pin:#a7adb6; --pinhead:#ef6a6a;
+  --stitch:#ffd2c4; --ok:#5cc08d; --warn:#e48a62; --iron:#a0a8b4; color-scheme:dark }
+
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,5vw,40px)}
+h2{font-size:21px}
+p{margin:0}
+b{font-weight:600}
+.hero{display:grid;grid-template-columns:1fr 1.15fr;gap:24px;align-items:center}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:44ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;margin-bottom:8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:var(--surface)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+.material{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.material ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.material h2{margin-bottom:10px}
+
+.phase{display:flex;align-items:baseline;gap:12px;margin-top:8px;border-bottom:2px solid var(--accent);padding-bottom:8px}
+.phase .tag{font:700 22px var(--f-display);color:var(--accent-ink)}
+.phase p{color:var(--muted);font-size:14px}
+
+.step{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.step > div{min-width:0}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;
+  background:var(--accent);color:#fff;font:700 15px var(--f-display);margin-bottom:10px}
+:root[data-theme="dark"] .num{color:#10151c}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .num{color:#10151c} }
+.step h2{margin-bottom:8px;font-size:19px}
+.step p + p, .step p + ul, .step ul + p{margin-top:8px}
+.step ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.tip{margin-top:12px;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px}
+.tip.warn{border-left-color:var(--warn)}
+figure{margin:0;display:flex;flex-direction:column;gap:8px}
+figure svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--bg)}
+figcaption{font-size:13px;color:var(--muted)}
+
+.panel{border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:12px 14px;font-size:14px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
+.panel .k{color:var(--muted)}
+.panel .v{font-weight:600;font-variant-numeric:tabular-nums}
+.panel .head{grid-column:1/-1;font:600 12px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:2px}
+
+.errors{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.err{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.err h3{font-size:16px}
+.err p{font-size:14px;color:var(--muted)}
+.err .fix{color:var(--ok);font-weight:600;font-size:14px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.badge{display:inline-block;font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--muted);margin-left:6px;vertical-align:middle}
+
+/* SVG-Bausteine */
+.gl{stroke:var(--grid);fill:none}
+.f1{fill:var(--fab1)} .f1d{fill:var(--fab1-dark)} .f1b{fill:var(--fab1-back)}
+.f2{fill:var(--fab2)} .f3{fill:var(--fab3)} .f4{fill:var(--fab4)}
+.chalk{stroke:var(--chalk);stroke-width:1.2;fill:none}
+.cardt{fill:var(--card);stroke:var(--chalk);stroke-width:1}
+.stitch{stroke:var(--stitch);stroke-width:1.6;stroke-dasharray:6 3;fill:none}
+.stitchl{stroke:var(--fg);stroke-width:1.6;stroke-dasharray:6 3;fill:none}
+.cut{stroke:var(--warn);stroke-width:2;fill:none}
+.arrow{stroke:var(--fg);stroke-width:1.6;fill:none}
+.dim{stroke:var(--muted);stroke-width:1.2;fill:none}
+.tape{fill:var(--tape)}
+.okl{stroke:var(--ok);fill:none;stroke-width:2}
+.lbl{fill:var(--muted);font:500 12px var(--f-body)}
+.lblb{fill:var(--fg);font:600 13px var(--f-body)}
+.pin line{stroke:var(--pin);stroke-width:1.6}
+.pin circle{fill:var(--pinhead)}
+.ironb{fill:var(--iron)}
+.weave{opacity:.18}
+
+@media (max-width:720px){
+  .hero,.step,.errors,.material{grid-template-columns:1fr}
+  .card{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="mat" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" class="gl"/></pattern>
+    <pattern id="weave" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 2H4M2 0V4" stroke="#000" stroke-width=".6"/></pattern>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--fg)"/></marker>
+    <marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker>
+    <!-- Stecknadel, Spitze bei 0,0, zeigt nach unten -->
+    <g id="pin" class="pin"><line x1="0" y1="0" x2="0" y2="-18"/><circle cx="0" cy="-20" r="3"/></g>
+    <!-- Wimpel (Dreieck) -->
+    <polygon id="tri" points="60,30 280,30 170,180"/>
+    <g id="iron">
+      <path d="M0,30 L10,6 Q14,0 26,0 L70,0 Q76,0 76,8 L76,30 Z" class="ironb"/>
+      <path d="M24,0 Q30,-14 52,-14 L64,-14 Q70,-14 70,-6 L70,0" fill="none" stroke="var(--iron)" stroke-width="5"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Textiles und Technisches Gestalten · Nähen</div>
+      <h1>Wimpelkette nähen</h1>
+      <p class="lead">Jeder Wimpel besteht aus zwei Stoffdreiecken. Sie werden zusammengenäht, gewendet, gebügelt und abgesteppt. Am Schluss verbindet ein Schrägband die Wimpel zu einer Kette.</p>
+      <div class="meta"><span class="chip">Zyklus 3</span><span class="chip">ca. 1 Lektion pro Wimpel</span><span class="chip">Nähmaschine · Geradstich</span></div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 440 220" role="img" aria-label="Fertige Wimpelkette mit fünf farbigen Wimpeln an einem Band">
+        <rect width="440" height="220" fill="url(#mat)"/>
+        <g id="garland"></g>
+      </svg>
+    </figure>
+  </header>
+
+  <section class="card material">
+    <div>
+      <h2>Material</h2>
+      <ul>
+        <li>Baumwollstoff, pro Wimpel <b>2 Stoffteile</b></li>
+        <li>Nähfaden in passender Farbe</li>
+        <li>Kartonschablone (mit markierter Öffnung)</li>
+        <li>Schrägband für die Kette <span class="badge">Ergänzung</span></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Werkzeug</h2>
+      <ul>
+        <li>Schneiderkreide oder Bleistift, Stoffschere</li>
+        <li>Stecknadeln, spitze Nähnadel</li>
+        <li>Nähmaschine, Bügeleisen</li>
+      </ul>
+      <div class="legend" style="margin-top:12px">
+        <span><svg width="34" height="8" aria-hidden="true"><line x1="0" y1="4" x2="34" y2="4" class="stitch"/></svg> Naht</span>
+        <span><svg width="34" height="8" aria-hidden="true"><line x1="0" y1="4" x2="34" y2="4" class="cut"/></svg> Schneiden</span>
+        <span><svg width="14" height="26" aria-hidden="true"><use href="#pin" x="7" y="25"/></svg> Stecknadel</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHASE A -->
+  <div class="phase"><span class="tag">A</span><div><h2>Zuschneiden</h2><p>Schritte 1–3</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">1</span>
+      <h2>Stoff wählen und bügeln</h2>
+      <p>Wähle einen passenden Stoff aus. Ist er zerknittert, bügle ihn zuerst glatt. Nur auf glattem Stoff wird das Muster genau.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Stoffstück wird gebügelt">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <rect x="30" y="30" width="280" height="140" class="f1"/>
+        <rect x="30" y="30" width="280" height="140" fill="url(#weave)" class="weave"/>
+        <path d="M60 60 q20 10 40 0 t40 0 M70 140 q20 -10 40 0" stroke="var(--fab1-dark)" stroke-width="2" fill="none"/>
+        <g transform="translate(190,88)"><use href="#iron"/></g>
+        <path d="M180 140 H120" class="arrow" marker-end="url(#ah)"/>
+        <text x="200" y="146" class="lbl">glatt bügeln</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">2</span>
+      <h2>Schablone auflegen und nachzeichnen</h2>
+      <p>Lege die Kartonschablone <b>platzsparend</b> auf den Stoff: die Dreiecke abwechselnd mit der Spitze nach oben und nach unten.</p>
+      <p>Zeichne das Muster <b>2×</b> nach.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Zwei nachgezeichnete Dreiecke und die Kartonschablone, abwechselnd gedreht">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <rect x="30" y="20" width="280" height="160" class="f1"/>
+        <rect x="30" y="20" width="280" height="160" fill="url(#weave)" class="weave"/>
+        <polygon points="45,30 155,30 100,170" class="chalk"/>
+        <polygon points="100,170 210,170 155,30" class="chalk"/>
+        <polygon points="160,30 270,30 215,170" class="cardt" opacity=".92"/>
+        <text x="215" y="70" text-anchor="middle" class="lblb">Schablone</text>
+        <text x="100" y="60" text-anchor="middle" class="lbl" style="fill:var(--chalk)">1</text>
+        <text x="155" y="155" text-anchor="middle" class="lbl" style="fill:var(--chalk)">2</text>
+      </svg>
+      <figcaption>Gedreht nebeneinander braucht es am wenigsten Stoff.</figcaption>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">3</span>
+      <h2>Ausschneiden</h2>
+      <p>Schneide beide Stoffteile mit der <b>Stoffschere</b> genau auf der Linie aus.</p>
+      <p class="tip">Die Stoffschere nur für Stoff verwenden, sonst wird sie stumpf.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Zwei ausgeschnittene Stoffdreiecke">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g transform="translate(-30,5) scale(.8)"><use href="#tri" class="f1"/><use href="#tri" fill="url(#weave)" class="weave"/></g>
+        <g transform="translate(130,15) scale(.8) rotate(6 170 100)"><use href="#tri" class="f1"/><use href="#tri" fill="url(#weave)" class="weave"/></g>
+        <text x="170" y="192" text-anchor="middle" class="lbl">2 gleiche Stoffteile</text>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- PHASE B -->
+  <div class="phase"><span class="tag">B</span><div><h2>Zusammennähen</h2><p>Schritte 4–7</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">4</span>
+      <h2>Aufeinanderlegen und stecken</h2>
+      <p>Lege die beiden Stoffteile genau aufeinander, die <b>schönen Seiten innen</b>. Stecke sie mit Stecknadeln fest.</p>
+      <p>Bezeichne die <b>Öffnung</b> wie auf der Kartonschablone mit <b>je zwei Stecknadeln</b>. Hier wird später gewendet.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Zwei Stoffteile aufeinander gesteckt, Öffnung oben mit Doppelnadeln markiert">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <use href="#tri" class="f1d" transform="translate(4,4)"/>
+        <use href="#tri" class="f1b"/>
+        <use href="#tri" fill="url(#weave)" class="weave"/>
+        <use href="#pin" x="88" y="70"/><use href="#pin" x="118" y="112"/><use href="#pin" x="146" y="152"/>
+        <use href="#pin" x="252" y="70"/><use href="#pin" x="222" y="112"/><use href="#pin" x="194" y="152"/>
+        <use href="#pin" x="80" y="40"/><use href="#pin" x="260" y="40"/>
+        <use href="#pin" x="128" y="40"/><use href="#pin" x="136" y="40"/>
+        <use href="#pin" x="204" y="40"/><use href="#pin" x="212" y="40"/>
+        <path d="M140 22 H200" class="dim" marker-start="url(#ahm)" marker-end="url(#ahm)"/>
+        <text x="170" y="15" text-anchor="middle" class="lblb">Öffnung</text>
+        <text x="170" y="196" text-anchor="middle" class="lbl">linke Seite oben, schöne Seiten innen</text>
+      </svg>
+      <figcaption>Doppelte Nadeln: Hier beginnt und endet die Naht.</figcaption>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">5</span>
+      <h2>Nähmaschine vorbereiten</h2>
+      <p>Fädle die Nähmaschine mit Faden in der passenden Farbe ein (Ober- und Unterfaden). Stelle sie dann so ein:</p>
+    </div>
+    <figure>
+      <div class="panel">
+        <div class="head">Einstellungen</div>
+        <span class="k">Stich Nr.</span><span class="v">1 (Geradstich)</span>
+        <span class="k">Stichlänge</span><span class="v">3</span>
+        <span class="k">Stichbreite</span><span class="v">0</span>
+        <span class="k">Nadelstopp</span><span class="v">unten</span>
+      </div>
+      <svg viewBox="0 0 340 70" role="img" aria-label="Geradstich mit Stichlänge 3">
+        <rect width="340" height="70" fill="url(#mat)"/>
+        <line x1="30" y1="35" x2="310" y2="35" stroke="var(--stitch)" stroke-width="2.4" stroke-dasharray="20 6"/>
+        <text x="30" y="60" class="lbl">Geradstich, Stichlänge 3</text>
+      </svg>
+      <figcaption>Nadelstopp unten hält den Stoff fest, wenn du an einer Ecke drehst.</figcaption>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">6</span>
+      <h2>Rundherum nähen</h2>
+      <ul>
+        <li>Beginne an der markierten <b>Öffnung</b> und nähe bis zum anderen Ende der Öffnung.</li>
+        <li>Nähe <b>füsschenbreit</b>: Die Stoffkante läuft an der Kante des Nähfüsschens entlang.</li>
+        <li>An den Ecken: Nadel bleibt unten, Füsschen heben, Stoff drehen, Füsschen senken, weiternähen.</li>
+        <li><b>Vernähe</b> die Fäden am Anfang und am Ende: 4 Stiche vorwärts, 4 rückwärts.</li>
+      </ul>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Naht rundherum mit Lücke bei der Öffnung, Drehpunkte an den Ecken">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <use href="#tri" class="f1d" transform="translate(4,4)"/>
+        <use href="#tri" class="f1b"/>
+        <polyline points="135,40 79.7,40 170,163.1 260.3,40 205,40" class="stitch"/>
+        <circle cx="205" cy="40" r="4" fill="var(--ok)"/>
+        <circle cx="135" cy="40" r="4" fill="var(--warn)"/>
+        <text x="214" y="22" class="lbl">Start</text>
+        <path d="M218 26 L208 36" class="dim" marker-end="url(#ahm)"/>
+        <text x="96" y="22" class="lbl">Ende</text>
+        <path d="M118 26 L131 36" class="dim" marker-end="url(#ahm)"/>
+        <path d="M230 56 Q236 60 232 72" class="arrow" marker-end="url(#ah)"/>
+        <circle cx="260.3" cy="40" r="9" class="okl"/>
+        <circle cx="170" cy="163.1" r="9" class="okl"/>
+        <circle cx="79.7" cy="40" r="9" class="okl"/>
+        <text x="186" y="186" class="lbl">Ecke: Nadel unten, drehen</text>
+        <path d="M290 48 V30" class="dim" marker-start="url(#ahm)" marker-end="url(#ahm)"/>
+        <text x="296" y="44" class="lbl">Füss-</text>
+        <text x="296" y="58" class="lbl">chen</text>
+      </svg>
+      <figcaption>Die Öffnung bleibt offen.</figcaption>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">7</span>
+      <h2>Fäden und Ecken zurückschneiden</h2>
+      <p>Schneide alle Fäden ab. Schneide dann die <b>Ecken</b> schräg zurück. So werden sie nach dem Wenden schön spitz.</p>
+      <p class="tip warn">Nicht in die Naht schneiden! Lass ca. 2 mm Abstand.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Ecken schräg abgeschnitten, ohne die Naht zu verletzen">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <use href="#tri" class="f1b"/>
+        <polyline points="135,40 79.7,40 170,163.1 260.3,40 205,40" class="stitch"/>
+        <line x1="74" y1="26" x2="58" y2="46" class="cut"/>
+        <line x1="266" y1="26" x2="282" y2="46" class="cut"/>
+        <line x1="158" y1="172" x2="182" y2="172" class="cut"/>
+        <text x="20" y="64" class="lbl">schräg</text>
+        <text x="290" y="64" class="lbl">schräg</text>
+        <text x="190" y="190" class="lbl">Naht nicht treffen</text>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- PHASE C -->
+  <div class="phase"><span class="tag">C</span><div><h2>Wenden, bügeln, absteppen</h2><p>Schritte 8–10</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">8</span>
+      <h2>Wenden</h2>
+      <p>Wende deine Arbeit durch die Öffnung auf die <b>schöne Seite</b>.</p>
+      <p>Mit einer <b>spitzen Nähnadel</b> kannst du die Ecken und Seiten vorsichtig herausziehen.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Gewendeter Wimpel, die Spitze wird mit einer Nadel herausgezogen">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <use href="#tri" class="f1"/>
+        <use href="#tri" fill="url(#weave)" class="weave"/>
+        <path d="M140 30 Q170 44 200 30" fill="var(--fab1-dark)"/>
+        <line x1="170" y1="180" x2="210" y2="195" stroke="var(--pin)" stroke-width="1.6"/>
+        <path d="M200 170 Q212 178 216 190" class="arrow" marker-end="url(#ah)"/>
+        <text x="222" y="178" class="lbl">Spitze herausziehen</text>
+        <text x="170" y="22" text-anchor="middle" class="lbl">Öffnung</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">9</span>
+      <h2>Stecken und bügeln</h2>
+      <p>Schlage bei der Öffnung den Stoff nach innen ein. Stecke die Seiten mit Stecknadeln fest.</p>
+      <p>Bügle deine Arbeit sorgfältig. Du kannst über die Stecknadeln bügeln.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Gesteckter Wimpel wird gebügelt">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <use href="#tri" class="f1"/>
+        <use href="#tri" fill="url(#weave)" class="weave"/>
+        <use href="#pin" x="100" y="40"/><use href="#pin" x="150" y="40"/><use href="#pin" x="190" y="40"/><use href="#pin" x="240" y="40"/>
+        <use href="#pin" x="96" y="80"/><use href="#pin" x="128" y="124"/>
+        <use href="#pin" x="244" y="80"/><use href="#pin" x="212" y="124"/>
+        <g transform="translate(150,96) rotate(-8)"><use href="#iron"/></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">10</span>
+      <h2>Schmalkantig absteppen</h2>
+      <p>Steppe den Wimpel rundherum <b>schmalkantig</b> ab, also ganz nahe an der Kante (ca. 2 mm). Dabei wird die Öffnung geschlossen.</p>
+      <p>Vernähe die Fäden am Anfang und am Ende (4 Stiche vorwärts, 4 rückwärts) und schneide sie ab.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Wimpel mit Steppnaht ganz nahe an der Kante">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <use href="#tri" class="f1"/>
+        <use href="#tri" fill="url(#weave)" class="weave"/>
+        <polygon points="67.9,34 272.1,34 170,173.2" class="stitch"/>
+        <circle cx="272" cy="34" r="22" fill="none" stroke="var(--muted)" stroke-width="1"/>
+        <text x="300" y="66" class="lbl">ca. 2 mm</text>
+        <text x="170" y="100" text-anchor="middle" class="lblb">Öffnung ist zu</text>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- PHASE D -->
+  <div class="phase"><span class="tag">D</span><div><h2>Zur Kette verbinden <span class="badge">Ergänzung</span></h2><p>Schritte 11–12</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">11</span>
+      <h2>Reihenfolge legen</h2>
+      <p>Nähe so viele Wimpel, wie die Kette lang werden soll. Lege sie in einer Reihe aus und wähle die Reihenfolge der Farben.</p>
+      <p>Schrägband zuschneiden: Breite aller Wimpel + Abstände + an beiden Enden je ca. <b>30 cm</b> zum Aufhängen.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Vier Wimpel in einer Reihe unter dem Schrägband, mit Abständen">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <rect x="0" y="44" width="340" height="10" class="tape"/>
+        <g id="row11"></g>
+        <path d="M100 150 H112" class="dim" marker-start="url(#ahm)" marker-end="url(#ahm)"/>
+        <text x="106" y="172" text-anchor="middle" class="lbl">ca. 3 cm</text>
+        <text x="8" y="36" class="lbl">← 30 cm</text>
+        <text x="332" y="36" text-anchor="end" class="lbl">30 cm →</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">12</span>
+      <h2>Schrägband annähen</h2>
+      <p>Lege die Oberkante jedes Wimpels in das gefaltete Schrägband und stecke es fest.</p>
+      <p>Steppe das Schrägband über die <b>ganze Länge</b> schmalkantig ab, auch die Bandenden ohne Wimpel. Fäden vernähen und abschneiden.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Schrägband umschliesst die Wimpeloberkante, Querschnitt und Ansicht">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <polygon points="20,70 160,70 90,190" class="f1"/>
+        <rect x="20" y="58" width="160" height="22" class="tape"/>
+        <line x1="20" y1="76" x2="180" y2="76" stroke="var(--bg)" stroke-width="1.6" stroke-dasharray="6 3"/>
+        <use href="#pin" x="60" y="86"/><use href="#pin" x="120" y="86"/>
+        <text x="20" y="48" class="lbl">Ansicht</text>
+        <g transform="translate(250,40)">
+          <text x="0" y="8" text-anchor="middle" class="lbl">Querschnitt</text>
+          <path d="M-14,58 V30 Q-14,22 0,22 Q14,22 14,30 V58" fill="none" stroke="var(--tape)" stroke-width="6"/>
+          <rect x="-3" y="28" width="6" height="110" class="f1"/>
+          <line x1="-30" y1="50" x2="30" y2="50" class="stitch"/>
+          <text x="34" y="54" class="lbl">Naht</text>
+          <text x="10" y="132" class="lbl">Wimpel</text>
+        </g>
+      </svg>
+    </figure>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:14px">Häufige Fehler</h2>
+    <div class="errors">
+      <div class="err">
+        <h3>Öffnung zugenäht</h3>
+        <p>Der Wimpel lässt sich nicht mehr wenden.</p>
+        <span class="fix">Lösung: Die doppelten Nadeln markieren Start und Ende. Dort anhalten.</span>
+      </div>
+      <div class="err">
+        <h3>Ecken stumpf</h3>
+        <p>Nach dem Wenden sind die Spitzen dick und rund.</p>
+        <span class="fix">Lösung: Ecken zurückschneiden und mit der Nadel herausziehen.</span>
+      </div>
+      <div class="err">
+        <h3>Naht geht auf</h3>
+        <p>Am Anfang oder Ende lösen sich die Fäden.</p>
+        <span class="fix">Lösung: Immer 4 Stiche vorwärts und 4 rückwärts vernähen.</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function el(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  var cls=["f1","f2","f3","f4","f2"];
+  // Titelbild: Kette an durchhängendem Band
+  var g=document.getElementById("garland");
+  if(g){
+    var P0=[10,40],P1=[220,130],P2=[430,40];
+    function pt(t){var u=1-t;return [u*u*P0[0]+2*u*t*P1[0]+t*t*P2[0], u*u*P0[1]+2*u*t*P1[1]+t*t*P2[1]];}
+    function tan(t){return [2*(1-t)*(P1[0]-P0[0])+2*t*(P2[0]-P1[0]), 2*(1-t)*(P1[1]-P0[1])+2*t*(P2[1]-P1[1])];}
+    [0.2,0.35,0.5,0.65,0.8].forEach(function(t,i){
+      var p=pt(t),d=tan(t),ang=Math.atan2(d[1],d[0])*180/Math.PI;
+      var w=el("g",{transform:"translate("+p[0]+","+p[1]+") rotate("+ang+")"},g);
+      el("polygon",{points:"-30,0 30,0 0,62","class":cls[i]},w);
+      el("polygon",{points:"-30,0 30,0 0,62",fill:"url(#weave)","class":"weave"},w);
+      el("polygon",{points:"-27,3 27,3 0,57","class":"stitchl",style:"opacity:.35"},w);
+    });
+    el("path",{d:"M10,40 Q220,130 430,40",fill:"none",stroke:"var(--tape)","stroke-width":5},g);
+  }
+  // Schritt 11: Reihe
+  var r=document.getElementById("row11");
+  if(r){ for(var i=0;i<4;i++){ var x=40+i*72; el("polygon",{points:x+",50 "+(x+60)+",50 "+(x+30)+",140","class":cls[i]},r); } }
+})();
+</script>
+
+<script>
+if (window.parent !== window) {
+  const reportHeight = () => {
+    window.parent.postMessage({ projectGuideHeight: document.body.getBoundingClientRect().height }, "*");
+  };
+  new ResizeObserver(reportHeight).observe(document.body);
+}
+</script>
+</body>
+</html>

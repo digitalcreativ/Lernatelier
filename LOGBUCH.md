@@ -2,6 +2,17 @@
 
 ## 19.11.2026
 
+### Textiles Gestalten · Quasten und Pompoms
+- **«Quasten und Pompoms»** als aktives, stufenübergreifendes Projekt unter **Textiles Gestalten → Projekte** ergänzt (TTG.2). Die bestehende Anleitung wurde unverändert als `projekte/quasten-pompoms.html` übernommen und nur um die Höhenmeldung für die eingebettete Ansicht ergänzt.
+- Inhalt: Material und Werkzeug, Phasen A–C mit 12 Schritten (Quaste mit Kartonmethode, Pompom mit Gabelmethode, Anhänger auffädeln), zwei weitere Quasten-Varianten (Leder/Filz, Kordel) und häufige Fehler.
+
+### BERNINA Lernvideos
+- **BERNINA · Nähmaschinen ABC** als Werkzeug-Button bei **Textiles Gestalten** ergänzt: Lernvideos zur Nähmaschine von der BERNINA Schulplattform 2.0 (Bereich «Lernmaterial für SchülerInnen»). Passt zur Schulmaschine B 455 College Edition. Der Link wurde über die Websuche gefunden; der automatische Abruf der Seite war gesperrt, Inhalt und Anmeldepflicht sind daher noch von Hand zu prüfen.
+
+### Textiles Gestalten · Wimpelkette nähen
+- **«Wimpelkette nähen»** als aktives, stufenübergreifendes Projekt unter **Textiles Gestalten → Projekte** ergänzt (TTG.2). Die bestehende Anleitung wurde unverändert als `projekte/wimpelkette.html` übernommen und nur um die Höhenmeldung für die eingebettete Ansicht ergänzt.
+- Inhalt: Material und Werkzeug, Phasen A–D mit 12 Schritten (Zuschneiden, Zusammennähen, Wenden/Bügeln/Absteppen, zur Kette verbinden), Nähmaschinen-Einstellungen und häufige Fehler.
+
 ### Fusszeile
 - Den Satz «Projekte mit gestrichelter Linie sind in Vorbereitung.» aus der Fusszeile entfernt. Es bleibt «Lernatelier · Stand November 2026».
 
@@ -9,7 +20,7 @@
 - **«Schmetterling falten»** als aktives, stufenübergreifendes Projekt unter **Textiles Gestalten → Projekte** ergänzt (TTG.2). Die bestehende Anleitung wurde unverändert als `projekte/schmetterling.html` übernommen und nur um die Höhenmeldung für die eingebettete Ansicht ergänzt.
 - Inhalt: Material, Phasen A–C mit 13 Schritten (obere Flügel, untere Flügel, Zusammensetzen) sowie häufige Fehler.
 - Den Abschnitt **«Für alle Stufen»** (Varianten Zyklus 1–3) entfernt, da das Projekt nur im Zyklus 3 als Deko eingesetzt wird. Kennzeichnung im Kopfbereich auf «Deko · Zyklus 3» und Kurztext der Projektkarte angepasst.
-- **Origami Club** (https://en.origami-club.com/) bei den **TTG-Werkzeugen** und als Direktlink-Button auf der Karte **Schmetterling falten** ergänzt. Bild-für-Bild-Anleitungen, nach Themen sortiert (u. a. Decorate, Flowers, Xmas), kostenlos und ohne Anmeldung; Seite auf Englisch. Link geprüft.
+- **Jo Nakashima · Origami** (https://jonakashima.com.br/) bei den **TTG-Werkzeugen** und als Direktlink-Button auf der Karte **Schmetterling falten** ergänzt. Faltpläne und Videoanleitungen mit Schwierigkeitsangabe, kostenlos und ohne Anmeldung; Seite auf Englisch. Link geprüft. Ersetzt den zuvor eingebauten Link zu Origami Club.
 
 ### fobizz für die KI-Nutzung
 - **fobizz · KI für die Klasse** als erster Werkzeug-Button unter **Diverse Fächer** ergänzt. Link: https://go.fobizz.com/. Die Schülerinnen und Schüler melden sich dort mit dem Code der Lehrperson an. Erscheint auch in allen Fachansichten unter «Für diverse Fächer».

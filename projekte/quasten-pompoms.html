@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Quasten und Pompoms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: eine Spalte, Phasen A–C plus Varianten, jeder Schritt = Text links + Zeichnung rechts (gestapelt auf dem Handy). Zeichnungen auf Schneidematte mit 1-cm-Raster */
+:root{
+  --bg:#f7f5f6; --surface:#ffffff; --fg:#231e22; --muted:#6a6168; --line:#e2dbe0;
+  --grid:#ebe5e9; --accent:#b0336f; --accent-ink:#982a5f;
+  --w1:#e8457f; --w1d:#b52a5c; --w2:#2fa3a0; --w2d:#1f7b78; --w3:#d9a227; --w3d:#a87a12;
+  --w4:#7b5cc4; --card:#f1ece4; --cardline:#c9bfb0; --fork:#9aa1ab; --bead1:#b98a5a; --bead2:#5aa069;
+  --ok:#2c8657; --warn:#c0482a;
+  --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#171416; --surface:#211d20; --fg:#f0ebee; --muted:#a99fa6; --line:#382f35;
+  --grid:#2b2529; --accent:#e46a9f; --accent-ink:#f08cb7;
+  --w1:#ee5c90; --w1d:#b8386a; --w2:#3fb6b2; --w2d:#2a8682; --w3:#e2ae38; --w3d:#a87d18;
+  --w4:#9178d6; --card:#3a352f; --cardline:#5e554a; --fork:#a8aeb8; --bead1:#c79a6b; --bead2:#6cb57b;
+  --ok:#5cc08d; --warn:#e8805f; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#171416; --surface:#211d20; --fg:#f0ebee; --muted:#a99fa6; --line:#382f35;
+  --grid:#2b2529; --accent:#e46a9f; --accent-ink:#f08cb7;
+  --w1:#ee5c90; --w1d:#b8386a; --w2:#3fb6b2; --w2d:#2a8682; --w3:#e2ae38; --w3d:#a87d18;
+  --w4:#9178d6; --card:#3a352f; --cardline:#5e554a; --fork:#a8aeb8; --bead1:#c79a6b; --bead2:#6cb57b;
+  --ok:#5cc08d; --warn:#e8805f; color-scheme:dark }
+
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,5vw,40px)}
+h2{font-size:21px}
+p{margin:0}
+b{font-weight:600}
+.hero{display:grid;grid-template-columns:1fr 1.1fr;gap:24px;align-items:center}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:44ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;margin-bottom:8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:var(--surface)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+.material{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.material ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.material h2{margin-bottom:10px}
+
+.phase{display:flex;align-items:baseline;gap:12px;margin-top:8px;border-bottom:2px solid var(--accent);padding-bottom:8px}
+.phase .tag{font:700 22px var(--f-display);color:var(--accent-ink)}
+.phase p{color:var(--muted);font-size:14px}
+
+.step{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.step > div{min-width:0}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;
+  background:var(--accent);color:#fff;font:700 15px var(--f-display);margin-bottom:10px}
+.step h2{margin-bottom:8px;font-size:19px}
+.step p + p{margin-top:8px}
+.tip{margin-top:12px;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px}
+.tip.warn{border-left-color:var(--warn)}
+figure{margin:0;display:flex;flex-direction:column;gap:8px}
+figure svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--bg)}
+figcaption{font-size:13px;color:var(--muted)}
+
+.variants{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.var{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.var ol{margin:0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+.var .need{font-size:13px;color:var(--muted)}
+.errors{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.err{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.err h3{font-size:16px}
+.err p{font-size:14px;color:var(--muted)}
+.err .fix{color:var(--ok);font-weight:600;font-size:14px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+
+/* SVG-Bausteine */
+.gl{stroke:var(--grid);fill:none}
+.cardb{fill:var(--card);stroke:var(--cardline);stroke-width:1.2}
+.forkb{fill:var(--fork)}
+.cut{stroke:var(--warn);stroke-width:2;stroke-dasharray:5 3;fill:none}
+.arrow{stroke:var(--fg);stroke-width:1.6;fill:none}
+.dim{stroke:var(--muted);stroke-width:1.2;fill:none}
+.okl{stroke:var(--ok);fill:none;stroke-width:2}
+.lbl{fill:var(--muted);font:500 12px var(--f-body)}
+.lblb{fill:var(--fg);font:600 13px var(--f-body)}
+
+@media (max-width:720px){
+  .hero,.step,.errors,.material,.variants{grid-template-columns:1fr}
+  .card{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="mat" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" class="gl"/></pattern>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--fg)"/></marker>
+    <marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Textiles und Technisches Gestalten · Textile Techniken</div>
+      <h1>Quasten und Pompoms</h1>
+      <p class="lead">Aus Wollresten entstehen eine Quaste mit der Kartonmethode und ein Pompom mit der Gabelmethode. Mit Holzperlen aufgefädelt wird daraus ein Anhänger für Schlüssel, Tasche oder Zimmer.</p>
+      <div class="meta"><span class="chip">Zyklus 3</span><span class="chip">ca. 2 Lektionen</span><span class="chip">Wickeln · Abbinden · Auffädeln</span></div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 420 260" role="img" aria-label="Drei Anhänger aus Pompom, Holzperlen und Quaste">
+        <rect width="420" height="260" fill="url(#mat)"/>
+        <g id="hero"></g>
+      </svg>
+    </figure>
+  </header>
+
+  <section class="card material">
+    <div>
+      <h2>Material</h2>
+      <ul>
+        <li>Wollreste in verschiedenen Farben</li>
+        <li>Holzperlen mit grossem Loch</li>
+        <li>Karton, ca. <b>8 × 10 cm</b></li>
+        <li>Evtl. Schlüsselring</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Werkzeug</h2>
+      <ul>
+        <li>Eine Gabel</li>
+        <li>Schere (scharf)</li>
+        <li>Wollnadel (stumpf, mit grossem Öhr)</li>
+      </ul>
+      <div class="legend" style="margin-top:12px">
+        <span><svg width="34" height="8" aria-hidden="true"><line x1="0" y1="4" x2="34" y2="4" class="cut"/></svg> Schneiden</span>
+        <span><svg width="34" height="12" aria-hidden="true"><path d="M2 10 Q17 -4 32 8" class="arrow" marker-end="url(#ah)"/></svg> Richtung</span>
+        <span><svg width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="6" class="okl"/></svg> Hier genau arbeiten</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHASE A -->
+  <div class="phase"><span class="tag">A</span><div><h2>Die Quaste</h2><p>Kartonmethode · Schritte 1–6</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">1</span>
+      <h2>Karton vorbereiten</h2>
+      <p>Schneide ein Stück Karton zu. Die <b>Höhe des Kartons</b> bestimmt die <b>Länge der Quaste</b>. Für den Anhänger passen ca. 8 cm.</p>
+      <p>Schneide ausserdem zwei Fäden von je ca. <b>30 cm</b> ab. Du brauchst sie zum Abbinden.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Karton, Wollknäuel und zwei Fadenstücke">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g id="f1"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">2</span>
+      <h2>Wolle wickeln</h2>
+      <p>Wickle die Wolle locker, aber gleichmässig um den Karton, ca. <b>30–40 Mal</b>. Je mehr Wicklungen, desto dicker wird die Quaste.</p>
+      <p>Schneide den Faden unten am Karton ab.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Wolle um den Karton gewickelt">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g id="f2"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">3</span>
+      <h2>Oben abbinden</h2>
+      <p>Ziehe einen 30-cm-Faden oben zwischen Karton und Wicklungen durch. Knote ihn <b>fest doppelt</b> zusammen.</p>
+      <p>Die langen Enden bleiben: Daran hängt die Quaste später.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Faden oben unter den Wicklungen durchgezogen und verknotet">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g id="f3"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">4</span>
+      <h2>Unten aufschneiden</h2>
+      <p>Schneide die Wicklungen <b>unten</b> am Karton durch. Nimm die Wolle vom Karton.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Schnittlinie unten am Karton">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g id="f4"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">5</span>
+      <h2>Hals abbinden</h2>
+      <p>Lege den zweiten Faden ca. <b>1–1,5 cm unter dem Knoten</b> um die Quaste. Wickle ihn mehrmals fest herum und knote ihn.</p>
+      <p>Die Fadenenden nach unten zu den Fransen legen.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Quaste mit abgebundenem Kopf">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g id="f5"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">6</span>
+      <h2>Fransen gerade schneiden</h2>
+      <p>Streiche die Fransen glatt und schneide sie unten auf gleiche Länge.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Fransen werden unten gerade geschnitten">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g id="f6"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- PHASE B -->
+  <div class="phase"><span class="tag">B</span><div><h2>Der Pompom</h2><p>Gabelmethode · Schritte 7–10</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">7</span>
+      <h2>Wolle um die Gabel wickeln</h2>
+      <p>Wickle die Wolle quer um die Zinken der Gabel, ca. <b>50 Mal</b>. Mehrere Farben gleichzeitig ergeben einen gemischten Pompom.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Wolle quer um die Gabelzinken gewickelt">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g id="f7"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">8</span>
+      <h2>In der Mitte abbinden</h2>
+      <p>Ziehe einen Faden durch den <b>mittleren Schlitz</b> der Gabel und um das Wollbündel. Ziehe ihn <b>so fest wie möglich</b> zu und knote doppelt.</p>
+      <p class="tip">Die Enden lang lassen. Mit ihnen wird der Pompom später aufgefädelt.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Faden durch den mittleren Schlitz, fest verknotet">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g id="f8"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">9</span>
+      <h2>Schlaufen aufschneiden</h2>
+      <p>Ziehe das Bündel von der Gabel. Schneide die Schlaufen auf <b>beiden Seiten</b> durch.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Wollbündel mit Schlaufen links und rechts, Schnittlinien">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g id="f9"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">10</span>
+      <h2>Rund schneiden</h2>
+      <p>Schüttle den Pompom auf und schneide vorstehende Fäden ab, bis er schön rund ist.</p>
+      <p class="tip warn">Pass auf, dass du die langen Abbindefäden nicht abschneidest.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 200" role="img" aria-label="Pompom mit Schnittkreis, die Abbindefäden bleiben lang">
+        <rect width="340" height="200" fill="url(#mat)"/>
+        <g id="f10"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- PHASE C -->
+  <div class="phase"><span class="tag">C</span><div><h2>Den Anhänger zusammensetzen</h2><p>Schritte 11–12</p></div></div>
+
+  <section class="card step">
+    <div>
+      <span class="num">11</span>
+      <h2>Auffädeln</h2>
+      <p>Fädle die Aufhängefäden der Quaste in die Wollnadel. Fädle dann von unten nach oben auf:</p>
+      <p><b>Quaste → 1–2 Perlen → mitten durch den Pompom → 1–3 Perlen</b></p>
+      <p class="tip">Die Abbindefäden des Pompoms kannst du mit der Wollnadel durch die Perlen darüber mitnehmen. So sitzt alles fester.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 240" role="img" aria-label="Reihenfolge beim Auffädeln: Quaste, Perlen, Pompom, Perlen">
+        <rect width="340" height="240" fill="url(#mat)"/>
+        <g id="f11"></g>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="card step">
+    <div>
+      <span class="num">12</span>
+      <h2>Schlaufe knoten</h2>
+      <p>Schiebe alles gut zusammen. Knote über der obersten Perle eine <b>Schlaufe</b> zum Aufhängen oder für den Schlüsselring.</p>
+      <p>Schneide die Fadenenden ab.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 240" role="img" aria-label="Fertiger Anhänger mit Schlaufe">
+        <rect width="340" height="240" fill="url(#mat)"/>
+        <g id="f12"></g>
+      </svg>
+      <figcaption>Fertig!</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:6px">Weitere Quasten</h2>
+    <p style="color:var(--muted);margin-bottom:14px;max-width:65ch">Für schnelle Schülerinnen und Schüler oder als eigene Aufgabe.</p>
+    <div class="variants">
+      <div class="var">
+        <svg viewBox="0 0 300 130" role="img" aria-label="Lederstreifen mit eingeschnittenen Fransen, wird aufgerollt">
+          <rect width="300" height="130" fill="url(#mat)"/>
+          <g id="v1"></g>
+        </svg>
+        <h3>Quaste aus Leder oder Filz</h3>
+        <p class="need">Leder- oder Filzstreifen ca. 8 × 25 cm, schmaler Streifen für die Schlaufe, Leim</p>
+        <ol>
+          <li>Den Streifen in schmale Fransen einschneiden. Oben ca. 2 cm ganz lassen.</li>
+          <li>Die Schlaufe am Anfang einlegen und festkleben.</li>
+          <li>Den Streifen fest aufrollen und dabei Leim auf den Rand geben.</li>
+          <li>Trocknen lassen, Schlüsselring einhängen.</li>
+        </ol>
+      </div>
+      <div class="var">
+        <svg viewBox="0 0 300 130" role="img" aria-label="Kordelbündel mit farbig umwickelter Mitte über einem Schlüsselring">
+          <rect width="300" height="130" fill="url(#mat)"/>
+          <g id="v2"></g>
+        </svg>
+        <h3>Quaste aus Kordel</h3>
+        <p class="need">Baumwollkordel, Stickgarn in mehreren Farben, Schlüsselring</p>
+        <ol>
+          <li>6–8 Kordelstücke à ca. 30 cm bündeln.</li>
+          <li>Die Mitte über ca. 8 cm mit Stickgarn eng umwickeln. Farben in Blöcken wechseln.</li>
+          <li>Das Bündel über den Schlüsselring falten.</li>
+          <li>Unter dem Ring den Hals abbinden, Kordelenden aufdrehen und gerade schneiden.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:14px">Häufige Fehler</h2>
+    <div class="errors">
+      <div class="err">
+        <h3>Pompom fällt auseinander</h3>
+        <p>Der Abbindefaden war zu locker.</p>
+        <span class="fix">Lösung: So fest wie möglich zuziehen und doppelt knoten. Reissfesten Faden verwenden.</span>
+      </div>
+      <div class="err">
+        <h3>Quaste zu dünn</h3>
+        <p>Sie wirkt neben dem Pompom mager.</p>
+        <span class="fix">Lösung: Mehr Wicklungen oder dickere Wolle nehmen.</span>
+      </div>
+      <div class="err">
+        <h3>Perlen rutschen</h3>
+        <p>Das Loch ist grösser als der Knoten.</p>
+        <span class="fix">Lösung: Unter der Perle einen dicken Knoten machen oder die Fäden doppelt nehmen.</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg", seed=7;
+  function rnd(){ seed=(seed*9301+49297)%233280; return seed/233280; }
+  function el(t,a,p){ var e=document.createElementNS(NS,t); for(var k in a) e.setAttribute(k,a[k]); if(p) p.appendChild(e); return e; }
+  function $(id){ return document.getElementById(id); }
+  function line(g,x1,y1,x2,y2,col,w,extra){ var a={x1:x1,y1:y1,x2:x2,y2:y2,stroke:col,"stroke-width":w||2,"stroke-linecap":"round"}; for(var k in extra) a[k]=extra[k]; return el("line",a,g); }
+  function path(g,d,col,w,extra){ var a={d:d,fill:"none",stroke:col,"stroke-width":w||2,"stroke-linecap":"round"}; for(var k in extra) a[k]=extra[k]; return el("path",a,g); }
+  function text(g,x,y,s,cls,anchor){ var t=el("text",{x:x,y:y,"class":cls||"lbl","text-anchor":anchor||"start"},g); t.textContent=s; return t; }
+
+  // Quaste: Kopf oben bei (cx,top), Gesamtlänge len
+  function tassel(g,cx,top,len,c,cd,opt){
+    opt=opt||{};
+    var headR=len*0.13, neck=top+headR*2.1;
+    var n=Math.round(len*0.35);
+    for(var i=0;i<n;i++){
+      var t=i/(n-1);
+      var x0=cx-headR*0.9+headR*1.8*t;
+      var x1=cx-headR*1.7+headR*3.4*t+(rnd()-.5)*4;
+      var y1=top+len+(opt.ragged?(rnd()-.5)*len*0.18:(rnd()-.5)*2);
+      line(g,x0,neck-2,x1,y1,i%3?c:cd,2);
+    }
+    el("ellipse",{cx:cx,cy:top+headR,rx:headR*1.05,ry:headR*1.15,fill:c},g);
+    for(var j=0;j<n/2;j++) path(g,"M"+(cx-headR*0.6+headR*1.2*j/(n/2))+","+(top+1)+" Q"+(cx+(j/(n/2)-.5)*headR*2.2)+","+(top+headR)+" "+(cx-headR*0.9+headR*1.8*j/(n/2))+","+(neck-1),cd,1,{opacity:.6});
+    if(!opt.noNeck) for(var k=0;k<4;k++) line(g,cx-headR*1.05,neck-3+k*2.2,cx+headR*1.05,neck-3+k*2.2,cd,1.6);
+  }
+  function pompom(g,cx,cy,r,c1,c2){
+    el("circle",{cx:cx,cy:cy,r:r*0.82,fill:c1},g);
+    for(var i=0;i<110;i++){
+      var a=rnd()*Math.PI*2, l=r*(0.6+rnd()*0.42), s=r*0.15;
+      line(g,cx+Math.cos(a)*s,cy+Math.sin(a)*s,cx+Math.cos(a)*l,cy+Math.sin(a)*l,i%3?c1:c2,2.2);
+    }
+  }
+  function bead(g,cx,cy,rx,ry,c){ el("ellipse",{cx:cx,cy:cy,rx:rx,ry:ry,fill:c},g); line(g,cx-rx*0.4,cy-ry*0.3,cx-rx*0.1,cy-ry*0.5,"#fff",1.2,{opacity:.5}); }
+  // ganzer Anhänger, oben bei (cx,top), Massstab s
+  function hanger(g,cx,top,s,c1,c1d,c2,c2d,tc,tcd){
+    var y=top;
+    path(g,"M"+cx+","+(y+16*s)+" C"+(cx-14*s)+","+(y-4*s)+" "+(cx+14*s)+","+(y-4*s)+" "+cx+","+(y+16*s),tc,2);
+    line(g,cx,y+16*s,cx,y+150*s,tc,2);
+    bead(g,cx,y+24*s,7*s,6*s,"var(--bead1)");
+    bead(g,cx,y+37*s,5*s,5*s,"var(--bead2)");
+    pompom(g,cx,y+68*s,26*s,c1,c1d);
+    bead(g,cx,y+101*s,6*s,6*s,"var(--bead2)");
+    bead(g,cx,y+114*s,8*s,6*s,"var(--bead1)");
+    tassel(g,cx,y+120*s,70*s,tc,tcd);
+  }
+
+  // Titelbild
+  var h=$("hero");
+  if(h){
+    hanger(h,110,30,1.15,"var(--w1)","var(--w4)","","","var(--w2)","var(--w2d)");
+    hanger(h,215,14,1.25,"var(--w2)","var(--w3)","","","var(--w3)","var(--w3d)");
+    hanger(h,320,36,1.1,"var(--w3)","var(--w1)","","","var(--w1)","var(--w1d)");
+  }
+
+  // Karton mit Wicklungen
+  function cardWraps(g,x,y,w,hh,count,col,cold){
+    el("rect",{x:x,y:y,width:w,height:hh,"class":"cardb",rx:2},g);
+    var bx=x+w*0.32,bw=w*0.36;
+    for(var i=0;i<count;i++){ var xx=bx+bw*i/(count-1); line(g,xx+(rnd()-.5)*2,y-3,xx+(rnd()-.5)*2,y+hh+3,i%4?col:cold,2.2); }
+  }
+
+  var g;
+  if((g=$("f1"))){
+    el("rect",{x:50,y:35,width:100,height:130,"class":"cardb",rx:2},g);
+    path(g,"M40 35 V165","var(--muted)",1.2,{"marker-start":"url(#ahm)","marker-end":"url(#ahm)"});
+    text(g,30,104,"8 cm","lbl","middle");
+    text(g,100,182,"Höhe = Länge der Quaste","lbl","middle");
+    el("circle",{cx:245,cy:80,r:38,fill:"var(--w2)"},g);
+    for(var i=0;i<7;i++) path(g,"M"+(215+i*4)+","+(55+i*2)+" Q"+(245)+","+(70+i*6)+" "+(280-i*2)+","+(60+i*7),"var(--w2d)",1.5);
+    path(g,"M228 158 Q260 145 300 160","var(--w2)",2.2);
+    path(g,"M228 172 Q260 160 300 174","var(--w2)",2.2);
+    text(g,264,190,"2 × 30 cm","lbl","middle");
+  }
+  if((g=$("f2"))){
+    cardWraps(g,90,35,120,130,30,"var(--w2)","var(--w2d)");
+    path(g,"M236 60 Q262 100 236 140","var(--fg)",1.6,{"marker-end":"url(#ah)"});
+    text(g,250,104,"30–40 ×","lblb");
+    path(g,"M210 165 Q260 175 290 150","var(--w2)",2.2);
+    el("circle",{cx:300,cy:140,r:16,fill:"var(--w2)"},g);
+  }
+  if((g=$("f3"))){
+    cardWraps(g,90,45,120,130,30,"var(--w2)","var(--w2d)");
+    line(g,120,42,180,42,"var(--w2d)",2.6);
+    path(g,"M150 40 Q140 20 120 8","var(--w2d)",2.4);
+    path(g,"M150 40 Q160 20 182 8","var(--w2d)",2.4);
+    el("circle",{cx:150,cy:40,r:4,fill:"var(--w2d)"},g);
+    el("circle",{cx:150,cy:40,r:12,"class":"okl"},g);
+    text(g,192,30,"fest doppelt knoten","lbl");
+  }
+  if((g=$("f4"))){
+    cardWraps(g,90,25,120,130,30,"var(--w2)","var(--w2d)");
+    path(g,"M150 23 Q140 12 128 4","var(--w2d)",2.4); path(g,"M150 23 Q160 12 172 4","var(--w2d)",2.4);
+    el("path",{d:"M100 160 H200","class":"cut"},g);
+    text(g,150,184,"unten durchschneiden","lbl","middle");
+  }
+  if((g=$("f5"))){
+    path(g,"M170 30 Q160 14 146 4","var(--w2d)",2.4); path(g,"M170 30 Q180 14 194 4","var(--w2d)",2.4);
+    tassel(g,170,28,150,"var(--w2)","var(--w2d)",{ragged:true});
+    path(g,"M152 62 Q120 58 96 66","var(--w2d)",2.4); path(g,"M188 62 Q220 58 244 66","var(--w2d)",2.4);
+    el("circle",{cx:170,cy:63,r:24,"class":"okl"},g);
+    path(g,"M250 40 V62","var(--muted)",1.2,{"marker-start":"url(#ahm)","marker-end":"url(#ahm)"});
+    text(g,258,55,"1–1,5 cm","lbl");
+  }
+  if((g=$("f6"))){
+    path(g,"M170 30 Q160 14 146 4","var(--w2d)",2.4); path(g,"M170 30 Q180 14 194 4","var(--w2d)",2.4);
+    tassel(g,170,28,150,"var(--w2)","var(--w2d)",{ragged:true});
+    el("path",{d:"M110 168 H230","class":"cut"},g);
+    text(g,240,172,"gerade","lbl");
+  }
+  function fork(g,withWraps,tie){
+    var xs=[135,155,175,195];
+    xs.forEach(function(x){ el("rect",{x:x-3,y:20,width:6,height:100,rx:3,"class":"forkb"},g); });
+    el("path",{d:"M132 112 H198 Q198 136 175 140 L172 196 H158 L155 140 Q132 136 132 112 Z","class":"forkb"},g);
+    if(withWraps){ for(var i=0;i<26;i++){ var y=48+i*1.6; line(g,124,y+(rnd()-.5),206,y+(rnd()-.5),i%3?"var(--w1)":"var(--w4)",2.2); } }
+    if(tie){
+      line(g,165,40,165,92,"var(--w3d)",2.6);
+      path(g,"M165 66 Q120 70 90 92","var(--w3d)",2.4); path(g,"M165 66 Q210 70 240 92","var(--w3d)",2.4);
+      el("circle",{cx:165,cy:66,r:4,fill:"var(--w3d)"},g);
+    }
+  }
+  if((g=$("f7"))){
+    fork(g,true,false);
+    path(g,"M222 40 Q246 66 222 92","var(--fg)",1.6,{"marker-end":"url(#ah)"});
+    text(g,250,70,"ca. 50 ×","lblb");
+    path(g,"M206 80 Q250 120 290 110","var(--w1)",2.2); el("circle",{cx:300,cy:110,r:14,fill:"var(--w1)"},g);
+  }
+  if((g=$("f8"))){
+    fork(g,true,true);
+    el("circle",{cx:165,cy:66,r:30,"class":"okl"},g);
+    text(g,248,98,"Enden lang lassen","lbl");
+    text(g,30,40,"mittlerer Schlitz","lbl");
+    path(g,"M80 46 Q130 40 160 50","var(--muted)",1.2,{"marker-end":"url(#ahm)"});
+  }
+  if((g=$("f9"))){
+    var cx=170,cy=96;
+    [[-1],[1]].forEach(function(sd){
+      var s=sd[0];
+      for(var i=0;i<24;i++){ var dy=(i-12)*2.4; path(g,"M"+cx+","+cy+" C"+(cx+s*40)+","+(cy+dy*2.4-10)+" "+(cx+s*90)+","+(cy+dy*1.6-6)+" "+(cx+s*92)+","+(cy+dy*0.4),i%3?"var(--w1)":"var(--w4)",2.2); }
+    });
+    path(g,"M"+cx+","+cy+" Q150 140 130 180","var(--w3d)",2.4); path(g,"M"+cx+","+cy+" Q190 140 210 180","var(--w3d)",2.4);
+    el("circle",{cx:cx,cy:cy,r:5,fill:"var(--w3d)"},g);
+    el("path",{d:"M82 40 V150","class":"cut"},g); el("path",{d:"M258 40 V150","class":"cut"},g);
+    text(g,82,30,"aufschneiden","lbl","middle"); text(g,258,30,"aufschneiden","lbl","middle");
+  }
+  if((g=$("f10"))){
+    pompom(g,170,90,62,"var(--w1)","var(--w4)");
+    el("circle",{cx:170,cy:90,r:52,"class":"cut"},g);
+    path(g,"M170 120 Q150 160 130 194","var(--w3d)",2.4); path(g,"M170 120 Q190 160 210 194","var(--w3d)",2.4);
+    for(var q=0;q<10;q++) line(g,40+rnd()*40,150+rnd()*30,40+rnd()*40+6,150+rnd()*30+3,"var(--w1)",2);
+    text(g,60,140,"Reste","lbl","middle");
+    text(g,240,186,"Abbindefäden bleiben","lbl");
+  }
+  if((g=$("f11"))){
+    // Nadel und Faden
+    line(g,170,10,170,26,"var(--fork)",3);
+    el("ellipse",{cx:170,cy:12,rx:2,ry:5,fill:"var(--bg)",stroke:"var(--fork)","stroke-width":1},g);
+    line(g,170,26,170,220,"var(--w3d)",2,{"stroke-dasharray":"4 3"});
+    bead(g,170,44,9,7,"var(--bead1)");
+    bead(g,170,62,6,6,"var(--bead2)");
+    pompom(g,170,100,32,"var(--w2)","var(--w3)");
+    bead(g,170,140,7,6,"var(--bead2)");
+    tassel(g,170,150,80,"var(--w1)","var(--w1d)");
+    var labels=[[44,"3  Perlen"],[100,"2  Pompom (mitten durch)"],[140,"1  Perle"],[180,"Start: Quaste"]];
+    labels.forEach(function(l){ text(g,212,l[0]+4,l[1],"lbl"); path(g,"M208 "+l[0]+" H"+(l[0]===100?206:186),"var(--muted)",1); });
+    path(g,"M120 200 V40","var(--fg)",1.6,{"marker-end":"url(#ah)"});
+    text(g,112,120,"von unten nach oben","lbl","end");
+  }
+  if((g=$("f12"))){
+    hanger(g,170,20,1.2,"var(--w2)","var(--w3)","","","var(--w1)","var(--w1d)");
+    el("circle",{cx:170,cy:30,r:16,"class":"okl"},g);
+    text(g,196,26,"Schlaufe + Knoten","lbl");
+  }
+  // Varianten
+  if((g=$("v1"))){
+    el("rect",{x:20,y:30,width:150,height:70,fill:"var(--w1)",rx:2},g);
+    for(var x=26;x<170;x+=6) line(g,x,48,x,100,"var(--w1d)",1.2);
+    el("rect",{x:14,y:20,width:12,height:40,fill:"var(--w4)",rx:2},g);
+    text(g,95,118,"Fransen einschneiden","lbl","middle");
+    path(g,"M180 65 H205","var(--fg)",1.6,{"marker-end":"url(#ah)"});
+    tassel(g,250,30,85,"var(--w1)","var(--w1d)",{noNeck:true});
+    path(g,"M250 32 Q238 8 250 4 Q262 8 250 32","var(--w4)",4);
+  }
+  if((g=$("v2"))){
+    el("circle",{cx:150,cy:24,r:13,fill:"none",stroke:"var(--fork)","stroke-width":3},g);
+    path(g,"M138 100 V52 Q138 32 150 32 Q162 32 162 52 V100","var(--w1)",14,{"stroke-linecap":"butt"});
+    path(g,"M138 88 V70 M162 88 V70","var(--w4)",14,{"stroke-linecap":"butt"});
+    path(g,"M138 52 Q138 40 144 35","var(--w3)",14,{"stroke-linecap":"butt"});
+    for(var c=0;c<12;c++){ var xx=130+c*3.6; line(g,xx,100,xx+(c-6)*1.4,126,"var(--card)",3); line(g,xx,100,xx+(c-6)*1.4,126,"var(--cardline)",1); }
+    line(g,128,102,172,102,"var(--fork)",3);
+    text(g,200,60,"Stickgarn in","lbl"); text(g,200,75,"Farbblöcken","lbl");
+  }
+})();
+</script>
+
+<script>
+if (window.parent !== window) {
+  const reportHeight = () => {
+    window.parent.postMessage({ projectGuideHeight: document.body.getBoundingClientRect().height }, "*");
+  };
+  new ResizeObserver(reportHeight).observe(document.body);
+}
+</script>
+</body>
+</html>
