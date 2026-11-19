@@ -2,6 +2,12 @@
 
 ## 19.11.2026
 
+### Neues Fach: Geometrisches Zeichnen
+- **Geometrisches Zeichnen (GZ)** als eigenes Fach eröffnet: Reiter **Wahlfach 3. Oberstufe** und **Werkzeuge**, Eintrag «GZ» in der Kopfnavigation, eigener Bereich in der Seitenleiste, eigene Fachkarte auf der Startseite. Eigene Fachfarbe Graphit-Violett (hell und dunkel). Lehrplanzeile «MA.2 Form und Raum» (bitte prüfen).
+- Wunschgemäss **ohne Reiter «Projekte»**: Dafür kann ein Fach neu mit `ohneProjekte: true` angelegt werden; Reiter, Seitenleisten-Eintrag und Zeile auf der Fachkarte entfallen dann.
+- Noch ohne Projekte. Erste Werkzeuge ergänzt: **GeoGebra Geometrie** (https://www.geogebra.org/geometry, Konstruieren und 3D-Rechner), **Euclidea** (https://www.euclidea.xyz/, Konstruktions-Rätsel, App für Android und iPhone; Kosten und Anmeldung nicht ersichtlich), **Polypad** (https://polypad.amplify.com/, kostenlos, ohne Anmeldung, Deutsch) und **Tinkercad** (Körper räumlich konstruieren).
+- Damit sind alle geplanten Fächer eröffnet. Der Bereich **«Weitere Fächer»** in der Seitenleiste erscheint nur noch, wenn in `SPAETER` wieder ein Fach eingetragen wird. Darstellung per Bildschirmfoto geprüft.
+
 ### Neues Fach: Medien und Informatik
 - **Medien und Informatik (M+I)** als eigenes Fach eröffnet, gleich aufgebaut wie die anderen Fächer: Reiter **1. Oberstufe, 2. Oberstufe, Projekte, Werkzeuge**, eigener Eintrag in Kopfnavigation («M+I») und Seitenleiste, eigene Fachkarte auf der Startseite. Lehrplanzeile: «MI.1 Medien · MI.2 Informatik». Eigene Fachfarbe Senf (hell und dunkel).
 - Noch ohne Projekte und ohne fachspezifische Werkzeuge. Im Reiter «Werkzeuge» steht vorerst «Hier erscheinen bald Werkzeuge.», darunter wie überall die Werkzeuge für diverse Fächer.

@@ -31,6 +31,7 @@
   --col-ttg: #5b6149;  --soft-ttg: #8b917a;  /* Textiles Gestalten: Salbei */
   --col-inf: #41607f;  --soft-inf: #bccbdc;  /* Informatik: Hellblau */
   --col-mi: #7a6431;   --soft-mi: #e3d6b4;   /* Medien und Informatik: Senf */
+  --col-gz: #5e5577;   --soft-gz: #d3cde0;   /* Geometrisches Zeichnen: Graphit-Violett */
   --col-later: #74776a; --soft-later: #dcddd4;
   --f: "Open Sans", "Segoe UI", system-ui, sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
@@ -46,6 +47,7 @@
     --col-ttg: #bcc1aa; --soft-ttg: #a9af97;
     --col-inf: #bccbdc; --soft-inf: #b3c4d7;
     --col-mi: #e3d6b4; --soft-mi: #d6c79f;
+    --col-gz: #d3cde0; --soft-gz: #c4bcd6;
     --col-later: #9a9d8f; --soft-later: #9a9d8f;
     color-scheme: dark;
   }
@@ -59,6 +61,7 @@
   --col-ttg: #bcc1aa; --soft-ttg: #a9af97;
   --col-inf: #bccbdc; --soft-inf: #b3c4d7;
   --col-mi: #e3d6b4; --soft-mi: #d6c79f;
+  --col-gz: #d3cde0; --soft-gz: #c4bcd6;
   --col-later: #9a9d8f; --soft-later: #9a9d8f;
   color-scheme: dark;
 }
@@ -74,6 +77,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 [data-fach="ttg"]   { --c: var(--col-ttg); --s: var(--soft-ttg); }
 [data-fach="inf"]   { --c: var(--col-inf); --s: var(--soft-inf); }
 [data-fach="mi"]    { --c: var(--col-mi);  --s: var(--soft-mi); }
+[data-fach="gz"]    { --c: var(--col-gz);  --s: var(--soft-gz); }
 [data-fach="diverse"] { --c: var(--accent-ink); --s: var(--accent); }
 [data-fach="later"] { --c: var(--col-later); --s: var(--soft-later); }
 
@@ -612,6 +616,21 @@ const FAECHER = [
       { name: "1. Oberstufe", module: [] },
       { name: "2. Oberstufe", module: [] }
     ]
+  },
+  {
+    id: "gz", kurz: "GZ", name: "Geometrisches Zeichnen",
+    lp: "Lehrplan 21: MA.2 Form und Raum",
+    werkzeuge: [
+      { name: "GeoGebra Geometrie", info: "Konstruieren mit Zirkel und Lineal am Computer · auch 3D-Rechner für Körper", url: "https://www.geogebra.org/geometry" },
+      { name: "Euclidea", info: "Konstruktions-Rätsel mit Zirkel und Lineal in 120 Levels · App für Android und iPhone", url: "https://www.euclidea.xyz/" },
+      { name: "Polypad", info: "Virtuelle Mathe-Materialien, u. a. 3D-Körper zum Drehen · kostenlos, ohne Anmeldung", url: "https://polypad.amplify.com/" },
+      { name: "Tinkercad", info: "Körper räumlich konstruieren und von allen Seiten betrachten", url: "https://www.tinkercad.com" }
+    ],
+    projekte: [],
+    ohneProjekte: true, // kein Reiter «Projekte» für dieses Fach
+    stufen: [
+      { name: "Wahlfach 3. Oberstufe", module: [] }
+    ]
   }
 ];
 
@@ -626,9 +645,8 @@ const DIVERSE = { id: "diverse", name: "Diverse Fächer", werkzeuge: [
   { name: "Microsoft Sway", info: "Multimediale Präsentationen und Projektberichte · Microsoft-Konto erforderlich", url: "https://sway.cloud.microsoft/" }
 ]};
 
-const SPAETER = [
-  { kurz: "GZ", name: "Geometrisches Zeichnen", stufe: "Wahlfach 3. Oberstufe" }
-];
+// Fächer, die später dazukommen: { kurz: "..", name: "...", stufe: "..." }
+const SPAETER = [];
 /* ================== ENDE DATEN =================== */
 
 function h(tag, attrs, ...kids) {
@@ -755,7 +773,7 @@ function buildSide() {
       h("summary", {}, h("span", { class: "chev", "aria-hidden": "true" }, "›"), h("span", { class: "dot", "aria-hidden": "true" }), f.name),
       f.stufen.map((s, i) => h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "st" + i,
         onclick: go(f.id, { tab: "st" + i }) }, s.name)),
-      h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "projekte", onclick: go(f.id, { tab: "projekte" }) }, "Projekte"),
+      f.ohneProjekte ? null : h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "projekte", onclick: go(f.id, { tab: "projekte" }) }, "Projekte"),
       h("a", { class: "item", href: "#" + f.id, "data-view": f.id, "data-tab": "werkzeuge", onclick: go(f.id, { tab: "werkzeuge" }) }, "Werkzeuge")
     ));
   });
@@ -775,7 +793,7 @@ function buildSide() {
       render();
     }
   });
-  items.push(later);
+  if (SPAETER.length) items.push(later);
   items.push(h("details", { "data-fach": "later", open: currentView() === VORBEREITUNG ? "" : null },
     h("summary", {}, h("span", { class: "chev", "aria-hidden": "true" }, "›"), VORBEREITUNG_TITEL),
     h("a", { class: "item", href: "#" + VORBEREITUNG, "data-view": VORBEREITUNG, "data-tab": "liste",
@@ -860,7 +878,7 @@ function render() {
   const fach = FAECHER.find(f => f.id === view);
   const istVorbereitung = view === VORBEREITUNG;
   const tabs = istVorbereitung ? [] : fach
-    ? fach.stufen.map((s, i) => ["st" + i, s.name]).concat([["projekte", "Projekte"], ["werkzeuge", "Werkzeuge"]])
+    ? fach.stufen.map((s, i) => ["st" + i, s.name]).concat(fach.ohneProjekte ? [] : [["projekte", "Projekte"]], [["werkzeuge", "Werkzeuge"]])
     : [["faecher", "Fächer"], ["werkzeuge", "Alle Werkzeuge"]];
   if (!tabs.some(t => t[0] === state.tab)) state.tab = tabs[0]?.[0] ?? "liste";
 
@@ -940,7 +958,7 @@ function render() {
           h("ul", {}, f.stufen.map(s => {
             const anzahl = sichtbareModule(s.module).length;
             return h("li", {}, h("span", {}, s.name), h("span", {}, anzahl + (anzahl === 1 ? " Projekt" : " Projekte")));
-          }), h("li", {}, h("span", {}, "Projekte"), h("span", {}, sichtbareModule(f.projekte).length + (sichtbareModule(f.projekte).length === 1 ? " Projekt" : " Projekte")))),
+          }), f.ohneProjekte ? null : h("li", {}, h("span", {}, "Projekte"), h("span", {}, sichtbareModule(f.projekte).length + (sichtbareModule(f.projekte).length === 1 ? " Projekt" : " Projekte")))),
           h("span", { class: "go" }, "Zum Fach →")
         ))))
     ));
