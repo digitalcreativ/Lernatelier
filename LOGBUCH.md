@@ -3,7 +3,8 @@
 ## 20.11.2026
 
 ### Werkzeug · Gliederpuppe
-- Eigenes Tool **«Gliederpuppe»** (https://digitalcreativ.github.io/Gliederpuppe/, Link geprüft) bei den Werkzeugen von **BG** (nach dem Zufallsbild-Generator) und **TTG** (an erster Stelle) ergänzt. Es ist wie «Pixelbilder» als «Eigenes Tool» markiert. Beschreibung: Holz-Gliederpuppe in 3D, Gelenke ziehen, Posen wählen und Bewegungen abspielen, als Zeichenvorlage für Figuren.
+- Eigenes Tool **«Gliederpuppe»** (https://digitalcreativ.github.io/Gliederpuppe/, Link geprüft) bei den Werkzeugen von **BG** (nach dem Zufallsbild-Generator) und **TTG** (an erster Stelle) ergänzt. Es ist wie «Pixelbilder» als «Eigenes Tool» markiert. Kurzbeschreibung: «3D-Holzpuppe posieren, Vorlage für Figuren».
+- Beschreibung des **Perspective Grid Generator** bei den BG-Werkzeugen gekürzt auf «Perspektiv-Raster als A4-PDF erstellen».
 
 ### Geometrisches Zeichnen · Sterne konstruieren
 - **«Sterne konstruieren»** als fünftes aktives Projekt bei **GZ → Wahlfach 3. Oberstufe** ergänzt (MA.2), nach «Tierköpfe als Strichbild». Anleitung unter `projekte/sterne.html`, Button **«Auftrag & Sterne»**. Inhalt: Auftrag, Einstieg mit 6 Bildern, 4 Tipps, Sprungknöpfe, Fortschritt (12 Lernziele), Stern I Sechszack, Stern II Fünfzack (Pentagramm), Stern III Stern im Würfel mit 13 aufklappbaren Schrittbildern, Zusatz Stern IV Achtzack mit Fadengrafik, je mit Bewertungscheck, dazu ein Abschluss-Check. Die Konstruktionsbilder werden im Browser gezeichnet.
