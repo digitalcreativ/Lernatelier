@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Sterne konstruieren</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Druckvorlage für das PDF «Sterne konstruieren».
+   Stil wie «Schlüsselanhänger»: Kopf mit Bild, Karten mit Text und Skizzen, «Häufige Fehler».
+   Bilder in projekte/sterne/, Konstruktionsbilder werden wie auf projekte/sterne.html im Browser gezeichnet. */
+:root{
+  --bg:#f6f4ef; --surface:#ffffff; --fg:#1b1a17; --muted:#5f5a4d; --line:#e3ddcf;
+  --accent:#d9730d; --accent-dark:#b35c06; --soft:#f4f1ea;
+  --c1:#c2410c; --c2:#7c3aed; --c3:#0e7490; --c4:#b7791f; --ok:#2c8657; --warn:#b4502c;
+  --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,5vw,40px)}
+h2{font-size:21px}
+p{margin:0}
+b{font-weight:600}
+.hero{display:grid;grid-template-columns:1fr 1.15fr;gap:24px;align-items:center}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:44ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-dark);font-weight:600;margin-bottom:8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:var(--surface)}
+.hero-figs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px}
+.hero-figs figure{margin:0;min-width:0}
+.hero-figs svg,.hero-figs img{width:100%;height:auto;aspect-ratio:1;display:block;object-fit:contain}
+.keep{display:flex;flex-direction:column;gap:8px;break-inside:avoid}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.gallery{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.gallery figure{margin:0;display:flex;flex-direction:column;gap:4px}
+.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--line);border-radius:6px;display:block;background:#fff}
+.gallery figcaption{font-size:11.5px;color:var(--muted);line-height:1.3}
+.tips{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tip-box{border-radius:8px;padding:10px 12px;background:var(--soft)}
+.tip-box h3{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:14px}
+.tip-box h3 span{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;flex:none}
+.tip-box ul{margin:0;padding-left:16px;font-size:13px;display:flex;flex-direction:column;gap:2px}
+
+/* Stern-Karten */
+.star{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:14px}
+.star-head{display:flex;align-items:center;gap:12px}
+.num{display:inline-grid;place-items:center;min-width:34px;height:34px;padding:0 8px;border-radius:999px;background:var(--c);color:#fff;font:700 15px var(--f-display)}
+.star h2{color:var(--c)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font:600 12px var(--f-body);background:var(--soft);border-radius:6px;padding:2px 8px;color:var(--muted)}
+.zusatz{display:inline-block;font:700 11px var(--f-body);letter-spacing:.05em;text-transform:uppercase;background:#fde68a;color:#78350f;border-radius:5px;padding:2px 8px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.two > *{min-width:0}
+.goals{border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:10px 14px;font-size:14px}
+.goals .head{font:600 12px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.goals ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.goals li::before{content:"☐ ";color:var(--c);font-weight:700}
+ol.do{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:5px}
+ol.do li::marker{color:var(--c);font-weight:700;font-variant-numeric:tabular-nums}
+.tip{font-size:14px;color:var(--muted);border-left:3px solid var(--c);padding-left:10px}
+.check{font-size:14px;background:var(--soft);border-radius:8px;padding:8px 12px}
+.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.figs figure{margin:0;display:flex;flex-direction:column;gap:4px;min-width:0}
+.figs svg{width:100%;height:auto;aspect-ratio:1;background:#fff;border:1px solid var(--line);border-radius:8px;display:block}
+.figs figcaption{font-size:12px;color:var(--muted)}
+.steps-img{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.steps-img figure{margin:0;display:flex;flex-direction:column;gap:3px}
+.steps-img img{width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:6px;display:block}
+.steps-img figcaption{font-size:11.5px;color:var(--muted)}
+.big-img{width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;display:block}
+
+/* kompakter Bewertungscheck */
+.rate{border:1.5px solid var(--c);border-radius:10px;padding:10px 14px}
+.rate h3{font-size:15px;color:var(--c);margin-bottom:4px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:5px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+th.c1,td.c1{text-align:center;width:12%}
+td.c1 span{display:inline-block;width:14px;height:14px;border:1.5px solid var(--muted);border-radius:50%}
+
+.errors{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.err{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.err h3{font-size:16px}
+.err p{font-size:14px;color:var(--muted)}
+.err .fix{color:var(--ok);font-weight:600;font-size:14px}
+.err svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--bg)}
+.lines{display:flex;flex-direction:column;gap:22px;margin-top:6px}
+.lines i{display:block;border-bottom:1px solid var(--line)}
+.sec-title{font-size:21px;margin-top:4px}
+
+@media (max-width:720px){
+  .hero,.two,.errors,.tips{grid-template-columns:1fr}
+  .gallery,.figs{grid-template-columns:repeat(2,1fr)}
+  .steps-img{grid-template-columns:repeat(3,1fr)}
+}
+@page{ size:A4; margin:10mm }
+@media print{
+  html{zoom:.8}
+  body{padding:0;font-size:14px;line-height:1.45}
+  .wrap{max-width:none;gap:12px}
+  .card,.star{padding:14px 16px}
+  .hero,.card,.err,.rate,.figs,.steps-img,.two{break-inside:avoid}
+  .star{break-before:page}
+  .sec-title{break-after:avoid}
+  .pb{break-before:page}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Geometrisches Zeichnen · Wahlfach 3. Oberstufe · MA.2</div>
+      <h1>Sterne konstruieren</h1>
+      <p class="lead">Mit Zirkel und Geodreieck vom Sechszack über das Pentagramm bis zum Stern im Würfel. Beim <b>Sechszack</b> teilst du einen Kreis, beim <b>Fünfzack</b> konstruierst du ein regelmässiges Fünfeck, beim <b>Stern im Würfel</b> zeichnest du einen räumlichen Körper. Pro GZ-Stunde bearbeitest du einen Stern.</p>
+      <div class="meta"><span class="chip">3 Sterne + Zusatz</span><span class="chip">Zirkel, Geodreieck</span><span class="chip">Fineliner 0,7 · Farbstifte</span></div>
+    </div>
+    <div class="hero-figs" id="heroFigs"></div>
+  </header>
+
+  <section class="card">
+    <h2>Einstieg: Sterne entdecken</h2>
+    <div class="gallery">
+      <figure><img src="sterne/einstieg-1-weihnachtszeit.jpg" alt="Leuchtende Papiersterne im Fenster"><figcaption>Weihnachtszeit = Sternenzeit</figcaption></figure>
+      <figure><img src="sterne/einstieg-2-bedeutung.jpg" alt="Symbolische Bedeutung der Sterne"><figcaption>Bedeutung der Sterne</figcaption></figure>
+      <figure><img src="sterne/einstieg-3-flaggen.jpg" alt="Sterne in Flaggen und Zeichen"><figcaption>Sterne in Flaggen und Zeichen</figcaption></figure>
+      <figure><img src="sterne/einstieg-4-geometrie.jpg" alt="Sterne als geometrische Figuren"><figcaption>Sterne als geometrische Figuren</figcaption></figure>
+      <figure><img src="sterne/einstieg-5-pentagramm.jpg" alt="Vom Pentagon zum Pentagramm"><figcaption>Pentagon und Pentagramm</figcaption></figure>
+      <figure><img src="sterne/einstieg-6-natur.jpg" alt="Pentagramm in der Natur"><figcaption>Pentagramm in der Natur</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Tipps</h2>
+    <div class="tips">
+      <div class="tip-box"><h3><span>1</span>Gut vorbereiten</h3><ul><li>Saubere Unterlage und sauberes Lineal.</li><li>Bleistift und Farbstifte gut spitzen.</li><li>Punkte klein und fein markieren.</li></ul></div>
+      <div class="tip-box"><h3><span>2</span>Genau konstruieren</h3><ul><li>Abstände sorgfältig messen.</li><li>Hilfslinien mit wenig Druck zeichnen.</li><li>Lineal festhalten, Linien in einem Zug.</li><li>Abstände und Symmetrie prüfen.</li></ul></div>
+      <div class="tip-box"><h3><span>3</span>Farben planen</h3><ul><li>Wähle 2–4 passende Farben.</li><li>Wiederhole Farben nach einer klaren Regel.</li><li>Nutze Hell-Dunkel-Kontraste.</li><li>Auch weisse Flächen dürfen bleiben.</li></ul></div>
+      <div class="tip-box"><h3><span>4</span>Sorgfältig kolorieren</h3><ul><li>Hilfslinien vorher wegradieren.</li><li>Mit leichtem Druck beginnen.</li><li>Mehrere dünne Farbschichten.</li><li>Schutzblatt unter die Zeichenhand.</li></ul></div>
+    </div>
+  </section>
+
+  <!-- STERN I -->
+  <section class="star" style="--c:var(--c1)">
+    <div class="star-head"><span class="num">I</span><div><h2>Sechszack</h2><div class="tags"><span>Kreis in 6 und 12 Teile</span><span>Doppelter Rand</span><span>Nachziehen mit 0,7</span></div></div></div>
+    <div class="two">
+      <ol class="do">
+        <li>Blattmitte bestimmen.</li>
+        <li>Kreisradius so wählen, dass der Kreis innerhalb des Rahmens liegt. Doppelten Rand und kleinen inneren Kreis ebenso.</li>
+        <li>Sechsteiligen Kreis erstellen: den Radius 6× auf der Kreislinie abtragen, beginnen bei «12 Uhr». Das sind die 6 Sternspitzen.</li>
+        <li>Jeden Abschnitt nochmals teilen, sodass ein 12-teiliger Kreis entsteht.</li>
+        <li>Figur nach der Vorlage zeichnen und mit 0,7 nachziehen.</li>
+        <li>Sinnvolle Farbgebung wählen.</li>
+      </ol>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="goals"><div class="head">Lernziele</div><ul><li>Ich teile einen Kreis mit dem Zirkel in 6 und 12 gleiche Teile.</li><li>Ich finde die inneren Sternpunkte als Schnittpunkte.</li><li>Ich wähle eine sinnvolle Farbgebung.</li></ul></div>
+        <p class="tip">Tipp zu Schritt 5: Verbinde jede zweite Spitze dünn zu zwei grossen Dreiecken. Ihre Schnittpunkte sind die inneren Ecken des Sterns.</p>
+      </div>
+    </div>
+    <div class="figs" id="fig1"></div>
+    <p class="check"><b>Zum Prüfen:</b> Sind alle sechs Spitzen gleich weit voneinander entfernt, und treffen sich alle Linien im Mittelpunkt?</p>
+    <div class="rate"></div>
+  </section>
+
+  <!-- STERN II -->
+  <section class="star" style="--c:var(--c2)">
+    <div class="star-head"><span class="num">II</span><div><h2>Fünfzack (Pentagramm)</h2><div class="tags"><span>Kreis r = 80 mm</span><span>Fünfeck mit Zirkel</span><span>Pentagramm</span></div></div></div>
+    <div class="two">
+      <ol class="do">
+        <li>Kreis zeichnen mit <b>r = 80 mm</b>.</li>
+        <li>Fadenkreuz zeichnen: Punkte <b>A</b> (links), <b>M</b> (Mitte), <b>E</b> (oben).</li>
+        <li>Mittelsenkrechte von <b>AM</b> konstruieren, Schnittpunkt mit dem Fadenkreuz = <b>D</b>.</li>
+        <li>Die Mittelsenkrechte bis zum Kreis ziehen = Punkte <b>B</b> und <b>C</b>.</li>
+        <li>Bei <b>D</b> einstechen mit dem Mass <b>DE</b>. Schnittpunkt mit dem Fadenkreuz = <b>F</b>.</li>
+        <li>Bei <b>E</b> einstechen mit dem Mass <b>EF</b>. Schnittpunkt auf dem Kreis = <b>G</b>.</li>
+        <li>Mit dem Mass <b>EG</b> auf der Kreislinie abtragen = alle 5 Ecken des Fünfecks.</li>
+        <li>Jede zweite Ecke verbinden: Pentagramm. Dann Spitzen und innere Ecken mit dem Mittelpunkt verbinden und farbig gestalten.</li>
+      </ol>
+      <div class="goals"><div class="head">Lernziele</div><ul><li>Ich konstruiere ein regelmässiges Fünfeck nur mit Zirkel und Lineal.</li><li>Ich verbinde die Ecken zum Pentagramm.</li><li>Ich gestalte den Stern räumlich mit hellen und dunklen Flächen.</li></ul></div>
+    </div>
+    <div class="figs" id="fig2"></div>
+    <p class="check"><b>Zum Prüfen:</b> Sind alle fünf Seiten des Fünfecks gleich lang (bei r = 80 mm ca. 94 mm)?</p>
+    <div class="rate"></div>
+  </section>
+
+  <!-- STERN III -->
+  <section class="star" style="--c:var(--c3)">
+    <div class="star-head"><span class="num">III</span><div><h2>Stern im Würfel</h2><div class="tags"><span>Würfel in Schrägansicht</span><span>45°</span><span>13 Schritte</span></div></div></div>
+    <div class="two">
+      <ol class="do">
+        <li><b>Waagrechte</b> zeichnen mit Abstand 4 cm vom unteren Blattrand. Die schräge Linie (45°) schneidet sie 6 cm vom rechten Blattrand.</li>
+        <li><b>Längen abtragen:</b> auf der Waagrechten 4 cm – 6 cm – 4 cm, auf der Schrägen 2 cm – 3 cm – 2 cm.</li>
+        <li>Mit dem <b>Zirkel</b> den Schnittpunkt ermitteln (hintere Ecke der Grundfläche).</li>
+        <li><b>Senkrechte</b> auf allen 4 Eckpunkten errichten.</li>
+        <li>Würfel fertig zeichnen.</li>
+        <li>Auch die senkrechten und oberen Kanten gleich <b>aufteilen</b>.</li>
+        <li>Auf der Vorderseite die Teilungslinien und die Diagonalen einzeichnen.</li>
+        <li>Dasselbe auf der rechten Seite.</li>
+        <li>Dasselbe auf der Oberseite.</li>
+        <li>Zur besseren Übersicht die <b>fetten Linien</b> nachziehen.</li>
+        <li>Rest ausradieren.</li>
+        <li>Die feinen Linien konstruieren, parallel zu den übrigen.</li>
+        <li>Feine Linien nachziehen und nach dem Muster färben.</li>
+      </ol>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <img class="big-img" src="sterne/wuerfel-farbig.jpg" alt="Fertiger Stern im Würfel, farbig">
+        <div class="goals"><div class="head">Lernziele</div><ul><li>Ich zeichne einen Würfel in Schrägansicht mit 45°-Kanten.</li><li>Ich teile die Würfelkanten und konstruiere die Sterne auf allen Flächen.</li><li>Ich ziehe die richtigen Linien nach und färbe nach dem Muster.</li></ul></div>
+      </div>
+    </div>
+    <div class="keep">
+    <h3 style="font-size:16px;color:var(--c)">Schrittbilder 1–13</h3>
+    <div class="steps-img">
+      <figure><img src="sterne/wuerfel-schritt-01.jpg" alt="Schritt 1"><figcaption>Schritt 1</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-02.jpg" alt="Schritt 2"><figcaption>Schritt 2</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-03.jpg" alt="Schritt 3"><figcaption>Schritt 3</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-04.jpg" alt="Schritt 4"><figcaption>Schritt 4</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-05.jpg" alt="Schritt 5"><figcaption>Schritt 5</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-06.jpg" alt="Schritt 6"><figcaption>Schritt 6</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-07.jpg" alt="Schritt 7"><figcaption>Schritt 7</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-08.jpg" alt="Schritt 8"><figcaption>Schritt 8</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-09.jpg" alt="Schritt 9"><figcaption>Schritt 9</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-10.jpg" alt="Schritt 10"><figcaption>Schritt 10</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-11.jpg" alt="Schritt 11"><figcaption>Schritt 11</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-12.jpg" alt="Schritt 12"><figcaption>Schritt 12</figcaption></figure>
+      <figure><img src="sterne/wuerfel-schritt-13.jpg" alt="Schritt 13"><figcaption>Schritt 13</figcaption></figure>
+    </div>
+    </div>
+    <p class="check"><b>Zum Prüfen:</b> Sind alle 45°-Kanten parallel, und sind die Sterne auf den drei Flächen gleich aufgebaut?</p>
+    <div class="rate"></div>
+  </section>
+
+  <!-- STERN IV -->
+  <section class="star" style="--c:var(--c4)">
+    <div class="star-head"><span class="num">IV</span><div><span class="zusatz">★ Zusatzaufgabe</span><h2>Achtzack mit Fadengrafik</h2><div class="tags"><span>Kreis r = 90 mm</span><span>8 Teile ohne Geodreieck</span><span>Stern 8/3</span><span>Fadengrafik wie Strichbild II</span></div></div></div>
+    <p>Ein achtzackiger Stern, in dessen Spitzen gerade Linien eine Kurve bilden. Er verbindet die Kreisteilung der Sterne mit der Fadengrafik der Strichbilder.</p>
+    <div class="two">
+      <ol class="do">
+        <li>Blattmitte bestimmen und einen Kreis mit <b>r = 90 mm</b> zeichnen.</li>
+        <li><b>Fadenkreuz</b> zeichnen: 4 Punkte auf dem Kreis (oben, rechts, unten, links).</li>
+        <li>Die vier rechten Winkel mit dem Zirkel <b>halbieren</b>: Bögen von zwei benachbarten Punkten aus schlagen, Schnittpunkt mit der Mitte verbinden. Jetzt hat der Kreis <b>8 Punkte</b>, nummeriere sie 1 bis 8.</li>
+        <li>Den <b>Stern</b> zeichnen: jeden Punkt mit dem <b>drittnächsten</b> verbinden (1–4, 4–7, 7–2, 2–5 … bis zurück zu 1).</li>
+        <li>In jeder Spitze die beiden <b>Schenkel</b> von der Spitze bis zum ersten Schnittpunkt in <b>10 gleiche Teile</b> teilen (Zirkel oder Massstab).</li>
+        <li><b>Fadengrafik:</b> Punkt 1 auf dem einen Schenkel mit Punkt 9 auf dem anderen verbinden, dann 2 mit 8, 3 mit 7 … So entsteht in jeder Spitze eine Kurve.</li>
+        <li>Sternumriss mit <b>0,7</b>, Fadenlinien mit <b>0,25</b> nachziehen, Hilfslinien ausradieren. Farbe: z. B. Gold- und Orangetöne.</li>
+      </ol>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="goals"><div class="head">Lernziele</div><ul><li>Ich teile einen Kreis nur mit Zirkel und Lineal in 8 gleiche Teile.</li><li>Ich konstruiere einen Stern, indem ich jeden dritten Punkt verbinde.</li><li>Ich zeichne in jeder Spitze eine gleichmässige Fadengrafik.</li></ul></div>
+        <p class="tip">Tipp: Die Fadengrafik funktioniert genau wie bei Strichbild II «Welle». Zähle bei beiden Schenkeln immer von der Spitze aus.</p>
+      </div>
+    </div>
+    <div class="figs" id="fig4"></div>
+    <p class="check"><b>Zum Prüfen:</b> Sind alle acht Spitzen gleich, und ist die Kurve in jeder Spitze gleich schön gerundet?</p>
+    <div class="rate"></div>
+  </section>
+
+  <h2 class="sec-title pb">Häufige Fehler</h2>
+  <div class="errors">
+    <div class="err">
+      <svg viewBox="0 0 240 120" role="img" aria-label="Kreisteilung geht nicht auf: der letzte Abtrag verfehlt den Startpunkt">
+        <circle cx="120" cy="62" r="46" fill="none" stroke="#1a1f27" stroke-width="1.6"/>
+        <g fill="#c2410c"><circle cx="120" cy="16" r="3"/><circle cx="160" cy="39" r="3"/><circle cx="160" cy="85" r="3"/><circle cx="120" cy="108" r="3"/><circle cx="80" cy="85" r="3"/><circle cx="82" cy="36" r="3"/></g>
+        <circle cx="101" cy="20" r="11" fill="none" stroke="var(--warn)" stroke-width="2" stroke-dasharray="4 3"/>
+      </svg>
+      <h3>Teilung geht nicht auf</h3>
+      <p>Der Zirkel hat sich beim Abtragen verstellt. Der letzte Punkt trifft den Startpunkt nicht.</p>
+      <p class="fix">Lösung: Zirkel fest einstellen und vor jedem Abtrag kurz kontrollieren.</p>
+    </div>
+    <div class="err">
+      <svg viewBox="0 0 240 120" role="img" aria-label="Fünfeck mit einer zu langen Seite">
+        <polygon points="120,14 170,50 152,106 88,106 66,46" fill="none" stroke="#1a1f27" stroke-width="1.8"/>
+        <line x1="120" y1="14" x2="66" y2="46" stroke="var(--warn)" stroke-width="3"/>
+      </svg>
+      <h3>Fünfeck ungleich</h3>
+      <p>Ein Schnittpunkt (D, F oder G) war ungenau. Die Seiten werden verschieden lang.</p>
+      <p class="fix">Lösung: Seitenlänge EG messen (bei r = 80 mm ca. 94 mm) und alle fünf Seiten vergleichen.</p>
+    </div>
+    <div class="err">
+      <svg viewBox="0 0 240 120" role="img" aria-label="Würfel mit nicht parallelen Schrägkanten">
+        <rect x="50" y="46" width="70" height="62" fill="none" stroke="#1a1f27" stroke-width="1.8"/>
+        <line x1="50" y1="46" x2="86" y2="14" stroke="#1a1f27" stroke-width="1.8"/>
+        <line x1="120" y1="46" x2="166" y2="18" stroke="var(--warn)" stroke-width="2.4"/>
+        <line x1="86" y1="14" x2="166" y2="18" stroke="#1a1f27" stroke-width="1.8"/>
+        <line x1="120" y1="108" x2="160" y2="72" stroke="#1a1f27" stroke-width="1.8"/>
+        <line x1="166" y1="18" x2="160" y2="72" stroke="#1a1f27" stroke-width="1.8"/>
+      </svg>
+      <h3>Würfel wirkt schief</h3>
+      <p>Die schrägen Kanten wurden nach Augenmass gezogen und sind nicht parallel.</p>
+      <p class="fix">Lösung: jede Schrägkante mit dem Geodreieck in 45° zeichnen.</p>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>Abschluss-Check</h2>
+    <p>Lege deine drei Sterne nebeneinander. Welche Konstruktion war am anspruchsvollsten? Wo hat dir der Zirkel am meisten geholfen?</p>
+    <p><b>Reflexion:</b> Welcher Stern wirkt durch die Farbgebung am räumlichsten, und warum?</p>
+    <div class="lines"><i></i><i></i><i></i><i></i><i></i></div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg",INK="#1a1f27",HELP="#a3a9b3";
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  function pol(r,deg){var a=deg*Math.PI/180;return [r*Math.cos(a),-r*Math.sin(a)];}
+  function P(a){return a.map(function(p){return p[0].toFixed(2)+","+p[1].toFixed(2);}).join(" ");}
+  function fig(host,cap,vb,label){var f=document.createElement("figure");var s=el("svg",{viewBox:vb,role:"img","aria-label":label||cap},f);el("rect",{x:-200,y:-200,width:400,height:400,fill:"#fff"},s);if(cap){var c=document.createElement("figcaption");c.textContent=cap;f.appendChild(c);}host.appendChild(f);return s;}
+  function line(s,a,b,col,w,dash){var e=el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:col||INK,"stroke-width":w||.8,"stroke-linecap":"round"},s);if(dash)e.setAttribute("stroke-dasharray",dash);}
+  function circ(s,c,r,col,w,fill){el("circle",{cx:c[0],cy:c[1],r:r,fill:fill||"none",stroke:col||INK,"stroke-width":w||.8},s);}
+  function txt(s,p,t,col,size){var e=el("text",{x:p[0],y:p[1],style:"font:700 "+(size||9)+"px Inter,sans-serif;fill:"+(col||INK)},s);e.textContent=t;}
+
+  // ---------- Stern I ----------
+  var R1=100,ri1=R1/Math.sqrt(3),tips1=[],inn1=[];for(var k=0;k<6;k++){tips1.push(pol(R1,90+60*k));inn1.push(pol(ri1,60*k+120));}
+  function star1Color(c){circ(c,[0,0],R1+8,INK,1,"#1e3a8a");circ(c,[0,0],R1,INK,1,"#dbeafe");
+    for(var k=0;k<6;k++){var t=tips1[k],i1=inn1[(k+5)%6],i2=inn1[k];
+      el("polygon",{points:P([[0,0],i1,t]),fill:"#f59e0b",stroke:INK,"stroke-width":.9},c);
+      el("polygon",{points:P([[0,0],t,i2]),fill:"#b45309",stroke:INK,"stroke-width":.9},c);}
+    circ(c,[0,0],6,INK,.9,"#fff");}
+  (function(){
+    var host=document.getElementById("fig1"),vb="-118 -118 236 236";
+    function rings(s){circ(s,[0,0],R1+8,INK,1);circ(s,[0,0],R1,INK,1);circ(s,[0,0],6,INK,.8);}
+    var a=fig(host,"1 · Kreise, 6 und 12 Teile",vb);rings(a);
+    for(var k=0;k<12;k++){var p=pol(R1,90+30*k);line(a,[0,0],p,HELP,.5,"3 2");circ(a,p,2.2,k%2?HELP:"#c2410c",0,k%2?HELP:"#c2410c");}
+    var b=fig(host,"2 · Hilfsdreiecke und Stern",vb);rings(b);
+    el("polygon",{points:P([tips1[0],tips1[2],tips1[4]]),fill:"none",stroke:HELP,"stroke-width":.6,"stroke-dasharray":"3 2"},b);
+    el("polygon",{points:P([tips1[1],tips1[3],tips1[5]]),fill:"none",stroke:HELP,"stroke-width":.6,"stroke-dasharray":"3 2"},b);
+    var star=[];for(var k=0;k<6;k++){star.push(tips1[k]);star.push(inn1[k]);}
+    el("polygon",{points:P(star),fill:"none",stroke:INK,"stroke-width":1.4},b);
+    inn1.forEach(function(p){circ(b,p,2.4,"#c2410c",0,"#c2410c");});
+    star1Color(fig(host,"3 · Fertig mit Farbe",vb));
+  })();
+
+  // ---------- Stern II ----------
+  var R2=80,V2=[];for(var k=0;k<5;k++)V2.push(pol(R2,90-72*k));
+  function star2Color(c){var ri=R2*0.381966,I=[];for(var k=0;k<5;k++)I.push(pol(ri,90-72*k-36));
+    for(var k=0;k<5;k++){var t=V2[k],i1=I[(k+4)%5],i2=I[k];
+      el("polygon",{points:P([[0,0],i1,t]),fill:"#fde68a",stroke:INK,"stroke-width":.9},c);
+      el("polygon",{points:P([[0,0],t,i2]),fill:"#d97706",stroke:INK,"stroke-width":.9},c);}}
+  (function(){
+    var host=document.getElementById("fig2"),R=R2,vb="-100 -100 200 200";
+    var M=[0,0],A=[-80,0],E=[0,-80],D=[-40,0],yB=Math.sqrt(80*80-40*40),B=[-40,-yB],C=[-40,yB];
+    var DE=Math.hypot(40,80),F=[-40+DE,0],EF=Math.hypot(F[0],80),V=V2,G=V[1];
+    var a=fig(host,"1 · Konstruktion des Fünfecks",vb);
+    circ(a,M,R,"#2563eb",1.2);
+    line(a,[-92,0],[92,0],"#dc2626",1);line(a,[0,-92],[0,92],"#dc2626",1);
+    el("path",{d:"M"+M[0]+","+M[1]+" A80,80 0 0,0 "+B[0]+","+B[1],fill:"none",stroke:"#c026d3","stroke-width":1},a);
+    el("path",{d:"M"+C[0]+","+C[1]+" A80,80 0 0,0 "+M[0]+","+M[1],fill:"none",stroke:"#c026d3","stroke-width":1},a);
+    line(a,[-40,-yB-8],[-40,yB+8],"#c026d3",1);
+    el("path",{d:"M"+E[0]+","+E[1]+" A"+DE+","+DE+" 0 0,1 "+F[0]+","+F[1],fill:"none",stroke:"#16a34a","stroke-width":1.1},a);
+    el("path",{d:"M"+F[0]+","+F[1]+" A"+EF+","+EF+" 0 0,0 "+G[0]+","+G[1],fill:"none",stroke:"#ea580c","stroke-width":1.1},a);
+    el("polygon",{points:P(V),fill:"none",stroke:INK,"stroke-width":1.2},a);
+    [["A",A,-10,-3,"#dc2626"],["M",M,3,-3,"#2563eb"],["E",E,3,-3,"#dc2626"],["D",D,3,-3,"#16a34a"],["B",B,-10,-2,"#c026d3"],["C",C,-10,10,"#c026d3"],["F",F,-3,-4,"#16a34a"],["G",G,4,0,"#ea580c"]].forEach(function(l){circ(a,l[1],1.8,l[4],0,l[4]);txt(a,[l[1][0]+l[2],l[1][1]+l[3]],l[0],l[4],10);});
+    var b=fig(host,"2 · Fünfeck und Pentagramm",vb);
+    circ(b,M,R,HELP,.6);el("polygon",{points:P(V),fill:"none",stroke:HELP,"stroke-width":.8},b);
+    el("polygon",{points:P([V[0],V[2],V[4],V[1],V[3]]),fill:"none",stroke:"#7c3aed","stroke-width":1.4},b);
+    V.forEach(function(p){circ(b,p,2.2,INK,0,INK);});
+    star2Color(fig(host,"3 · Fertiger Stern, räumlich",vb));
+  })();
+
+  // ---------- Stern IV ----------
+  var R4=90,n=10,T=[];for(var k=0;k<8;k++)T.push(pol(R4,90-45*k));
+  var ri4=R4*Math.cos(3*Math.PI/8)/Math.cos(2*Math.PI/8),I4=[];for(var k=0;k<8;k++)I4.push(pol(ri4,90-45*k-22.5));
+  function lerp(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];}
+  function starLines(s,col,w){for(var k=0;k<8;k++)line(s,T[k],T[(k+3)%8],col,w);}
+  function threads(s,k,col,w){var t=T[k],a=I4[(k+7)%8],b=I4[k];for(var i=1;i<n;i++)line(s,lerp(t,a,i/n),lerp(t,b,(n-i)/n),col,w);}
+  function star4Done(s3){var outline=[];for(var k=0;k<8;k++){outline.push(T[k]);outline.push(I4[k]);}
+    el("polygon",{points:P(outline),fill:"#fff7e6",stroke:"none"},s3);
+    el("polygon",{points:P(I4),fill:"#fde68a",stroke:"none"},s3);
+    for(var k=0;k<8;k++)threads(s3,k,"#b45309",.55);starLines(s3,INK,1.1);}
+  (function(){
+    var host=document.getElementById("fig4"),R=R4,vb="-114 -114 228 228";
+    var s1=fig(host,"1 · Kreis in 8 Teile",vb);circ(s1,[0,0],R,INK,1);
+    line(s1,[-R-6,0],[R+6,0],"#dc2626",.9);line(s1,[0,-R-6],[0,R+6],"#dc2626",.9);
+    [45,135,225,315].forEach(function(d){line(s1,pol(R+6,d),pol(R+6,d+180),"#16a34a",.7,"4 2");});
+    var aR=90;[[0,90],[90,180],[180,270],[270,360]].forEach(function(q){var p1=pol(R,q[0]),p2=pol(R,q[1]),m=pol(R*1.25,(q[0]+q[1])/2);
+      [p1,p2].forEach(function(p){var ang=Math.atan2(m[1]-p[1],m[0]-p[0]);el("path",{d:"M"+(p[0]+aR*Math.cos(ang-.18))+","+(p[1]+aR*Math.sin(ang-.18))+" A"+aR+","+aR+" 0 0,1 "+(p[0]+aR*Math.cos(ang+.18))+","+(p[1]+aR*Math.sin(ang+.18)),fill:"none",stroke:"#16a34a","stroke-width":.8},s1);});});
+    T.forEach(function(p,k){circ(s1,p,2.2,"#c2410c",0,"#c2410c");var q=pol(R+11,90-45*k);var e=el("text",{x:q[0],y:q[1]+3,"text-anchor":"middle",style:"font:700 8px Inter,sans-serif;fill:#c2410c"},s1);e.textContent=k+1;});
+    var s2=fig(host,"2 · Stern 8/3 und Teilung",vb);circ(s2,[0,0],R,HELP,.6);starLines(s2,INK,1.1);
+    [I4[7],I4[0]].forEach(function(e){for(var i=1;i<n;i++){var p=lerp(T[0],e,i/n);circ(s2,p,1.3,"#c2410c",0,"#c2410c");}});
+    threads(s2,0,"#b7791f",.7);
+    star4Done(fig(host,"3 · Fertig mit Fadengrafik",vb));
+  })();
+
+  // ---------- Kopfbild: drei fertige Sterne ----------
+  (function(){var h=document.getElementById("heroFigs");
+    star1Color(fig(h,"","-118 -118 236 236","Sechszack farbig"));
+    star2Color(fig(h,"","-100 -100 200 200","Fünfzack farbig"));
+    var im=document.createElement("img");im.src="sterne/wuerfel-farbig.jpg";im.alt="Stern im Würfel farbig";h.appendChild(im);
+  })();
+
+  // ---------- Bewertungscheck zum Ankreuzen ----------
+  var CRIT=["Die Arbeit ist technisch richtig gezeichnet und enthält keine Fehler.","Linien treffen sich (und überschneiden sich nicht bzw. bleiben nicht offen).","Das Strichbild, die Strichführung ist gleichmässig.","Sorgfältige Ausgestaltung der Arbeit (Farbdichte, Sauberkeit …)."];
+  document.querySelectorAll(".rate").forEach(function(box){
+    var h='<h3>Bewertungscheck</h3><table><thead><tr><th>Kriterium</th><th class="c1">Übertroffen</th><th class="c1">Erreicht</th><th class="c1">Teilweise</th><th class="c1">Nicht erreicht</th></tr></thead><tbody>';
+    CRIT.forEach(function(c){h+='<tr><td>'+c+'</td><td class="c1"><span></span></td><td class="c1"><span></span></td><td class="c1"><span></span></td><td class="c1"><span></span></td></tr>';});
+    box.innerHTML=h+'</tbody></table>';
+  });
+})();
+</script>
+</body>
+</html>
