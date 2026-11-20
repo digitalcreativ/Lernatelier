@@ -76,6 +76,11 @@ figcaption{font-size:13px;color:var(--muted)}
 .c > .end{height:16px;width:110px;border-radius:0 0 5px 5px;border:1px solid #cf8b17;border-top:0;background:#ffab19}
 .c > .mid{padding:6px 10px;background:#ffab19;color:#fff}
 .new{outline:3px solid #ff4fa3;outline-offset:2px;border-radius:5px}
+.code.compact{padding:10px 14px}
+.code.compact .blk{padding:6px 9px}
+.code.compact .hat{padding-top:11px}
+.code.compact .bool{padding:3px 8px}
+.code.compact .c > .end{height:12px}
 .code.small .stack{font-size:11px;zoom:.76}
 .code.small .blk{padding:7px 8px;gap:5px}
 .code.small .bool{padding:4px 7px}
@@ -240,11 +245,12 @@ td.c1 span{display:inline-block;width:16px;height:16px;border:1.5px solid var(--
         <li>Aus <b>Steuerung</b> den Block <b>wiederhole fortlaufend</b> anhängen.</li>
       </ol>
       <p class="tip"><b>Warum fortlaufend?</b> Das Programm muss die ganze Zeit prüfen, ob eine Taste gedrückt ist. Ohne Schleife schaut es nur ein einziges Mal nach.</p>
+      <p class="tip"><b>Welcher Drehtyp?</b> Ist deine Figur <b>von der Seite</b> gezeichnet, wähle <b>links-rechts</b>: Dann schaut sie immer in die Laufrichtung. Ist sie <b>von vorne</b> gezeichnet, wähle <b>nicht drehen</b>, sonst wird sie nach links seitenverkehrt gespiegelt.</p>
     </div>
     <figure>
       <div class="code"><div class="stack">
         <div class="blk ev hat">Wenn <span>🏁</span> angeklickt wird</div>
-        <div class="blk mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="blk mo">setze Drehtyp auf <span class="dd">links-rechts</span></div>
         <div class="c"><div class="blk co">wiederhole fortlaufend</div><div class="in"></div><div class="end"></div></div>
       </div></div>
       <div class="legend">
@@ -266,9 +272,9 @@ td.c1 span{display:inline-block;width:16px;height:16px;border:1.5px solid var(--
       </ol>
     </div>
     <figure>
-      <div class="code"><div class="stack">
+      <div class="code compact"><div class="stack">
         <div class="blk ev hat">Wenn <span>🏁</span> angeklickt wird</div>
-        <div class="blk mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="blk mo">setze Drehtyp auf <span class="dd">links-rechts</span></div>
         <div class="c"><div class="blk co">wiederhole fortlaufend</div><div class="in">
           <div class="c new"><div class="blk co">falls <span class="blk se bool">Taste <span class="dd">Pfeil nach rechts</span> gedrückt?</span> dann</div><div class="in">
             <div class="blk mo">setze Richtung auf <span class="val">90</span> Grad</div>
@@ -300,9 +306,9 @@ td.c1 span{display:inline-block;width:16px;height:16px;border:1.5px solid var(--
       </div>
     </div>
     <figure>
-      <div class="code"><div class="stack">
+      <div class="code compact"><div class="stack">
         <div class="blk ev hat">Wenn <span>🏁</span> angeklickt wird</div>
-        <div class="blk mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="blk mo">setze Drehtyp auf <span class="dd">links-rechts</span></div>
         <div class="c"><div class="blk co">wiederhole fortlaufend</div><div class="in">
           <div class="c"><div class="blk co">falls <span class="blk se bool">Taste <span class="dd">Pfeil nach rechts</span> gedrückt?</span> dann</div><div class="in">
             <div class="blk mo">setze Richtung auf <span class="val">90</span> Grad</div><div class="blk mo">ändere x um <span class="val">5</span></div>
@@ -398,7 +404,7 @@ td.c1 span{display:inline-block;width:16px;height:16px;border:1.5px solid var(--
       <h2>Feinschliff</h2>
       <ol class="do">
         <li><b>Tempo:</b> Schrittweite (5) und Wartezeit (0.08) verändern. Wann wirkt das Laufen natürlich?</li>
-        <li><b>Blickrichtung:</b> Drehtyp auf <b>links-rechts</b> stellen. Jetzt schaut die Figur in Laufrichtung. Was passt besser zu deiner Figur?</li>
+        <li><b>Blickrichtung:</b> Drehtyp prüfen. Läuft die Figur nach links rückwärts («Moonwalk»), <b>links-rechts</b> wählen. Wird sie nach links seltsam gespiegelt, <b>nicht drehen</b> nehmen.</li>
         <li><b>Startplatz:</b> Im ersten Skript direkt nach der Flagge <b>gehe zu x: 0 y: 0</b> einfügen.</li>
         <li>Einen passenden <b>Bühnenhintergrund</b> wählen.</li>
       </ol>
@@ -407,7 +413,7 @@ td.c1 span{display:inline-block;width:16px;height:16px;border:1.5px solid var(--
       <div class="code"><div class="stack">
         <div class="blk ev hat">Wenn <span>🏁</span> angeklickt wird</div>
         <div class="blk mo new">gehe zu x: <span class="val">0</span> y: <span class="val">0</span></div>
-        <div class="blk mo new">setze Drehtyp auf <span class="dd">links-rechts</span></div>
+        <div class="blk mo">setze Drehtyp auf <span class="dd">links-rechts</span></div>
         <div class="c"><div class="blk co">wiederhole fortlaufend</div><div class="in"><div class="blk" style="background:transparent;border:1px dashed #cf8b17;color:#9a6a12">… vier «falls»-Blöcke …</div></div><div class="end"></div></div>
       </div></div>
       <div class="panel">

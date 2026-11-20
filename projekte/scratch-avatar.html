@@ -173,11 +173,12 @@ td.r input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
       </ol>
       <div class="code"><div class="stack">
         <div class="b ev hat">Wenn <span>🏁</span> angeklickt wird</div>
-        <div class="b mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="b mo">setze Drehtyp auf <span class="dd">links-rechts</span></div>
         <div class="c co"><div class="b co">wiederhole fortlaufend</div><div class="in"></div><div class="end"></div></div>
       </div></div>
     </div>
     <p class="why"><b>Warum fortlaufend?</b> Das Programm muss die ganze Zeit prüfen, ob eine Taste gedrückt ist. Ohne Schleife würde es nur ein einziges Mal nachschauen.</p>
+    <p class="why"><b>Welcher Drehtyp?</b> Ist deine Figur <b>von der Seite</b> gezeichnet, wähle <b>links-rechts</b>: Dann schaut sie immer in die Laufrichtung. Ist sie <b>von vorne</b> gezeichnet, wähle <b>nicht drehen</b>, sonst wird sie beim Laufen nach links seitenverkehrt gespiegelt.</p>
     <div class="goals"><label><input type="checkbox">Mein Skript startet mit der grünen Flagge und hat eine Endlosschleife.</label></div>
   </section>
 
@@ -193,7 +194,7 @@ td.r input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
       </ol>
       <div class="code"><div class="stack">
         <div class="b ev hat">Wenn <span>🏁</span> angeklickt wird</div>
-        <div class="b mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="b mo">setze Drehtyp auf <span class="dd">links-rechts</span></div>
         <div class="c co"><div class="b co">wiederhole fortlaufend</div><div class="in">
           <div class="c co new"><div class="b co">falls <span class="b se bool">Taste <span class="dd">Pfeil nach rechts</span> gedrückt?</span> , dann</div><div class="in">
             <div class="b mo">setze Richtung auf <span class="v">90</span> Grad</div>
@@ -220,7 +221,7 @@ td.r input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
       </div>
       <div class="code"><div class="stack">
         <div class="b ev hat">Wenn <span>🏁</span> angeklickt wird</div>
-        <div class="b mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="b mo">setze Drehtyp auf <span class="dd">links-rechts</span></div>
         <div class="c co"><div class="b co">wiederhole fortlaufend</div><div class="in">
           <div class="c co"><div class="b co">falls <span class="b se bool">Taste <span class="dd">Pfeil nach rechts</span> gedrückt?</span> , dann</div><div class="in">
             <div class="b mo">setze Richtung auf <span class="v">90</span> Grad</div><div class="b mo">ändere x um <span class="v">5</span></div>
@@ -289,7 +290,7 @@ td.r input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
     <div class="stephead"><span class="num">7</span><h2>Feinschliff</h2></div>
     <ol class="do">
       <li><b>Tempo:</b> Ändere die Schrittweite (5) und die Wartezeit (0.08). Wann wirkt das Laufen natürlich?</li>
-      <li><b>Blickrichtung:</b> Stelle den Drehtyp auf <b>links-rechts</b>. Nun schaut die Figur in die Richtung, in die sie läuft. Vergleiche mit «nicht drehen»: Was passt besser zu deiner Figur?</li>
+      <li><b>Blickrichtung:</b> Prüfe den Drehtyp. Läuft deine Figur nach links rückwärts («Moonwalk»), stelle ihn auf <b>links-rechts</b>. Wird sie beim Laufen nach links seltsam gespiegelt, nimm <b>nicht drehen</b>.</li>
       <li><b>Startplatz:</b> Setze im ersten Skript direkt nach der Flagge <b>gehe zu x: 0 y: 0</b>, damit die Figur immer am gleichen Ort startet.</li>
       <li>Wähle einen passenden <b>Bühnenhintergrund</b>.</li>
     </ol>

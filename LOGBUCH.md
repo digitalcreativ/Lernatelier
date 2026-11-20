@@ -2,6 +2,14 @@
 
 ## 20.11.2026
 
+### Informatik · Avatar mit KI: 6 Laufphasen
+- Neues aktives Projekt **«Avatar mit KI: 6 Laufphasen»** (MI.2.2, Chip «KI · Fobizz») bei Informatik, 3. Oberstufe, direkt nach «Scratch: Avatar steuern». Anleitung unter `projekte/avatar-ki.html` mit 10 Schritten in drei Teilen: A Planen (Laufzyklus mit 6 Phasen und Animation, Steckbrief), B In Fobizz erstellen (Testbild, Sprite-Sheet, bestes Bild speichern), C In Scratch einbauen (hochladen, sechs Kostüme ausschneiden, ausrichten, testen und kennzeichnen). Aus dem Steckbrief entstehen automatisch zwei Prompts zum Kopieren. Drei Beispielbilder sind in der Seite eingebettet.
+- Buttons auf der Karte: **«Auftrag & Anleitung»**, **«fobizz öffnen»** und **«Scratch-Editor»**. Prompts, Laufphasen und Fortschritt (10 Schritte) getestet.
+- PDF erzeugt: `projekte/pdf/Avatar_mit_KI.pdf` (5 Seiten A4) im Stil von «Schlüsselanhänger». Kopf mit Testbild und Sprite-Sheet, Regeln für KI-Bilder, Teile A–C mit 10 Schritten, Steckbrief zum Ausfüllen (Beispiel und leere Spalte), beide Prompts mit markierten Steckbrief-Angaben, die drei Beispielbilder, «Häufige Fehler» (Figur sieht anders aus, weisse Reste, Figur hüpft) und Schreiblinien für die Reflexion. Druckvorlage: `projekte/avatar-ki-pdf.html`, Beispielbilder als Dateien in `projekte/avatar-ki/`. Button **«Anleitung als PDF»** auf der Projektkarte. Alle Seiten als Bild kontrolliert.
+
+### Scratch: Avatar steuern · Drehtyp
+- Neue Fassung der Anleitung übernommen: Der Drehtyp steht in den Skripten jetzt auf **links-rechts**. Neu gibt es den Hinweis «Welcher Drehtyp?» (Seitenansicht → links-rechts, Vorderansicht → nicht drehen), und der Feinschliff erwähnt den «Moonwalk». Das PDF ist entsprechend angepasst und neu erzeugt (weiterhin 4 Seiten, kontrolliert).
+
 ### Informatik · Scratch: Avatar steuern (überarbeitet)
 - Neue Anleitung unter `projekte/scratch-avatar.html` (MI.2.2, Wahlfach Informatik 3. Oberstufe): Auftrag, 8 Schritte (Figur, Start, Rechts, Alle Richtungen, Testen, Laufanimation, Feinschliff, Speichern) mit nachgebauten Scratch-Blöcken in den Originalfarben, Fortschrittsbalken, Bonus-Challenges, Selbstcheck mit vier Kriterien und Abschluss-Check.
 - Projektkarte: Button **«Auftrag & Anleitung»** klappt die Anleitung direkt unter der Karte auf. Zusätzlich **«Beispiel ansehen»** (Beispielprojekt auf Scratch) und **«Scratch-Editor»** (neues Projekt). Der bisherige Link «Im Editor öffnen» auf das Beispielprojekt entfällt, weil die Schülerinnen und Schüler laut Schritt 1 ein eigenes Projekt erstellen.

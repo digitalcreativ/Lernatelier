@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Avatar mit KI: 6 Laufphasen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Druckvorlage für das PDF «Avatar mit KI: 6 Laufphasen».
+   Stil wie «Schlüsselanhänger» und «Scratch: Avatar steuern» (PDF). Die interaktive Anleitung bleibt projekte/avatar-ki.html.
+   Beispielbilder liegen in projekte/avatar-ki/. */
+:root{
+  --bg:#f6f5f9; --surface:#ffffff; --fg:#1e1a2a; --muted:#686378; --line:#dfdbe9;
+  --grid:#e7e3f0; --accent:#855cd6; --accent-dark:#5d3fa8; --tint:#efe9fb;
+  --ok:#2c8657; --warn:#b4502c; --leg1:#3b2a6b; --leg2:#b7a6e6;
+  --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+  --f-block:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,5vw,40px)}
+h2{font-size:21px}
+p{margin:0}
+b{font-weight:600}
+.hero{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;align-items:center}
+.hero .sub{font:500 20px var(--f-display);color:var(--accent-dark);margin-top:4px}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:44ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-dark);font-weight:600;margin-bottom:8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:var(--surface)}
+.rules{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:10px;padding:12px 16px;font-size:14px}
+.rules b:first-child{color:var(--warn)}
+
+.phase{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--accent);padding-bottom:6px;margin-top:4px}
+.phase b{font:700 24px var(--f-display);color:var(--accent-dark)}
+.phase span{color:var(--muted);font-size:14px}
+
+.step{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+.step.wide{grid-template-columns:1fr}
+.step > div,.step > figure{min-width:0}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;
+  background:var(--accent);color:#fff;font:700 15px var(--f-display);margin-bottom:10px}
+.step h2{margin-bottom:10px}
+.step .intro{margin-bottom:10px}
+ol.do{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+ol.do li::marker{color:var(--muted);font-variant-numeric:tabular-nums}
+.tip{margin-top:12px;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px}
+.tip.warn{border-left-color:var(--warn)}
+figure{margin:0;display:flex;flex-direction:column;gap:8px}
+figure svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--bg)}
+figcaption{font-size:13px;color:var(--muted)}
+.panel{border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:12px 14px;font-size:14px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
+.panel .k{color:var(--muted)}
+.panel .v{font-weight:600}
+.panel .head{grid-column:1/-1;font:600 12px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:2px}
+.panel .full{grid-column:1/-1}
+
+/* Steckbrief zum Ausfüllen */
+.brief{width:100%;border-collapse:collapse;font-size:13.5px}
+.brief th{font:600 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:4px 6px;border-bottom:1px solid var(--line)}
+.brief td{padding:5px 6px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.brief td:first-child{font-weight:600;white-space:nowrap}
+.brief td:nth-child(2){color:var(--muted)}
+.brief td:last-child{width:40%}
+
+/* Prompts */
+.prompt{background:var(--tint);border:1px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.55}
+.prompt .lab{display:block;font:600 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-dark);margin-bottom:4px}
+.prompt mark{background:#fff;color:var(--accent-dark);border-radius:4px;padding:0 3px;font-weight:600;box-shadow:inset 0 0 0 1px var(--accent)}
+.photo{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
+.photo.test{width:auto;max-height:300px;margin:0 auto;object-fit:cover;aspect-ratio:3/4;object-position:50% 50%}
+.photo.sheet{aspect-ratio:3.1/1;object-fit:cover;object-position:50% 52%}
+
+/* Scratch-Blöcke */
+.code{background:var(--bg);background-image:radial-gradient(var(--grid) 1.2px,transparent 1.2px);background-size:16px 16px;border-radius:8px;padding:14px}
+.stack{display:inline-flex;flex-direction:column;align-items:flex-start;font:700 12.5px/1 var(--f-block);color:#fff}
+.blk{display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border-radius:5px;white-space:nowrap;margin-top:-1px;border:1px solid rgba(0,0,0,.18)}
+.hat{border-radius:18px 18px 5px 5px;padding-top:14px}
+.ev{background:#ffbf00;border-color:#cc9900} .mo{background:#4c97ff;border-color:#3373cc} .lo{background:#9966ff;border-color:#774dcb}
+.dd{background:rgba(0,0,0,.14);border-radius:4px;padding:3px 7px;font-weight:600}
+.dd::after{content:" ▾";font-size:10px}
+
+.errors{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.err{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.err h3{font-size:16px}
+.err p{font-size:14px;color:var(--muted)}
+.err .fix{color:var(--ok);font-weight:600;font-size:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.lines{display:flex;flex-direction:column;gap:22px;margin-top:6px}
+.lines i{display:block;border-bottom:1px solid var(--line)}
+.sec-title{font-size:21px;margin-top:4px}
+
+/* SVG-Bausteine */
+.gl{stroke:var(--grid);fill:none}
+.lbl{fill:var(--muted);font:500 12px var(--f-body)}
+.lblb{fill:var(--fg);font:600 13px var(--f-body)}
+.okl{stroke:var(--ok);fill:none;stroke-width:2} .warnl{stroke:var(--warn);fill:none;stroke-width:2}
+.base{stroke:var(--muted);stroke-width:1.2;stroke-dasharray:4 4}
+
+@media (max-width:720px){
+  .hero,.step,.errors{grid-template-columns:1fr}
+  .step,.card{padding:16px}
+}
+@page{ size:A4; margin:10mm }
+@media print{
+  html{zoom:.8}
+  body{padding:0;font-size:14px;line-height:1.45}
+  .wrap{max-width:none;gap:12px}
+  .hero{grid-template-columns:1fr 1.2fr;gap:18px}
+  .step{grid-template-columns:1fr 1fr;gap:18px;padding:14px 16px}
+  .step.wide{grid-template-columns:1fr}
+  .errors{grid-template-columns:repeat(3,1fr);gap:10px}
+  .err{padding:12px}
+  .card{padding:14px 16px}
+  .step,.err,.hero,.card,.rules{break-inside:avoid}
+  .phase,.sec-title{break-after:avoid}
+  .pb{break-before:page}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" class="gl"/></pattern>
+    <pattern id="checker" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#fff"/><rect width="6" height="6" fill="#e6e3ee"/><rect x="6" y="6" width="6" height="6" fill="#e6e3ee"/></pattern>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">KI · Fobizz · Wahlfach Informatik · MI.2.2</div>
+      <h1>Avatar mit KI</h1>
+      <p class="sub">6 Laufphasen für Scratch</p>
+      <p class="lead">Du erstellst deine Spielfigur mit dem KI-Bildgenerator von Fobizz. Weil eine KI dieselbe Figur selten zweimal gleich zeichnet, lässt du <b>alle sechs Laufphasen in einem Bild</b> erstellen (Sprite-Sheet). In Scratch machst du daraus sechs Kostüme.</p>
+      <div class="meta"><span class="chip">10 Schritte</span><span class="chip">Fobizz-Bildgenerator</span><span class="chip">Vorbereitung für «Scratch: Avatar steuern»</span></div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 500 250" role="img" aria-label="Testbild der Figur, Pfeil, daraus sechs Laufphasen">
+        <rect width="500" height="250" fill="url(#grid)"/>
+        <image href="avatar-ki/testbild.webp" x="10" y="14" width="150" height="200" preserveAspectRatio="xMidYMid slice"/>
+        <text x="85" y="236" text-anchor="middle" class="lbl">Testbild</text>
+        <path d="M168 114 H200" class="base" style="stroke-dasharray:none" marker-end="url(#arr)"/>
+        <rect x="208" y="54" width="282" height="120" rx="8" fill="#fff" stroke="var(--line)"/>
+        <svg x="214" y="60" width="270" height="108" viewBox="0 450 896 320" preserveAspectRatio="xMidYMid meet"><image href="avatar-ki/sprite-sheet.webp" width="896" height="1200"/></svg>
+        <text x="349" y="196" text-anchor="middle" class="lbl">Sprite-Sheet mit 6 Laufphasen</text>
+      </svg>
+    </figure>
+  </header>
+
+  <div class="rules"><b>Regeln für KI-Bilder:</b> Nur das Fobizz-Werkzeug benutzen, das deine Lehrperson freigegeben hat. Keine Fotos und keine echten Namen eingeben. Dein Projekt kennzeichnest du am Schluss mit «Figur mit KI (Fobizz) erstellt».</div>
+
+  <div class="phase"><b>A</b><span>Planen · Schritte 1–2</span></div>
+
+  <!-- 1 -->
+  <section class="step">
+    <div>
+      <span class="num">1</span>
+      <h2>So läuft eine Figur</h2>
+      <p class="intro">Ein Laufschritt besteht aus wiederkehrenden Phasen. Mit sechs Bildern wirkt das Laufen flüssig.</p>
+      <ol class="do">
+        <li>Phasen <b>1–3</b>: das dunkle Bein ist vorne.</li>
+        <li>Phasen <b>4–6</b>: dasselbe mit dem anderen Bein.</li>
+        <li>Zeigt Scratch die sechs Kostüme schnell nacheinander, sieht es aus, als ob die Figur läuft.</li>
+      </ol>
+      <p class="tip">Die <b>Seitenansicht</b> wirkt beim Laufen am besten. <b>Kontakt:</b> Ferse setzt auf. <b>Tiefpunkt:</b> Körper am tiefsten. <b>Durchgang:</b> Bein schwingt vorbei.</p>
+    </div>
+    <figure>
+      <svg id="cycleSvg" viewBox="0 0 330 290" role="img" aria-label="Sechs Laufphasen einer Strichfigur"></svg>
+   </figure>
+  </section>
+
+  <!-- 2 -->
+  <section class="step wide">
+    <div>
+      <span class="num">2</span>
+      <h2>Steckbrief deines Avatars</h2>
+      <p class="intro">Fülle den Steckbrief aus. Je genauer er ist, desto ähnlicher sehen die sechs Figuren aus. Ein <b>auffälliges Merkmal</b> (z. B. Rucksack, Mütze) hilft der KI, die Figur gleich zu halten. Auf der Lernatelier-Seite setzt sich dein Prompt automatisch zusammen.</p>
+    </div>
+    <table class="brief">
+      <thead><tr><th>Feld</th><th>Beispiel</th><th>Deine Figur</th></tr></thead>
+      <tbody>
+        <tr><td>Figur</td><td>Jugendlicher Abenteurer</td><td></td></tr>
+        <tr><td>Zeichenstil</td><td>Comic · Pixel-Art · Anime · Cartoon</td><td></td></tr>
+        <tr><td>Haare</td><td>blaue, stachelige Haare</td><td></td></tr>
+        <tr><td>Oberteil</td><td>schwarzer Hoodie</td><td></td></tr>
+        <tr><td>Hose</td><td>dunkelblaue Jeans</td><td></td></tr>
+        <tr><td>Schuhe</td><td>rote Turnschuhe</td><td></td></tr>
+        <tr><td>Besonderes Merkmal</td><td>gelber Rucksack</td><td></td></tr>
+        <tr><td>Hauptfarben</td><td>Blau, Schwarz, Rot</td><td></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="phase pb"><b>B</b><span>In Fobizz erstellen · Schritte 3–6</span></div>
+
+  <!-- 3 -->
+  <section class="step">
+    <div>
+      <span class="num">3</span>
+      <h2>Fobizz öffnen</h2>
+      <ol class="do">
+        <li>Den <b>Link</b> deiner Lehrperson zum <b>KI-Bildgenerator</b> von Fobizz öffnen.</li>
+        <li>Falls du ein Bildformat wählen kannst: <b>Querformat</b> (breit). Dann haben sechs Figuren nebeneinander Platz.</li>
+      </ol>
+    </div>
+    <figure>
+      <div class="panel">
+        <div class="head">Im Bildgenerator</div>
+        <span class="k">Zugang</span><span class="v">Link der Lehrperson</span>
+        <span class="k">Bildformat</span><span class="v">Querformat (breit)</span>
+      </div>
+      <svg viewBox="0 0 330 108" role="img" aria-label="Querformat bietet Platz für sechs Figuren nebeneinander, Hochformat ist zu eng">
+        <rect width="330" height="108" fill="url(#grid)"/>
+        <rect x="20" y="12" width="210" height="66" rx="5" fill="#fff" stroke="var(--accent)" stroke-width="2"/>
+        <g fill="var(--leg2)"><rect x="34" y="28" width="16" height="38" rx="6"/><rect x="66" y="28" width="16" height="38" rx="6"/><rect x="98" y="28" width="16" height="38" rx="6"/><rect x="130" y="28" width="16" height="38" rx="6"/><rect x="162" y="28" width="16" height="38" rx="6"/><rect x="194" y="28" width="16" height="38" rx="6"/></g>
+        <rect x="262" y="12" width="46" height="66" rx="5" fill="#fff" stroke="var(--line)" stroke-width="1.5"/>
+        <text x="125" y="98" text-anchor="middle" class="lbl">✓ Querformat</text>
+        <text x="285" y="98" text-anchor="middle" class="lbl">✗ Hochformat</text>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="step">
+    <div>
+      <span class="num">4</span>
+      <h2>Testbild: deine Figur</h2>
+      <p class="intro">Zuerst prüfst du, ob die KI deine Figur richtig versteht. Kopiere Prompt 1 von der Lernatelier-Seite in Fobizz.</p>
+      <div class="prompt"><span class="lab">Prompt 1 · Testbild</span>Spielfigur für ein 2D-Computerspiel, ganzer Körper, Seitenansicht nach rechts, stehend. <mark>Jugendlicher Abenteurer</mark> mit <mark>blaue, stachelige Haare</mark>, <mark>schwarzer Hoodie</mark>, <mark>dunkelblaue Jeans</mark> und <mark>rote Turnschuhe</mark>. Besonderes Merkmal: <mark>gelber Rucksack</mark>. Hauptfarben: <mark>Blau, Schwarz, Rot</mark>. Stil: <mark>Comic, klare schwarze Umrisse, flache Farben</mark>. Einfarbig weisser Hintergrund, kein Schatten, keine Schrift.</div>
+      <ol class="do" style="margin-top:12px">
+        <li>Gefällt dir die Figur nicht: Steckbrief ändern und nochmals versuchen.</li>
+        <li>Passt die Figur: Merk dir, was gut funktioniert hat.</li>
+      </ol>
+    </div>
+    <figure>
+      <img class="photo test" src="avatar-ki/testbild.webp" alt="Beispiel-Testbild: Figur mit blauen Haaren, schwarzem Hoodie, Jeans, roten Turnschuhen und gelbem Rucksack, Seitenansicht">
+      <figcaption><b>Beispiel:</b> Seitenansicht, ganzer Körper, weisser Hintergrund. Haare, Hoodie, Jeans, Schuhe und Rucksack sind gut erkennbar.</figcaption>
+      <figcaption>Umrandet = Angaben aus deinem Steckbrief.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="step wide">
+    <div>
+      <span class="num">5</span>
+      <h2>Sprite-Sheet: 6 Laufphasen</h2>
+      <p class="intro">Jetzt lässt du alle sechs Laufbilder <b>in einem Bild</b> erzeugen. Der Steckbrief ist derselbe, darum bleibt die Figur gleich. Kopiere Prompt 2.</p>
+      <div class="prompt"><span class="lab">Prompt 2 · Sprite-Sheet</span>Sprite-Sheet für ein 2D-Computerspiel: dieselbe Figur sechsmal nebeneinander in einer Reihe, Laufzyklus in 6 Phasen, Seitenansicht nach rechts. Alle Figuren gleich gross, gleicher Abstand, Füsse auf gleicher Höhe. <mark>Jugendlicher Abenteurer</mark> mit <mark>blaue, stachelige Haare</mark>, <mark>schwarzer Hoodie</mark>, <mark>dunkelblaue Jeans</mark> und <mark>rote Turnschuhe</mark>. Besonderes Merkmal: <mark>gelber Rucksack</mark>. Hauptfarben: <mark>Blau, Schwarz, Rot</mark>. Stil: <mark>Comic, klare schwarze Umrisse, flache Farben</mark>. Einfarbig weisser Hintergrund, kein Boden, kein Schatten, keine Schrift.</div>
+    </div>
+    <figure>
+      <img class="photo sheet" src="avatar-ki/sprite-sheet.webp" alt="Beispiel-Sprite-Sheet: dieselbe Figur sechsmal nebeneinander in verschiedenen Laufphasen">
+      <figcaption><b>Beispiel:</b> sechs Laufphasen derselben Figur, dank des gelben Rucksacks gut wiederzuerkennen. Die Figuren sind etwas unterschiedlich gross und stehen nicht genau gleich hoch. Das ist normal und wird in Schritt 9 korrigiert.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="step">
+    <div>
+      <span class="num">6</span>
+      <h2>Bestes Bild wählen und speichern</h2>
+      <ol class="do">
+        <li><b>2–3 Varianten</b> erzeugen und vergleichen.</li>
+        <li>Das beste Bild als <b>PNG</b> herunterladen und mit deinem Vornamen speichern, z. B. <b>avatar_lena.png</b>.</li>
+      </ol>
+      <p class="tip warn"><b>Wenn es nicht klappt:</b> KI-Bildgeneratoren zählen oft falsch. Hat dein Bild 4, 5 oder 8 Figuren, ist das okay: Du brauchst mindestens <b>4 gute Phasen</b>. Sehen die Figuren sehr verschieden aus, beschreibe das auffällige Merkmal noch genauer.</p>
+    </div>
+    <figure>
+      <div class="panel">
+        <div class="head">Vergleichen</div>
+        <span class="k">Gleiche Figur?</span><span class="v">Haare, Kleider, Merkmal in allen Phasen gleich</span>
+        <span class="k">Beine?</span><span class="v">In jeder Phase anders gestellt</span>
+        <span class="k">Anzahl?</span><span class="v">Mindestens 4 gute Phasen</span>
+      </div>
+      <div class="panel">
+        <div class="head">Speichern</div>
+        <span class="k">Format</span><span class="v">PNG</span>
+        <span class="k">Dateiname</span><span class="v">avatar_vorname.png</span>
+      </div>
+    </figure>
+  </section>
+
+  <div class="phase pb"><b>C</b><span>In Scratch einbauen · Schritte 7–10</span></div>
+
+  <!-- 7 -->
+  <section class="step">
+    <div>
+      <span class="num">7</span>
+      <h2>Bild in Scratch hochladen</h2>
+      <ol class="do">
+        <li>Dein Scratch-Projekt «Avatar» öffnen.</li>
+        <li>Unten rechts bei <b>Figur wählen</b> auf <b>Figur hochladen</b> klicken und dein PNG wählen.</li>
+        <li>Im Reiter <b>Kostüme</b> den weissen Hintergrund entfernen: <b>Füllwerkzeug</b> nehmen, als Farbe <b>keine Farbe</b> (rot durchgestrichen) wählen und in die weissen Flächen klicken.</li>
+      </ol>
+      <p class="tip">Auch die weissen Lücken <b>zwischen den Beinen</b> und unter den Armen anklicken.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 330 170" role="img" aria-label="Vorher weisser Hintergrund, nachher durchsichtig mit Schachbrettmuster">
+        <rect width="330" height="170" fill="url(#grid)"/>
+        <rect x="18" y="18" width="110" height="120" rx="6" fill="#fff" stroke="var(--line)"/>
+        <rect x="202" y="18" width="110" height="120" rx="6" fill="url(#checker)" stroke="var(--line)"/>
+        <g id="miniFigA"></g><g id="miniFigB"></g>
+        <path d="M138 78 H192" class="base" style="stroke-dasharray:none" marker-end="url(#arr)"/>
+        <g transform="translate(152,46)">
+          <rect width="26" height="22" rx="4" fill="#fff" stroke="var(--muted)"/>
+          <line x1="4" y1="18" x2="22" y2="4" stroke="#e53935" stroke-width="2.5"/>
+        </g>
+        <text x="165" y="96" text-anchor="middle" class="lbl">keine Farbe</text>
+        <text x="73" y="156" text-anchor="middle" class="lbl">weisser Hintergrund</text>
+        <text x="257" y="156" text-anchor="middle" class="lbl">durchsichtig</text>
+      </svg>
+      <figcaption>Schachbrettmuster = durchsichtig. Jetzt sieht man später den Bühnenhintergrund.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 8 -->
+  <section class="step wide">
+    <div>
+      <span class="num">8</span>
+      <h2>Sechs Kostüme ausschneiden</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        <ol class="do">
+          <li>Im Sprite-Sheet-Kostüm mit dem <b>Auswahlwerkzeug</b> (gestricheltes Rechteck) die <b>erste Figur</b> einrahmen und mit <b>Strg+C</b> kopieren.</li>
+          <li>Links unten im Kostüm-Menü <b>Malen</b> wählen. So entsteht ein leeres Kostüm. Die Figur mit <b>Strg+V</b> einfügen.</li>
+        </ol>
+        <ol class="do" start="3">
+          <li>Für die Figuren 2 bis 6 wiederholen. Jede Figur an der <b>gleichen Stelle</b> einfügen.</li>
+          <li>Das Sprite-Sheet-Kostüm löschen und die Kostüme <b>lauf1</b> bis <b>lauf6</b> nennen. Die Figur in «Avatar» umbenennen, <b>Grösse</b> ca. 50.</li>
+        </ol>
+      </div>
+    </div>
+    <figure>
+      <img class="photo" src="avatar-ki/scratch-kostueme.jpg" alt="Scratch-Kostüm-Editor mit sechs Kostümen lauf1 bis lauf6 und der freigestellten Figur">
+      <figcaption><b>Beispiel:</b> links die sechs Kostüme lauf1 bis lauf6 in der richtigen Reihenfolge, in der Mitte das erste Kostüm ohne weissen Hintergrund.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 9 -->
+  <section class="step">
+    <div>
+      <span class="num">9</span>
+      <h2>Kostüme ausrichten</h2>
+      <ol class="do">
+        <li>Jede Figur in die <b>Mitte der Zeichenfläche</b> schieben (zum kleinen Kreuz).</li>
+        <li>Die <b>Füsse</b> müssen in allen Kostümen <b>auf gleicher Höhe</b> stehen. Sonst hüpft die Figur beim Laufen.</li>
+        <li>Zwischen den Kostümen hin und her schalten und vergleichen.</li>
+      </ol>
+    </div>
+    <figure>
+      <svg id="alignSvg" viewBox="0 0 330 180" role="img" aria-label="Links: Figuren unterschiedlich hoch. Rechts: Füsse auf einer Linie.">
+        <rect width="330" height="180" fill="url(#grid)"/>
+        <text x="80" y="20" text-anchor="middle" class="lblb" fill="var(--warn)" style="fill:var(--warn)">✗ hüpft</text>
+        <text x="245" y="20" text-anchor="middle" class="lblb" style="fill:var(--ok)">✓ ausgerichtet</text>
+        <line x1="175" y1="150" x2="315" y2="150" class="base"/>
+        <line x1="245" y1="28" x2="245" y2="168" class="base" style="stroke-dasharray:2 4"/>
+        <text x="245" y="176" text-anchor="middle" class="lbl"></text>
+      </svg>
+      <figcaption>Gestrichelt: gemeinsame Fusslinie und Mitte. Dann «zittert» die Figur nicht.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 10 -->
+  <section class="step">
+    <div>
+      <span class="num">10</span>
+      <h2>Testen und kennzeichnen</h2>
+      <ol class="do">
+        <li>Das Skript aus dem Auftrag <b>«Scratch: Avatar steuern»</b> bauen. Als Grundkostüm <b>lauf1</b> wählen.</li>
+        <li>Drehtyp <b>links-rechts</b>: Deine Figur ist von der Seite gezeichnet. So dreht sie sich um, wenn sie nach links läuft, statt rückwärts zu laufen.</li>
+        <li>Testen: Läuft die Figur flüssig? Sonst die Wartezeit (z. B. 0.08) anpassen.</li>
+        <li>In die Scratch-Anleitung schreiben: «Figur mit KI (Fobizz) erstellt und in Scratch bearbeitet».</li>
+      </ol>
+    </div>
+    <figure>
+      <div class="code"><div class="stack">
+        <div class="blk ev hat">Wenn <span>🏁</span> angeklickt wird</div>
+        <div class="blk mo">setze Drehtyp auf <span class="dd">links-rechts</span></div>
+        <div class="blk lo">wechsle zu Kostüm <span class="dd">lauf1</span></div>
+      </div></div>
+      <div class="panel">
+        <div class="head">Projektseite · Anleitung</div>
+        <span class="k full">«Figur mit KI (Fobizz) erstellt und in Scratch bearbeitet.»</span>
+      </div>
+    </figure>
+  </section>
+
+  <h2 class="sec-title">Häufige Fehler</h2>
+  <div class="errors">
+    <div class="err">
+      <svg id="err1" viewBox="0 0 240 100" role="img" aria-label="Drei Figuren sehen unterschiedlich aus"><rect width="240" height="100" fill="url(#grid)"/></svg>
+      <h3>Figur sieht jedes Mal anders aus</h3>
+      <p>Einzelbilder hintereinander erzeugt: Die KI zeichnet jedes Mal eine etwas andere Figur.</p>
+      <p class="fix">Lösung: alle Phasen in einem Bild, auffälliges Merkmal genau beschreiben.</p>
+    </div>
+    <div class="err">
+      <svg viewBox="0 0 240 100" role="img" aria-label="Weisser Rest zwischen den Beinen">
+        <rect width="240" height="100" fill="url(#checker)"/>
+        <path d="M108 78 L120 50 L132 78 Z" fill="#fff" stroke="var(--warn)" stroke-width="2" stroke-dasharray="3 3"/>
+        <g id="err2fig"></g>
+      </svg>
+      <h3>Weisse Reste</h3>
+      <p>Zwischen Beinen und Armen bleiben weisse Flächen. Auf der Bühne sieht man sie.</p>
+      <p class="fix">Lösung: auch jede kleine Lücke mit «keine Farbe» füllen.</p>
+    </div>
+    <div class="err">
+      <svg id="err3" viewBox="0 0 240 100" role="img" aria-label="Figuren stehen unterschiedlich hoch"><rect width="240" height="100" fill="url(#grid)"/></svg>
+      <h3>Figur hüpft oder zittert</h3>
+      <p>Die Kostüme stehen unterschiedlich hoch oder weit links und rechts.</p>
+      <p class="fix">Lösung: alle Figuren zur Mitte, Füsse auf gleicher Höhe.</p>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>Abschluss-Check</h2>
+    <p><b>Reflexion:</b> Was hat die KI gut gemacht? Wo musstest du selbst nachhelfen (Prompt verbessern, ausschneiden, ausrichten)? Wem gehört deine Figur: dir, der KI oder beiden?</p>
+    <div class="lines"><i></i><i></i><i></i><i></i></div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  // Laufzyklus wie auf der Lernatelier-Seite
+  var P=[
+    {n:"1 · Kontakt",   a:[28,0],  b:[-24,10], arm:-25, y:0},
+    {n:"2 · Tiefpunkt", a:[15,10], b:[-30,45], arm:-15, y:4},
+    {n:"3 · Durchgang", a:[-2,0],  b:[10,70],  arm:0,   y:-3},
+    {n:"4 · Kontakt",   a:[-24,10],b:[28,0],   arm:25,  y:0},
+    {n:"5 · Tiefpunkt", a:[-30,45],b:[15,10],  arm:15,  y:4},
+    {n:"6 · Durchgang", a:[10,70], b:[-2,0],   arm:0,   y:-3}
+  ];
+  function rad(d){return d*Math.PI/180;}
+  function leg(g,hip,ang,col){var t=rad(ang[0]),k=[hip[0]+26*Math.sin(t),hip[1]+26*Math.cos(t)],s=rad(ang[0]-ang[1]),f=[k[0]+26*Math.sin(s),k[1]+26*Math.cos(s)];
+    el("polyline",{points:hip.join(",")+" "+k.join(",")+" "+f.join(","),fill:"none",stroke:col,"stroke-width":7,"stroke-linecap":"round","stroke-linejoin":"round"},g);
+    el("line",{x1:f[0],y1:f[1],x2:f[0]+9,y2:f[1],stroke:col,"stroke-width":7,"stroke-linecap":"round"},g);}
+  function arm(g,sh,ang,col){var t=rad(ang),e=[sh[0]+20*Math.sin(t),sh[1]+20*Math.cos(t)],h=[e[0]+16*Math.sin(t+rad(-25)),e[1]+16*Math.cos(t+rad(-25))];
+    el("polyline",{points:sh.join(",")+" "+e.join(",")+" "+h.join(","),fill:"none",stroke:col,"stroke-width":6,"stroke-linecap":"round","stroke-linejoin":"round"},g);}
+  function figure(g,p,c1,c2){
+    var hip=[50,66+p.y],sh=[50,36+p.y];c1=c1||"var(--leg1)";c2=c2||"var(--leg2)";
+    leg(g,hip,p.b,c2);arm(g,sh,-p.arm,c2);
+    el("line",{x1:hip[0],y1:hip[1],x2:sh[0],y2:sh[1],stroke:c1,"stroke-width":9,"stroke-linecap":"round"},g);
+    el("circle",{cx:sh[0]+3,cy:sh[1]-14,r:11,fill:c1},g);
+    leg(g,hip,p.a,c1);arm(g,sh,p.arm,c1);
+  }
+  function place(parent,x,y,s,p,c1,c2){var g=el("g",{transform:"translate("+x+","+y+") scale("+s+")"},parent);figure(g,p,c1,c2);return g;}
+
+  // Schritt 1: 3 × 2 Raster
+  var C=document.getElementById("cycleSvg");
+  el("rect",{width:330,height:290,fill:"url(#grid)"},C);
+  P.forEach(function(p,k){var col=k%3,row=Math.floor(k/3),x=10+col*108,y=8+row*142;
+    el("rect",{x:x,y:y,width:96,height:126,rx:8,fill:"#fff",stroke:"var(--line)"},C);
+    el("line",{x1:x+8,y1:y+104,x2:x+88,y2:y+104,stroke:"var(--line)","stroke-width":2},C);
+    place(C,x+3,y+2,.82,p);
+    var t=el("text",{x:x+48,y:y+120,"text-anchor":"middle","class":"lbl"},C);t.textContent=p.n;});
+
+  // Schritt 7: Mini-Figuren
+  place(document.getElementById("miniFigA"),35,24,.82,P[0]);
+  place(document.getElementById("miniFigB"),219,24,.82,P[0]);
+
+  // Schritt 9: ausrichten
+  var A=document.getElementById("alignSvg");
+  [[15,24],[52,6],[92,30]].forEach(function(o,k){place(A,o[0],o[1]+20,.95,P[k*2]);});
+  el("line",{x1:20,y1:150,x2:150,y2:150,"class":"base"},A);
+  [[178],[214],[250]].forEach(function(o,k){place(A,o[0],33,.95,P[k*2]);});
+
+  // Fehler 1: verschiedene Figuren
+  var E1=document.getElementById("err1");
+  place(E1,25,6,.72,P[0],"#3b2a6b","#b7a6e6");place(E1,92,6,.72,P[0],"#c0482a","#e8a48c");place(E1,160,6,.72,P[0],"#2c8657","#9fd3b5");
+  // Fehler 2: Figur auf Schachbrett
+  place(document.getElementById("err2fig"),78,4,.75,P[2]);
+  // Fehler 3: ungleich hoch
+  var E3=document.getElementById("err3");
+  place(E3,25,0,.7,P[0]);place(E3,92,16,.7,P[1]);place(E3,160,-4,.7,P[2]);
+  el("line",{x1:10,y1:88,x2:230,y2:88,"class":"base"},E3);
+})();
+</script>
+</body>
+</html>
