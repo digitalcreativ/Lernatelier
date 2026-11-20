@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Scratch: Avatar steuern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Druckvorlage für das PDF «Scratch: Avatar steuern».
+   Stil wie «Schlüsselanhänger» / «Schriftzug mit Flexfolie»: Kopf mit Bild, jeder Schritt = Text links + Bild rechts,
+   am Schluss «Häufige Fehler». Die interaktive Anleitung bleibt projekte/scratch-avatar.html. */
+:root{
+  --bg:#f6f5f9; --surface:#ffffff; --fg:#1e1a2a; --muted:#686378; --line:#dfdbe9;
+  --grid:#e7e3f0; --accent:#855cd6; --accent-dark:#5d3fa8;
+  --ok:#2c8657; --warn:#b4502c;
+  --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+  --f-block:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,5vw,40px)}
+h2{font-size:21px}
+p{margin:0}
+b{font-weight:600}
+.hero{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;align-items:center}
+.hero .lead{color:var(--muted);margin-top:10px;max-width:44ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-dark);font-weight:600;margin-bottom:8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:var(--surface)}
+
+.step{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+.step.wide{grid-template-columns:1fr}
+.step > div,.step > figure{min-width:0}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;
+  background:var(--accent);color:#fff;font:700 15px var(--f-display);margin-bottom:10px}
+.step h2{margin-bottom:10px}
+.step .intro{margin-bottom:10px}
+ol.do,ul.do{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+ol.do li::marker{color:var(--muted);font-variant-numeric:tabular-nums}
+.tip{margin-top:12px;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px}
+.tip.warn{border-left-color:var(--warn)}
+figure{margin:0;display:flex;flex-direction:column;gap:8px}
+figure svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--bg)}
+figcaption{font-size:13px;color:var(--muted)}
+.panel{border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:12px 14px;font-size:14px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
+.panel .k{color:var(--muted)}
+.panel .v{font-weight:600;font-variant-numeric:tabular-nums}
+.panel .head{grid-column:1/-1;font:600 12px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:2px}
+.panel.three{grid-template-columns:auto auto 1fr}
+
+/* Scratch-Blöcke (Originalfarben der Kategorien) */
+.code{background:var(--bg);background-image:radial-gradient(var(--grid) 1.2px,transparent 1.2px);background-size:16px 16px;border-radius:8px;padding:14px;overflow:hidden}
+.stack{display:inline-flex;flex-direction:column;align-items:flex-start;font:700 12.5px/1 var(--f-block);color:#fff;min-width:max-content}
+.blk{display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border-radius:5px;white-space:nowrap;margin-top:-1px;border:1px solid rgba(0,0,0,.18)}
+.hat{border-radius:18px 18px 5px 5px;padding-top:14px}
+.ev{background:#ffbf00;border-color:#cc9900}
+.mo{background:#4c97ff;border-color:#3373cc}
+.lo{background:#9966ff;border-color:#774dcb}
+.co{background:#ffab19;border-color:#cf8b17}
+.se{background:#5cb1d6;border-color:#2e8eb8}
+.op{background:#59c059;border-color:#389438}
+.val{background:#fff;color:#575e75;border-radius:999px;padding:3px 9px;font-weight:600}
+.dd{background:rgba(0,0,0,.14);border-radius:4px;padding:3px 7px;font-weight:600}
+.dd::after{content:" ▾";font-size:10px}
+.bool{border-radius:999px;padding:5px 10px;border:1px solid rgba(0,0,0,.2)}
+.c{display:inline-flex;flex-direction:column;align-items:flex-start;margin-top:-1px}
+.c > .blk{border-radius:5px 5px 0 0}
+.c > .in{display:flex;flex-direction:column;align-items:flex-start;padding:2px 0 2px 16px;border-left:16px solid #ffab19;min-height:18px}
+.c > .end{height:16px;width:110px;border-radius:0 0 5px 5px;border:1px solid #cf8b17;border-top:0;background:#ffab19}
+.c > .mid{padding:6px 10px;background:#ffab19;color:#fff}
+.new{outline:3px solid #ff4fa3;outline-offset:2px;border-radius:5px}
+.code.small .stack{font-size:11px;zoom:.76}
+.code.small .blk{padding:7px 8px;gap:5px}
+.code.small .bool{padding:4px 7px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+.keys{display:grid;grid-template-columns:repeat(3,40px);grid-template-rows:repeat(2,40px);gap:5px}
+.keys span{display:grid;place-items:center;border:1px solid var(--line);border-bottom-width:3px;border-radius:7px;background:var(--surface);font-size:17px}
+.keys .up{grid-column:2} .keys .left{grid-column:1;grid-row:2} .keys .down{grid-column:2;grid-row:2} .keys .right{grid-column:3;grid-row:2}
+
+.errors{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.err{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.err h3{font-size:16px}
+.err p{font-size:14px;color:var(--muted)}
+.err .fix{color:var(--ok);font-weight:600;font-size:14px}
+.err .code{padding:10px;margin-bottom:4px}
+.bad{color:var(--warn);font:600 12px var(--f-body);margin-bottom:4px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.bonus{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bonus div{background:var(--bg);border-radius:8px;padding:10px 12px;font-size:14px}
+.bonus b{display:block;font-family:var(--f-display);font-size:15px;color:var(--accent-dark)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+th.c1,td.c1{text-align:center;width:13%}
+td.c1 span{display:inline-block;width:16px;height:16px;border:1.5px solid var(--muted);border-radius:50%}
+.lines{display:flex;flex-direction:column;gap:22px;margin-top:6px}
+.lines i{display:block;border-bottom:1px solid var(--line)}
+.sec-title{font-size:21px;margin-top:4px}
+
+/* SVG-Bausteine */
+.gl{stroke:var(--grid);fill:none}
+.stage{fill:#fff;stroke:var(--line)}
+.fig{stroke:var(--accent);stroke-width:6;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.fig .head{fill:var(--accent);stroke:none}
+.trail{stroke:var(--accent);stroke-opacity:.35;stroke-width:2;stroke-dasharray:3 6;fill:none;stroke-linecap:round}
+.lbl{fill:var(--muted);font:500 12px var(--f-body)}
+.lblb{fill:var(--fg);font:600 13px var(--f-body)}
+.ax{stroke:var(--muted);stroke-width:1.2}
+.thumb{fill:#fff;stroke:var(--line)}
+.thumb.sel{stroke:var(--accent);stroke-width:2.5}
+
+@media (max-width:720px){
+  .hero,.step,.errors,.bonus{grid-template-columns:1fr}
+  .step,.card{padding:16px}
+}
+@page{ size:A4; margin:10mm }
+@media print{
+  html{zoom:.8}
+  body{padding:0;font-size:14px;line-height:1.45}
+  .wrap{max-width:none;gap:12px}
+  .hero{grid-template-columns:1fr 1.2fr;gap:18px}
+  .step{grid-template-columns:1fr 1fr;gap:18px;padding:14px 16px}
+  .step.wide{grid-template-columns:1fr}
+  .errors{grid-template-columns:repeat(3,1fr);gap:10px}
+  .bonus{grid-template-columns:1fr 1fr}
+  .err{padding:12px}
+  .card{padding:14px 16px}
+  .step,.err,.hero,.card{break-inside:avoid}
+  .sec-title{break-after:avoid}
+  .pb{break-before:page}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" class="gl"/></pattern>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker>
+    <!-- Figur in drei Kostümen (Kopf, Körper, Arme, Beine) -->
+    <g id="k1" class="fig"><circle class="head" cx="30" cy="14" r="10"/><path d="M30 26V54M30 34L19 46M30 34L41 46M30 54L23 80M30 54L37 80"/></g>
+    <g id="k2" class="fig"><circle class="head" cx="30" cy="14" r="10"/><path d="M30 26V54M30 34L18 42M30 34L40 47M30 54L18 77M30 54L43 76"/></g>
+    <g id="k3" class="fig"><circle class="head" cx="30" cy="14" r="10"/><path d="M30 26V54M30 34L42 42M30 34L20 47M30 54L40 78M30 54L22 74"/></g>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Scratch · Wahlfach Informatik · MI.2.2</div>
+      <h1>Avatar steuern</h1>
+      <p class="lead">Du programmierst eine Figur, die du mit den Pfeiltasten über die Bühne steuerst. Ein Skript <b>bewegt</b> die Figur, ein zweites lässt sie beim Laufen die Beine bewegen (<b>Animation</b>). Steht sie still, zeigt sie ihr Grundkostüm.</p>
+      <div class="meta"><span class="chip">8 Schritte</span><span class="chip">2 Skripte</span><span class="chip">Pfeiltasten und Kostüme</span></div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 500 220" role="img" aria-label="Bühne mit laufender Figur, daneben die vier Pfeiltasten">
+        <rect width="500" height="220" fill="url(#grid)"/>
+        <rect x="20" y="20" width="310" height="180" rx="6" class="stage"/>
+        <path d="M60 170 C110 170 130 120 175 118 S240 150 250 120" class="trail"/>
+        <g transform="translate(40,95) scale(.85)" opacity=".25"><use href="#k2"/></g>
+        <g transform="translate(130,70) scale(.85)" opacity=".5"><use href="#k3"/></g>
+        <g transform="translate(225,60) scale(.95)"><use href="#k2"/></g>
+        <text x="30" y="40" class="lbl">Bühne</text>
+        <g transform="translate(360,70)">
+          <rect x="44" y="0" width="40" height="40" rx="7" fill="#fff" stroke="var(--line)" stroke-width="1.5"/>
+          <rect x="0" y="46" width="40" height="40" rx="7" fill="#fff" stroke="var(--line)" stroke-width="1.5"/>
+          <rect x="44" y="46" width="40" height="40" rx="7" fill="#fff" stroke="var(--line)" stroke-width="1.5"/>
+          <rect x="88" y="46" width="40" height="40" rx="7" fill="var(--accent)" stroke="var(--accent-dark)" stroke-width="1.5"/>
+          <text x="64" y="26" text-anchor="middle" font-size="18" fill="var(--fg)">↑</text>
+          <text x="20" y="72" text-anchor="middle" font-size="18" fill="var(--fg)">←</text>
+          <text x="64" y="72" text-anchor="middle" font-size="18" fill="var(--fg)">↓</text>
+          <text x="108" y="72" text-anchor="middle" font-size="18" fill="#fff">→</text>
+          <text x="64" y="112" text-anchor="middle" class="lbl">Pfeiltasten</text>
+        </g>
+      </svg>
+    </figure>
+  </header>
+
+  <!-- 1 -->
+  <section class="step">
+    <div>
+      <span class="num">1</span>
+      <h2>Figur auswählen</h2>
+      <ol class="do">
+        <li>Scratch öffnen und anmelden. Ein <b>neues Projekt</b> erstellen und «Avatar» nennen.</li>
+        <li>Die Katze löschen (Mülleimer bei der Figur).</li>
+        <li>Unten rechts bei <b>Figur wählen</b> eine Spielfigur mit <b>mehreren Kostümen</b> nehmen, z. B. eine Person mit Laufbewegungen. Du kannst auch eine eigene Figur malen.</li>
+        <li>Im Reiter <b>Kostüme</b> nachschauen: Wie viele Kostüme hat die Figur? Wie heisst das erste?</li>
+        <li>Die <b>Grösse</b> auf ca. <b>50</b> stellen.</li>
+      </ol>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 150" role="img" aria-label="Reiter Kostüme mit drei Kostümen, das erste ist ausgewählt">
+        <rect width="340" height="150" fill="url(#grid)"/>
+        <text x="16" y="24" class="lblb">Reiter «Kostüme»</text>
+        <g transform="translate(16,36)">
+          <rect width="90" height="90" rx="8" class="thumb sel"/>
+          <g transform="translate(22,4) scale(.95)"><use href="#k1"/></g>
+        </g>
+        <g transform="translate(124,36)">
+          <rect width="90" height="90" rx="8" class="thumb"/>
+          <g transform="translate(22,4) scale(.95)"><use href="#k2"/></g>
+        </g>
+        <g transform="translate(232,36)">
+          <rect width="90" height="90" rx="8" class="thumb"/>
+          <g transform="translate(22,4) scale(.95)"><use href="#k3"/></g>
+        </g>
+        <text x="61" y="142" text-anchor="middle" class="lbl">Kostuem_01</text>
+        <text x="169" y="142" text-anchor="middle" class="lbl">Kostuem_02</text>
+        <text x="277" y="142" text-anchor="middle" class="lbl">Kostuem_03</text>
+      </svg>
+      <div class="panel">
+        <div class="head">Unter der Bühne</div>
+        <span class="k">Grösse</span><span class="v">50</span>
+      </div>
+      <figcaption>Das erste Kostüm ist das <b>Grundkostüm</b>. Bei deiner Figur kann es anders heissen.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2 -->
+  <section class="step">
+    <div>
+      <span class="num">2</span>
+      <h2>Das Programm starten</h2>
+      <ol class="do">
+        <li>Aus <b>Ereignisse</b> den Block <b>Wenn grüne Flagge angeklickt wird</b> in die Skriptfläche ziehen.</li>
+        <li>Aus <b>Bewegung</b> den Block <b>setze Drehtyp auf …</b> darunter hängen.</li>
+        <li>Aus <b>Steuerung</b> den Block <b>wiederhole fortlaufend</b> anhängen.</li>
+      </ol>
+      <p class="tip"><b>Warum fortlaufend?</b> Das Programm muss die ganze Zeit prüfen, ob eine Taste gedrückt ist. Ohne Schleife schaut es nur ein einziges Mal nach.</p>
+    </div>
+    <figure>
+      <div class="code"><div class="stack">
+        <div class="blk ev hat">Wenn <span>🏁</span> angeklickt wird</div>
+        <div class="blk mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="c"><div class="blk co">wiederhole fortlaufend</div><div class="in"></div><div class="end"></div></div>
+      </div></div>
+      <div class="legend">
+        <span><i style="background:#ffbf00"></i>Ereignisse</span><span><i style="background:#4c97ff"></i>Bewegung</span><span><i style="background:#9966ff"></i>Aussehen</span><span><i style="background:#ffab19"></i>Steuerung</span><span><i style="background:#5cb1d6"></i>Fühlen</span><span><i style="background:#59c059"></i>Operatoren</span>
+      </div>
+    </figure>
+  </section>
+
+  <!-- 3 -->
+  <section class="step">
+    <div>
+      <span class="num">3</span>
+      <h2>Nach rechts laufen</h2>
+      <ol class="do">
+        <li>Aus <b>Steuerung</b> den Block <b>falls … dann</b> in die Schleife ziehen.</li>
+        <li>Aus <b>Fühlen</b> den Block <b>Taste … gedrückt?</b> ins Feld legen und <b>Pfeil nach rechts</b> wählen.</li>
+        <li>In das «falls» aus <b>Bewegung</b>: <b>setze Richtung auf 90 Grad</b> und <b>ändere x um 5</b>.</li>
+        <li>Grüne Flagge anklicken und die Pfeiltaste nach rechts drücken.</li>
+      </ol>
+    </div>
+    <figure>
+      <div class="code"><div class="stack">
+        <div class="blk ev hat">Wenn <span>🏁</span> angeklickt wird</div>
+        <div class="blk mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="c"><div class="blk co">wiederhole fortlaufend</div><div class="in">
+          <div class="c new"><div class="blk co">falls <span class="blk se bool">Taste <span class="dd">Pfeil nach rechts</span> gedrückt?</span> dann</div><div class="in">
+            <div class="blk mo">setze Richtung auf <span class="val">90</span> Grad</div>
+            <div class="blk mo">ändere x um <span class="val">5</span></div>
+          </div><div class="end"></div></div>
+        </div><div class="end"></div></div>
+      </div></div>
+      <figcaption>Pink umrandet: neu in diesem Schritt.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="step">
+    <div>
+      <span class="num">4</span>
+      <h2>Alle vier Richtungen</h2>
+      <ol class="do">
+        <li>Rechtsklick auf den «falls»-Block → <b>Duplizieren</b>. Die Kopie darunter hängen, noch in der Schleife.</li>
+        <li>Die Kopie für <b>Pfeil nach links</b> ändern: Richtung <b>-90</b>, x um <b>-5</b>.</li>
+        <li>Noch zweimal duplizieren: <b>Pfeil nach oben</b> mit <b>ändere y um 5</b>, <b>Pfeil nach unten</b> mit <b>ändere y um -5</b>.</li>
+      </ol>
+      <p class="tip warn">Alle vier «falls»-Blöcke hängen <b>untereinander in der Schleife</b>, nicht ineinander.</p>
+      <div class="panel three" style="margin-top:12px">
+        <div class="head">Was ändert sich?</div>
+        <span class="v">→</span><span class="k">Richtung 90</span><span class="v">x um 5</span>
+        <span class="v">←</span><span class="k">Richtung -90</span><span class="v">x um -5</span>
+        <span class="v">↑</span><span class="k">–</span><span class="v">y um 5</span>
+        <span class="v">↓</span><span class="k">–</span><span class="v">y um -5</span>
+      </div>
+    </div>
+    <figure>
+      <div class="code"><div class="stack">
+        <div class="blk ev hat">Wenn <span>🏁</span> angeklickt wird</div>
+        <div class="blk mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="c"><div class="blk co">wiederhole fortlaufend</div><div class="in">
+          <div class="c"><div class="blk co">falls <span class="blk se bool">Taste <span class="dd">Pfeil nach rechts</span> gedrückt?</span> dann</div><div class="in">
+            <div class="blk mo">setze Richtung auf <span class="val">90</span> Grad</div><div class="blk mo">ändere x um <span class="val">5</span></div>
+          </div><div class="end"></div></div>
+          <div class="c new"><div class="blk co">falls <span class="blk se bool">Taste <span class="dd">Pfeil nach links</span> gedrückt?</span> dann</div><div class="in">
+            <div class="blk mo">setze Richtung auf <span class="val">-90</span> Grad</div><div class="blk mo">ändere x um <span class="val">-5</span></div>
+          </div><div class="end"></div></div>
+          <div class="c new"><div class="blk co">falls <span class="blk se bool">Taste <span class="dd">Pfeil nach oben</span> gedrückt?</span> dann</div><div class="in">
+            <div class="blk mo">ändere y um <span class="val">5</span></div>
+          </div><div class="end"></div></div>
+          <div class="c new"><div class="blk co">falls <span class="blk se bool">Taste <span class="dd">Pfeil nach unten</span> gedrückt?</span> dann</div><div class="in">
+            <div class="blk mo">ändere y um <span class="val">-5</span></div>
+          </div><div class="end"></div></div>
+        </div><div class="end"></div></div>
+      </div></div>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="step">
+    <div>
+      <span class="num">5</span>
+      <h2>Testen</h2>
+      <ol class="do">
+        <li>Grüne Flagge anklicken und <b>jede Pfeiltaste einzeln</b> testen.</li>
+        <li><b>Zwei Tasten gleichzeitig</b> drücken (z. B. ↑ und →). Was passiert?</li>
+        <li>Mit dem roten Stoppschild anhalten.</li>
+      </ol>
+    </div>
+    <figure>
+      <svg viewBox="0 0 340 170" role="img" aria-label="Koordinatenkreuz: x nach rechts, y nach oben">
+        <rect width="340" height="170" fill="url(#grid)"/>
+        <line x1="40" y1="90" x2="300" y2="90" class="ax" marker-end="url(#arr)"/>
+        <line x1="170" y1="155" x2="170" y2="18" class="ax" marker-end="url(#arr)"/>
+        <text x="306" y="94" class="lblb">x</text>
+        <text x="176" y="20" class="lblb">y</text>
+        <text x="236" y="82" class="lbl">x + 5 → rechts</text>
+        <text x="46" y="82" class="lbl">x − 5 ← links</text>
+        <text x="178" y="48" class="lbl">y + 5 oben</text>
+        <text x="178" y="140" class="lbl">y − 5 unten</text>
+        <circle cx="170" cy="90" r="4" fill="var(--accent)"/>
+        <text x="132" y="108" class="lbl">0 | 0</text>
+      </svg>
+      <div class="panel">
+        <div class="head">Fehler finden</div>
+        <span class="k">Falsche Richtung</span><span class="v">Vorzeichen prüfen (5 oder -5)</span>
+        <span class="k">Bewegt sich nicht</span><span class="v">Hängt der Block in der Schleife?</span>
+      </div>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="step wide">
+    <div>
+      <span class="num">6</span>
+      <h2>Laufanimation</h2>
+      <p class="intro">Jetzt soll die Figur beim Laufen die Beine bewegen. Dafür baust du ein <b>zweites Skript</b>. Es läuft gleichzeitig mit dem ersten.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        <ol class="do">
+          <li>Neues Skript: <b>Wenn grüne Flagge angeklickt wird</b>.</li>
+          <li>Aus <b>Aussehen</b>: <b>wechsle zu Kostüm</b>, Grundkostüm wählen.</li>
+          <li><b>wiederhole fortlaufend</b> anhängen.</li>
+          <li>Diesmal <b>falls … dann … sonst</b> nehmen.</li>
+        </ol>
+        <ol class="do" start="5">
+          <li>Aus <b>Operatoren</b> dreimal <b>… oder …</b> ineinander legen, damit vier Tasten Platz haben. Mit den vier Pfeiltasten füllen.</li>
+          <li>Oben («dann»): <b>wechsle zum nächsten Kostüm</b> und <b>warte 0.08 Sekunden</b>.</li>
+          <li>Unten («sonst»): <b>wechsle zu Kostüm</b> Grundkostüm.</li>
+        </ol>
+      </div>
+    </div>
+    <figure>
+      <div class="code small"><div class="stack">
+        <div class="blk ev hat">Wenn <span>🏁</span> angeklickt wird</div>
+        <div class="blk lo">wechsle zu Kostüm <span class="dd">Kostuem_01</span></div>
+        <div class="c"><div class="blk co">wiederhole fortlaufend</div><div class="in">
+          <div class="c new"><div class="blk co">falls <span class="blk op bool"><span class="blk op bool"><span class="blk op bool"><span class="blk se bool">Taste <span class="dd">Pfeil nach oben</span> gedrückt?</span> oder <span class="blk se bool">Taste <span class="dd">Pfeil nach rechts</span> gedrückt?</span></span> oder <span class="blk se bool">Taste <span class="dd">Pfeil nach links</span> gedrückt?</span></span> oder <span class="blk se bool">Taste <span class="dd">Pfeil nach unten</span> gedrückt?</span></span> dann</div><div class="in">
+            <div class="blk lo">wechsle zum nächsten Kostüm</div>
+            <div class="blk co">warte <span class="val">0.08</span> Sekunden</div>
+          </div><div class="mid">sonst</div><div class="in">
+            <div class="blk lo">wechsle zu Kostüm <span class="dd">Kostuem_01</span></div>
+          </div><div class="end"></div></div>
+        </div><div class="end"></div></div>
+      </div></div>
+      <figcaption><b>Warum «oder»?</b> «oder» ist wahr, sobald <b>mindestens eine</b> Pfeiltaste gedrückt ist. Ist keine gedrückt, greift «sonst»: Die Figur steht still im Grundkostüm.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 7 -->
+  <section class="step">
+    <div>
+      <span class="num">7</span>
+      <h2>Feinschliff</h2>
+      <ol class="do">
+        <li><b>Tempo:</b> Schrittweite (5) und Wartezeit (0.08) verändern. Wann wirkt das Laufen natürlich?</li>
+        <li><b>Blickrichtung:</b> Drehtyp auf <b>links-rechts</b> stellen. Jetzt schaut die Figur in Laufrichtung. Was passt besser zu deiner Figur?</li>
+        <li><b>Startplatz:</b> Im ersten Skript direkt nach der Flagge <b>gehe zu x: 0 y: 0</b> einfügen.</li>
+        <li>Einen passenden <b>Bühnenhintergrund</b> wählen.</li>
+      </ol>
+    </div>
+    <figure>
+      <div class="code"><div class="stack">
+        <div class="blk ev hat">Wenn <span>🏁</span> angeklickt wird</div>
+        <div class="blk mo new">gehe zu x: <span class="val">0</span> y: <span class="val">0</span></div>
+        <div class="blk mo new">setze Drehtyp auf <span class="dd">links-rechts</span></div>
+        <div class="c"><div class="blk co">wiederhole fortlaufend</div><div class="in"><div class="blk" style="background:transparent;border:1px dashed #cf8b17;color:#9a6a12">… vier «falls»-Blöcke …</div></div><div class="end"></div></div>
+      </div></div>
+      <div class="panel">
+        <div class="head">Ausprobieren</div>
+        <span class="k">Schrittweite</span><span class="v">3 bis 8</span>
+        <span class="k">Wartezeit</span><span class="v">0.05 bis 0.15 Sekunden</span>
+      </div>
+    </figure>
+  </section>
+
+  <!-- 8 -->
+  <section class="step">
+    <div>
+      <span class="num">8</span>
+      <h2>Speichern und abgeben</h2>
+      <ol class="do">
+        <li><b>Datei → Jetzt speichern</b>.</li>
+        <li>Auf der Projektseite bei <b>Anleitung</b> beschreiben, wie man die Figur steuert.</li>
+        <li><b>Veröffentlichen</b> klicken und den Link wie abgemacht abgeben.</li>
+      </ol>
+    </div>
+    <figure>
+      <div class="panel">
+        <div class="head">Projektseite · Anleitung</div>
+        <span class="k" style="grid-column:1/-1">«Steuere die Figur mit den Pfeiltasten. Beim Laufen bewegt sie die Beine.»</span>
+      </div>
+      <figcaption>Kurz und klar: Was muss man drücken, und was passiert dann?</figcaption>
+    </figure>
+  </section>
+
+  <h2 class="sec-title pb">Häufige Fehler</h2>
+  <div class="errors">
+    <div class="err">
+      <div class="code"><div class="stack">
+        <div class="c"><div class="blk co">falls <span class="blk se bool">Taste →</span></div><div class="in">
+          <div class="c"><div class="blk co">falls <span class="blk se bool">Taste ←</span></div><div class="in"></div><div class="end" style="width:60px"></div></div>
+        </div><div class="end" style="width:80px"></div></div>
+      </div></div>
+      <h3>«falls» ineinander</h3>
+      <p>Die Taste ← funktioniert nur, wenn gleichzeitig → gedrückt ist.</p>
+      <p class="fix">Lösung: alle «falls» untereinander in die Schleife hängen.</p>
+    </div>
+    <div class="err">
+      <div class="code"><div class="stack">
+        <div class="blk co" style="border-radius:5px">falls <span class="blk se bool">Taste ←</span></div>
+        <div class="blk mo">ändere x um <span class="val" style="outline:2px solid var(--warn)">5</span></div>
+      </div></div>
+      <h3>Vorzeichen vergessen</h3>
+      <p>Die Figur läuft nach rechts, obwohl ← gedrückt ist.</p>
+      <p class="fix">Lösung: nach links und unten mit -5.</p>
+    </div>
+    <div class="err">
+      <div class="code"><div class="stack">
+        <div class="blk ev hat">Wenn <span>🏁</span> angeklickt</div>
+        <div class="c"><div class="blk co">falls <span class="blk op bool">… oder …</span></div><div class="in"><div class="blk lo">nächstes Kostüm</div></div><div class="end" style="width:80px"></div></div>
+      </div></div>
+      <h3>Figur bleibt im Laufkostüm</h3>
+      <p>Ohne «sonst» wechselt die Figur im Stand nicht zurück. Ohne Schleife wird nur ein einziges Mal geprüft.</p>
+      <p class="fix">Lösung: Schleife und «sonst» mit Grundkostüm.</p>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>Bonus-Challenges</h2>
+    <div class="bonus">
+      <div><b>Rand</b>Die Figur soll nicht aus der Bühne laufen. Tipp: <b style="display:inline;font:inherit;font-weight:600;color:inherit">pralle vom Rand ab</b> in die Schleife legen.</div>
+      <div><b>Sprint</b>Mit gedrückter Leertaste läuft die Figur doppelt so schnell.</div>
+      <div><b>Geräusch</b>Bei jedem Kostümwechsel ertönt ein leiser Schritt.</div>
+      <div><b>Sammeln</b>Ein Objekt erscheint an einer Zufallsposition. Berührt die Figur es, springt es an einen neuen Ort.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Selbstcheck</h2>
+    <p>Schätze dein fertiges Projekt ein, bevor du es abgibst. Kreuze pro Zeile ein Feld an.</p>
+    <table>
+      <thead><tr><th>Kriterium</th><th class="c1">Übertroffen</th><th class="c1">Erreicht</th><th class="c1">Teilweise</th><th class="c1">Nicht erreicht</th></tr></thead>
+      <tbody>
+        <tr><td>Die Figur lässt sich mit allen vier Pfeiltasten richtig steuern.</td><td class="c1"><span></span></td><td class="c1"><span></span></td><td class="c1"><span></span></td><td class="c1"><span></span></td></tr>
+        <tr><td>Die Laufanimation läuft nur beim Bewegen, im Stand zeigt die Figur das Grundkostüm.</td><td class="c1"><span></span></td><td class="c1"><span></span></td><td class="c1"><span></span></td><td class="c1"><span></span></td></tr>
+        <tr><td>Der Code ist übersichtlich: zwei Skripte, Blöcke sauber angeordnet.</td><td class="c1"><span></span></td><td class="c1"><span></span></td><td class="c1"><span></span></td><td class="c1"><span></span></td></tr>
+        <tr><td>Ich habe Tempo, Blickrichtung und Startplatz sinnvoll eingestellt.</td><td class="c1"><span></span></td><td class="c1"><span></span></td><td class="c1"><span></span></td><td class="c1"><span></span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>Abschluss-Check</h2>
+    <p><b>Reflexion:</b> Erkläre in zwei Sätzen, was die Schleife und die «falls»-Blöcke in deinem Programm machen. Wo könntest du diese Idee in einem eigenen Spiel wieder brauchen?</p>
+    <div class="lines"><i></i><i></i><i></i><i></i></div>
+  </section>
+
+</div>
+</body>
+</html>

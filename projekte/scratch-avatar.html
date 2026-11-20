@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img{max-width:100%}</style>
+<title>Scratch: Avatar steuern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout wie im Lernatelier: Titel, Auftrag, Sprungknöpfe, Fortschritt, eine Karte pro Schritt.
+   Scratch-Blöcke als HTML nachgebaut, in den Originalfarben der Kategorien. */
+:root{
+  --bg:#f4f6f9; --surface:#ffffff; --fg:#141b26; --muted:#4f5a69; --line:#dde3ea;
+  --accent:#855cd6; --accent-ink:#6a3fc4; --accent-tint:#f1ecfb; --soft:#f2f4f7; --track:#e4e8ee;
+  --ok:#2e7d32; --warn:#c0482a;
+  --canvas:#f9f9fb; --canvas-line:#e3e6ee;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+  --f-block:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12161c; --surface:#1b2129; --fg:#e9edf3; --muted:#a7b1bf; --line:#313a46;
+  --accent:#a88bf0; --accent-ink:#c3adf7; --accent-tint:#2a2340; --soft:#222a34; --track:#2c3540;
+  --ok:#66bb6a; --warn:#e8805f; --canvas:#232a33; --canvas-line:#333c48; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12161c; --surface:#1b2129; --fg:#e9edf3; --muted:#a7b1bf; --line:#313a46;
+  --accent:#a88bf0; --accent-ink:#c3adf7; --accent-tint:#2a2340; --soft:#222a34; --track:#2c3540;
+  --ok:#66bb6a; --warn:#e8805f; --canvas:#232a33; --canvas-line:#333c48; color-scheme:dark }
+
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{margin:0;line-height:1.2;text-wrap:balance}
+h1{font-size:clamp(30px,5.5vw,42px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:21px;font-weight:700;color:var(--accent-ink)}
+h3{font-size:15px;font-weight:700}
+p{margin:0}
+.kicker{margin-top:8px;font-size:14px;color:var(--muted)}
+.kicker b{color:var(--fg)}
+.tag{display:inline-block;font:600 12px ui-monospace,Consolas,monospace;background:#c9d3e0;color:#1d2735;border-radius:5px;padding:1px 7px;margin-right:6px}
+.card{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:10px;padding:20px 22px;display:flex;flex-direction:column;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;font:600 14px var(--f-body);color:var(--accent-ink);background:var(--surface);border:1px solid var(--accent);border-radius:8px;padding:8px 12px;text-decoration:none}
+.btn.fill{background:var(--accent);color:#fff}
+.btn:hover{background:var(--accent-tint)} .btn.fill:hover{filter:brightness(1.08);background:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.progress{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.bar{height:10px;background:var(--track);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.progress small{color:var(--muted)}
+.goals{display:flex;flex-direction:column;gap:6px}
+.goals label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.goals input{width:16px;height:16px;margin-top:4px;accent-color:var(--accent);flex:none}
+.stephead{display:flex;align-items:center;gap:12px}
+.num{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font:700 15px var(--f-body);flex:none}
+ol.do{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+ol.do li::marker{font-weight:700;color:var(--accent-ink)}
+.tip{font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px}
+.tip.warn{border-left-color:var(--warn)}
+.check{font-size:14px}
+.why{background:var(--soft);border-radius:8px;padding:10px 14px;font-size:14px}
+.why b{color:var(--accent-ink)}
+
+/* ---------- Scratch-Blöcke ---------- */
+.code{background:var(--canvas);background-image:radial-gradient(var(--canvas-line) 1px,transparent 1px);background-size:16px 16px;border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto}
+.stack{display:inline-flex;flex-direction:column;align-items:flex-start;font:700 12.5px/1 var(--f-block);color:#fff;min-width:max-content}
+.b{display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border-radius:5px;white-space:nowrap;margin-top:-1px;border:1px solid rgba(0,0,0,.18)}
+.hat{border-radius:18px 18px 5px 5px;padding-top:14px}
+.ev{background:#ffbf00;border-color:#cc9900}
+.mo{background:#4c97ff;border-color:#3373cc}
+.lo{background:#9966ff;border-color:#774dcb}
+.co{background:#ffab19;border-color:#cf8b17}
+.se{background:#5cb1d6;border-color:#2e8eb8}
+.op{background:#59c059;border-color:#389438}
+.v{background:#fff;color:#575e75;border-radius:999px;padding:3px 9px;font-weight:600}
+.dd{background:rgba(0,0,0,.14);border-radius:4px;padding:3px 7px;font-weight:600}
+.dd::after{content:" ▾";font-size:10px}
+.bool{border-radius:999px;padding:5px 10px;border:1px solid rgba(0,0,0,.2)}
+.c{display:inline-flex;flex-direction:column;align-items:flex-start;margin-top:-1px}
+.c > .b{border-radius:5px 5px 0 0}
+.c > .in{display:flex;flex-direction:column;align-items:flex-start;padding:2px 0 2px 16px;border-left:16px solid;margin-left:0;min-height:18px}
+.c > .end{height:16px;width:110px;border-radius:0 0 5px 5px;border:1px solid rgba(0,0,0,.18);border-top:0}
+.c > .mid{padding:6px 10px;border-radius:0}
+.c.co > .in{border-color:#ffab19} .c.co > .end,.c.co > .mid{background:#ffab19}
+.c > .b.co{border-color:#cf8b17}
+.new{outline:3px solid #ff4fa3;outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:3px;display:inline-block}
+
+.stage{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.stage > *{min-width:0}
+.keys{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(2,44px);gap:6px;justify-content:center}
+.keys span{display:grid;place-items:center;border:1px solid var(--line);border-bottom-width:3px;border-radius:8px;background:var(--surface);font-size:18px}
+.keys .up{grid-column:2}
+.keys .left{grid-column:1;grid-row:2} .keys .down{grid-column:2;grid-row:2} .keys .right{grid-column:3;grid-row:2}
+
+.rubric{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+th.l1{color:#2e7d32} th.l2{color:#1565c0} th.l3{color:#e08a00} th.l4{color:#c62828}
+.l1,.l2,.l3,.l4{text-align:center}
+td.r{text-align:center;width:13%}
+td.r input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+.sum{font-size:14px;font-weight:600}
+.sum span{font-weight:500;color:var(--muted)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (max-width:720px){ .card{padding:16px} .stage{grid-template-columns:1fr} }
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .bar i{transition:none} }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <p><span class="tag">MI.2.2</span><span class="tag" style="background:transparent;border:1px solid var(--line);color:var(--muted)">Aktiv</span></p>
+    <h1 style="margin-top:10px">Scratch: Avatar steuern</h1>
+    <p class="kicker"><b>Auftrag · 8 Schritte</b> · Wahlfach Informatik · Algorithmen</p>
+    <p style="margin-top:10px">Eine Spielfigur mit den Pfeiltasten bewegen und beim Laufen mit Kostümwechseln animieren.</p>
+  </header>
+
+  <section class="card">
+    <h2>Auftrag</h2>
+    <p>Du programmierst eine Figur, die du mit den <b>Pfeiltasten</b> über die Bühne steuerst. Dafür brauchst du zwei Skripte: Das erste <b>bewegt</b> die Figur, das zweite lässt sie beim Laufen die Beine bewegen (<b>Animation</b>). Steht sie still, zeigt sie wieder ihr Grundkostüm.</p>
+    <div class="row">
+      <a class="btn fill" href="https://scratch.mit.edu/projects/1427163241" target="_blank" rel="noopener">▶ Beispiel ansehen</a>
+      <a class="btn" href="https://scratch.mit.edu/projects/editor/" target="_blank" rel="noopener">Im Editor öffnen</a>
+    </div>
+    <div class="legend">
+      <span><i style="background:#ffbf00"></i>Ereignisse</span><span><i style="background:#4c97ff"></i>Bewegung</span><span><i style="background:#9966ff"></i>Aussehen</span><span><i style="background:#ffab19"></i>Steuerung</span><span><i style="background:#5cb1d6"></i>Fühlen</span><span><i style="background:#59c059"></i>Operatoren</span>
+    </div>
+  </section>
+
+  <nav class="row" aria-label="Zu den Schritten springen">
+    <a class="btn" href="#t1">1 · Figur</a><a class="btn" href="#t2">2 · Start</a><a class="btn" href="#t3">3 · Rechts</a><a class="btn" href="#t4">4 · Alle Richtungen</a><a class="btn" href="#t5">5 · Testen</a><a class="btn" href="#t6">6 · Animation</a><a class="btn" href="#t7">7 · Feinschliff</a><a class="btn" href="#t8">8 · Speichern</a>
+  </nav>
+
+  <div class="progress" aria-live="polite">
+    <span>Fortschritt · Schritte abhaken</span>
+    <div class="bar"><i id="barFill"></i></div>
+    <span><output id="doneCount">0</output> von <output id="allCount">0</output> Punkten abgehakt</span>
+    <small>Die Häkchen dienen deiner Übersicht und werden beim Neuladen zurückgesetzt.</small>
+  </div>
+
+  <!-- 1 -->
+  <section class="card" id="t1">
+    <div class="stephead"><span class="num">1</span><h2>Figur auswählen</h2></div>
+    <ol class="do">
+      <li>Öffne Scratch und melde dich an. Erstelle ein <b>neues Projekt</b> und gib ihm den Namen «Avatar».</li>
+      <li>Lösche die Katze (Mülleimer bei der Figur).</li>
+      <li>Wähle unten rechts <b>Figur wählen</b> eine Spielfigur, die <b>mehrere Kostüme</b> hat, z. B. eine Person mit Laufbewegungen. Du kannst auch eine eigene Figur malen.</li>
+      <li>Schau im Reiter <b>Kostüme</b> nach: Wie viele Kostüme hat deine Figur? Wie heisst das erste?</li>
+      <li>Stelle die <b>Grösse</b> auf ca. <b>50</b>, damit die Figur genug Platz auf der Bühne hat.</li>
+    </ol>
+    <p class="tip">Im Beispiel heisst das Grundkostüm «Kostuem_01». Bei deiner Figur kann der Name anders sein.</p>
+    <div class="goals">
+      <label><input type="checkbox">Meine Figur hat mehrere Kostüme und eine passende Grösse.</label>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="card" id="t2">
+    <div class="stephead"><span class="num">2</span><h2>Das Programm starten</h2></div>
+    <div class="stage">
+      <ol class="do">
+        <li>Ziehe aus <b>Ereignisse</b> den Block <b>Wenn grüne Flagge angeklickt wird</b> in die Skriptfläche.</li>
+        <li>Hänge aus <b>Bewegung</b> den Block <b>setze Drehtyp auf …</b> darunter.</li>
+        <li>Hänge aus <b>Steuerung</b> den Block <b>wiederhole fortlaufend</b> an.</li>
+      </ol>
+      <div class="code"><div class="stack">
+        <div class="b ev hat">Wenn <span>🏁</span> angeklickt wird</div>
+        <div class="b mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="c co"><div class="b co">wiederhole fortlaufend</div><div class="in"></div><div class="end"></div></div>
+      </div></div>
+    </div>
+    <p class="why"><b>Warum fortlaufend?</b> Das Programm muss die ganze Zeit prüfen, ob eine Taste gedrückt ist. Ohne Schleife würde es nur ein einziges Mal nachschauen.</p>
+    <div class="goals"><label><input type="checkbox">Mein Skript startet mit der grünen Flagge und hat eine Endlosschleife.</label></div>
+  </section>
+
+  <!-- 3 -->
+  <section class="card" id="t3">
+    <div class="stephead"><span class="num">3</span><h2>Nach rechts laufen</h2></div>
+    <div class="stage">
+      <ol class="do">
+        <li>Ziehe aus <b>Steuerung</b> den Block <b>falls … dann</b> in die Schleife.</li>
+        <li>Lege aus <b>Fühlen</b> den Block <b>Taste … gedrückt?</b> in das Feld. Wähle <b>Pfeil nach rechts</b>.</li>
+        <li>In das «falls» kommen aus <b>Bewegung</b>: <b>setze Richtung auf 90 Grad</b> und <b>ändere x um 5</b>.</li>
+        <li>Klicke auf die grüne Flagge und drücke die Pfeiltaste nach rechts.</li>
+      </ol>
+      <div class="code"><div class="stack">
+        <div class="b ev hat">Wenn <span>🏁</span> angeklickt wird</div>
+        <div class="b mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="c co"><div class="b co">wiederhole fortlaufend</div><div class="in">
+          <div class="c co new"><div class="b co">falls <span class="b se bool">Taste <span class="dd">Pfeil nach rechts</span> gedrückt?</span> , dann</div><div class="in">
+            <div class="b mo">setze Richtung auf <span class="v">90</span> Grad</div>
+            <div class="b mo">ändere x um <span class="v">5</span></div>
+          </div><div class="end"></div></div>
+        </div><div class="end"></div></div>
+      </div></div>
+    </div>
+    <p class="why"><b>x und y:</b> x ist die Position von links nach rechts, y von unten nach oben. Ändert sich x um +5, rückt die Figur 5 Schritte nach rechts.</p>
+    <div class="goals"><label><input type="checkbox">Meine Figur läuft nach rechts, solange ich die Taste drücke.</label></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="card" id="t4">
+    <div class="stephead"><span class="num">4</span><h2>Alle vier Richtungen</h2></div>
+    <div class="stage">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <ol class="do">
+          <li>Klicke mit der rechten Maustaste auf den «falls»-Block und wähle <b>Duplizieren</b>. Hänge die Kopie darunter, noch in der Schleife.</li>
+          <li>Ändere die Kopie für <b>Pfeil nach links</b>: Richtung <b>-90</b>, x um <b>-5</b>.</li>
+          <li>Noch zweimal duplizieren: <b>Pfeil nach oben</b> mit <b>ändere y um 5</b>, <b>Pfeil nach unten</b> mit <b>ändere y um -5</b>.</li>
+        </ol>
+        <div class="keys" aria-hidden="true"><span class="up">↑</span><span class="left">←</span><span class="down">↓</span><span class="right">→</span></div>
+      </div>
+      <div class="code"><div class="stack">
+        <div class="b ev hat">Wenn <span>🏁</span> angeklickt wird</div>
+        <div class="b mo">setze Drehtyp auf <span class="dd">nicht drehen</span></div>
+        <div class="c co"><div class="b co">wiederhole fortlaufend</div><div class="in">
+          <div class="c co"><div class="b co">falls <span class="b se bool">Taste <span class="dd">Pfeil nach rechts</span> gedrückt?</span> , dann</div><div class="in">
+            <div class="b mo">setze Richtung auf <span class="v">90</span> Grad</div><div class="b mo">ändere x um <span class="v">5</span></div>
+          </div><div class="end"></div></div>
+          <div class="c co new"><div class="b co">falls <span class="b se bool">Taste <span class="dd">Pfeil nach links</span> gedrückt?</span> , dann</div><div class="in">
+            <div class="b mo">setze Richtung auf <span class="v">-90</span> Grad</div><div class="b mo">ändere x um <span class="v">-5</span></div>
+          </div><div class="end"></div></div>
+          <div class="c co new"><div class="b co">falls <span class="b se bool">Taste <span class="dd">Pfeil nach oben</span> gedrückt?</span> , dann</div><div class="in">
+            <div class="b mo">ändere y um <span class="v">5</span></div>
+          </div><div class="end"></div></div>
+          <div class="c co new"><div class="b co">falls <span class="b se bool">Taste <span class="dd">Pfeil nach unten</span> gedrückt?</span> , dann</div><div class="in">
+            <div class="b mo">ändere y um <span class="v">-5</span></div>
+          </div><div class="end"></div></div>
+        </div><div class="end"></div></div>
+      </div></div>
+    </div>
+    <p class="tip">Achte darauf, dass alle vier «falls»-Blöcke <b>untereinander in der Schleife</b> hängen und nicht ineinander.</p>
+    <div class="goals"><label><input type="checkbox">Meine Figur läuft in alle vier Richtungen.</label></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="card" id="t5">
+    <div class="stephead"><span class="num">5</span><h2>Testen</h2></div>
+    <ol class="do">
+      <li>Klicke auf die grüne Flagge und teste jede Pfeiltaste einzeln.</li>
+      <li>Drücke zwei Tasten gleichzeitig (z. B. ↑ und →). Was passiert?</li>
+      <li>Stoppe mit dem roten Stoppschild.</li>
+    </ol>
+    <p class="why"><b>Fehler finden:</b> Läuft die Figur in die falsche Richtung, ist meist ein Vorzeichen falsch (5 statt -5). Bewegt sie sich gar nicht, hängt ein Block nicht richtig in der Schleife.</p>
+    <div class="goals"><label><input type="checkbox">Ich habe alle Tasten getestet und Fehler korrigiert.</label></div>
+  </section>
+
+  <!-- 6 -->
+  <section class="card" id="t6">
+    <div class="stephead"><span class="num">6</span><h2>Laufanimation</h2></div>
+    <p>Jetzt soll die Figur beim Laufen die Beine bewegen. Dafür baust du ein <b>zweites Skript</b>. Es läuft gleichzeitig mit dem ersten.</p>
+    <div class="stage">
+      <ol class="do">
+        <li>Neues Skript: <b>Wenn grüne Flagge angeklickt wird</b>.</li>
+        <li>Aus <b>Aussehen</b>: <b>wechsle zu Kostüm</b> und wähle dein Grundkostüm.</li>
+        <li><b>wiederhole fortlaufend</b> anhängen.</li>
+        <li>Diesmal den Block <b>falls … dann … sonst</b> nehmen.</li>
+        <li>Aus <b>Operatoren</b> dreimal den Block <b>… oder …</b> ineinander legen, damit vier Tasten Platz haben. Fülle sie mit den vier Pfeiltasten.</li>
+        <li>Oben («dann»): <b>wechsle zum nächsten Kostüm</b> und <b>warte 0.08 Sekunden</b>.</li>
+        <li>Unten («sonst»): <b>wechsle zu Kostüm</b> Grundkostüm.</li>
+      </ol>
+      <div class="code"><div class="stack">
+        <div class="b ev hat">Wenn <span>🏁</span> angeklickt wird</div>
+        <div class="b lo">wechsle zu Kostüm <span class="dd">Kostuem_01</span></div>
+        <div class="c co"><div class="b co">wiederhole fortlaufend</div><div class="in">
+          <div class="c co new"><div class="b co">falls <span class="b op bool"><span class="b op bool"><span class="b op bool"><span class="b se bool">Taste <span class="dd">Pfeil nach oben</span> gedrückt?</span> oder <span class="b se bool">Taste <span class="dd">Pfeil nach rechts</span> gedrückt?</span></span> oder <span class="b se bool">Taste <span class="dd">Pfeil nach links</span> gedrückt?</span></span> oder <span class="b se bool">Taste <span class="dd">Pfeil nach unten</span> gedrückt?</span></span> , dann</div><div class="in">
+            <div class="b lo">wechsle zum nächsten Kostüm</div>
+            <div class="b co">warte <span class="v">0.08</span> Sekunden</div>
+          </div><div class="mid">sonst</div><div class="in">
+            <div class="b lo">wechsle zu Kostüm <span class="dd">Kostuem_01</span></div>
+          </div><div class="end"></div></div>
+        </div><div class="end"></div></div>
+      </div></div>
+    </div>
+    <p class="why"><b>Warum «oder»?</b> Die Figur soll sich bewegen, sobald <b>irgendeine</b> Pfeiltaste gedrückt ist. «oder» ist wahr, wenn mindestens eine Bedingung stimmt. Ist keine Taste gedrückt, greift «sonst» und die Figur steht still im Grundkostüm.</p>
+    <div class="goals"><label><input type="checkbox">Meine Figur bewegt beim Laufen die Beine und steht still, wenn keine Taste gedrückt ist.</label></div>
+  </section>
+
+  <!-- 7 -->
+  <section class="card" id="t7">
+    <div class="stephead"><span class="num">7</span><h2>Feinschliff</h2></div>
+    <ol class="do">
+      <li><b>Tempo:</b> Ändere die Schrittweite (5) und die Wartezeit (0.08). Wann wirkt das Laufen natürlich?</li>
+      <li><b>Blickrichtung:</b> Stelle den Drehtyp auf <b>links-rechts</b>. Nun schaut die Figur in die Richtung, in die sie läuft. Vergleiche mit «nicht drehen»: Was passt besser zu deiner Figur?</li>
+      <li><b>Startplatz:</b> Setze im ersten Skript direkt nach der Flagge <b>gehe zu x: 0 y: 0</b>, damit die Figur immer am gleichen Ort startet.</li>
+      <li>Wähle einen passenden <b>Bühnenhintergrund</b>.</li>
+    </ol>
+    <div class="goals"><label><input type="checkbox">Tempo, Blickrichtung und Startplatz sind passend eingestellt.</label></div>
+  </section>
+
+  <!-- 8 -->
+  <section class="card" id="t8">
+    <div class="stephead"><span class="num">8</span><h2>Speichern und abgeben</h2></div>
+    <ol class="do">
+      <li><b>Datei → Jetzt speichern</b>.</li>
+      <li>Schreibe auf der Projektseite bei <b>Anleitung</b>, wie man die Figur steuert.</li>
+      <li>Klicke auf <b>Veröffentlichen</b> und gib den Link wie abgemacht ab.</li>
+    </ol>
+    <div class="goals"><label><input type="checkbox">Mein Projekt ist gespeichert, beschrieben und abgegeben.</label></div>
+  </section>
+
+  <section class="card">
+    <h2>Bonus-Challenges</h2>
+    <p>Fertig? Dann probiere eine oder mehrere Erweiterungen:</p>
+    <ol class="do">
+      <li><b>Rand:</b> Die Figur soll nicht aus der Bühne laufen. Tipp: <b>pralle vom Rand ab</b> in die Schleife legen.</li>
+      <li><b>Sprint:</b> Mit gedrückter Leertaste läuft die Figur doppelt so schnell.</li>
+      <li><b>Geräusch:</b> Bei jedem Kostümwechsel ertönt ein leiser Schritt.</li>
+      <li><b>Sammeln:</b> Ein Objekt erscheint an einer Zufallsposition. Berührt die Figur es, springt es an einen neuen Ort.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Selbstcheck</h2>
+    <p>Schätze dein fertiges Projekt ein, bevor du es abgibst.</p>
+    <div class="rubric" id="rate">
+      <table>
+        <thead><tr><th>Kriterium</th><th class="l1">Übertroffen</th><th class="l2">Erreicht</th><th class="l3">Teilweise</th><th class="l4">Nicht erreicht</th></tr></thead>
+        <tbody id="rateBody"></tbody>
+      </table>
+    </div>
+    <p class="sum" aria-live="polite">Deine Einschätzung: <span id="rateSum">noch offen</span></p>
+  </section>
+
+  <section class="card">
+    <h2>Abschluss-Check</h2>
+    <p><b>Reflexion:</b> Erkläre jemandem in zwei Sätzen, was die Schleife und die «falls»-Blöcke in deinem Programm machen. Wo könntest du diese Idee in einem eigenen Spiel wieder brauchen?</p>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var boxes=document.querySelectorAll(".goals input");
+  document.getElementById("allCount").textContent=boxes.length;
+  function upd(){var n=0;boxes.forEach(function(b){if(b.checked)n++;});document.getElementById("doneCount").textContent=n;document.getElementById("barFill").style.width=(n/boxes.length*100)+"%";}
+  boxes.forEach(function(b){b.addEventListener("change",upd);});upd();
+
+  var CRIT=["Die Figur lässt sich mit allen vier Pfeiltasten richtig steuern.","Die Laufanimation läuft nur beim Bewegen, im Stand zeigt die Figur das Grundkostüm.","Der Code ist übersichtlich: zwei Skripte, Blöcke sauber angeordnet.","Ich habe Tempo, Blickrichtung und Startplatz sinnvoll eingestellt."];
+  var LV=["Übertroffen","Erreicht","Teilweise","Nicht erreicht"];
+  var body=document.getElementById("rateBody"),h="";
+  CRIT.forEach(function(c,i){h+="<tr><td>"+c+"</td>";LV.forEach(function(l,j){var id="r"+i+"-"+j;h+='<td class="r"><input type="radio" id="'+id+'" name="k'+i+'" value="'+j+'"><label class="vh" for="'+id+'">'+l+": "+c+"</label></td>";});h+="</tr>";});
+  body.innerHTML=h;
+  document.getElementById("rate").addEventListener("change",function(){var cnt=[0,0,0,0],n=0;for(var i=0;i<CRIT.length;i++){var r=document.querySelector('input[name="k'+i+'"]:checked');if(r){cnt[+r.value]++;n++;}}
+    var parts=[];LV.forEach(function(l,j){if(cnt[j])parts.push(cnt[j]+"× "+l);});
+    document.getElementById("rateSum").textContent=n<CRIT.length?(parts.join(", ")||"noch offen")+" · "+(CRIT.length-n)+" Kriterium"+(CRIT.length-n>1?"en":"")+" offen":parts.join(", ");});
+})();
+</script>
+
+<script>
+if (window.parent !== window) {
+  const reportHeight = () => {
+    window.parent.postMessage({ projectGuideHeight: document.body.getBoundingClientRect().height }, "*");
+  };
+  new ResizeObserver(reportHeight).observe(document.body);
+}
+</script>
+
+</body>
+</html>

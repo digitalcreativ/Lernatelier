@@ -1,5 +1,12 @@
 # Logbuch Lernatelier
 
+## 20.11.2026
+
+### Informatik · Scratch: Avatar steuern (überarbeitet)
+- Neue Anleitung unter `projekte/scratch-avatar.html` (MI.2.2, Wahlfach Informatik 3. Oberstufe): Auftrag, 8 Schritte (Figur, Start, Rechts, Alle Richtungen, Testen, Laufanimation, Feinschliff, Speichern) mit nachgebauten Scratch-Blöcken in den Originalfarben, Fortschrittsbalken, Bonus-Challenges, Selbstcheck mit vier Kriterien und Abschluss-Check.
+- Projektkarte: Button **«Auftrag & Anleitung»** klappt die Anleitung direkt unter der Karte auf. Zusätzlich **«Beispiel ansehen»** (Beispielprojekt auf Scratch) und **«Scratch-Editor»** (neues Projekt). Der bisherige Link «Im Editor öffnen» auf das Beispielprojekt entfällt, weil die Schülerinnen und Schüler laut Schritt 1 ein eigenes Projekt erstellen.
+- PDF erzeugt: `projekte/pdf/Scratch_Avatar_steuern.pdf` (4 Seiten A4) im Stil von «Schlüsselanhänger» und «Schriftzug mit Flexfolie». Kopf mit Bühne und Pfeiltasten, jeder Schritt mit Text links und Scratch-Blöcken oder Zeichnung rechts, dazu «Häufige Fehler» («falls» ineinander, Vorzeichen, Figur bleibt im Laufkostüm), Bonus-Challenges, Selbstcheck zum Ankreuzen und Schreiblinien für die Reflexion. Druckvorlage: `projekte/scratch-avatar-pdf.html` (in Edge drucken → als PDF speichern). Button **«Anleitung als PDF»** auf der Projektkarte. Alle Seiten als Bild kontrolliert.
+
 ## 19.11.2026
 
 ### Neue Seite: Tools für Lehrpersonen
