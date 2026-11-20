@@ -2,6 +2,10 @@
 
 ## 20.11.2026
 
+### Informatik 3. Oberstufe · Reihenfolge
+- Projekte neu geordnet: **digital LAB · Einstieg** → **Avatar mit KI: 6 Laufphasen** → **Scratch: Avatar steuern** → die vier LAB-Themen (Pixel, Kamera, Game, Schaltkreis). Die geplanten Projekte (Python Turtle, Geheimschriften) bleiben am Schluss.
+- «Avatar mit KI» an die neue Reihenfolge angepasst (Webseite und PDF). In Schritt 7 wird jetzt ein **neues** Scratch-Projekt «Avatar» erstellt. Schritt 10 heisst neu «Testen, kennzeichnen, speichern»: ein Kurztest mit dem Block «wechsle zum nächsten Kostüm», dann kennzeichnen und speichern, mit dem Hinweis auf den nächsten Auftrag «Scratch: Avatar steuern» (Grundkostüm lauf1, Drehtyp links-rechts). Das PDF hat weiterhin 5 Seiten und ist kontrolliert.
+
 ### Informatik · Avatar mit KI: 6 Laufphasen
 - Neues aktives Projekt **«Avatar mit KI: 6 Laufphasen»** (MI.2.2, Chip «KI · Fobizz») bei Informatik, 3. Oberstufe, direkt nach «Scratch: Avatar steuern». Anleitung unter `projekte/avatar-ki.html` mit 10 Schritten in drei Teilen: A Planen (Laufzyklus mit 6 Phasen und Animation, Steckbrief), B In Fobizz erstellen (Testbild, Sprite-Sheet, bestes Bild speichern), C In Scratch einbauen (hochladen, sechs Kostüme ausschneiden, ausrichten, testen und kennzeichnen). Aus dem Steckbrief entstehen automatisch zwei Prompts zum Kopieren. Drei Beispielbilder sind in der Seite eingebettet.
 - Buttons auf der Karte: **«Auftrag & Anleitung»**, **«fobizz öffnen»** und **«Scratch-Editor»**. Prompts, Laufphasen und Fortschritt (10 Schritte) getestet.
